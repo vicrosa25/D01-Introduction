@@ -10,13 +10,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import repositories.RequestRepository;
 import domain.Actor;
 import domain.Brotherhood;
 import domain.Member;
 import domain.Message;
 import domain.Procession;
 import domain.Request;
+import repositories.RequestRepository;
 
 @Service
 @Transactional
@@ -86,7 +86,7 @@ public class RequestService {
 		return this.requestRepository.save(request);
 	}
 
-	public void delete(final int requestId) {
+	public void delete(int requestId) {
 		Assert.isTrue(requestId != 0);
 		final Request request = this.findOne(requestId);
 

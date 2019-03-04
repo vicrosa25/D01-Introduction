@@ -62,7 +62,7 @@ public class Member extends Actor {
 	}
 
 	@Valid
-	@OneToMany
+	@OneToMany(mappedBy="member")
 	public Collection<Request> getRequests() {
 		return this.requests;
 	}

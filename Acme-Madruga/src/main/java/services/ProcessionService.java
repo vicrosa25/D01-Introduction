@@ -14,12 +14,12 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
-import repositories.ProcessionRepository;
 import domain.Actor;
 import domain.Brotherhood;
 import domain.Member;
 import domain.Message;
 import domain.Procession;
+import repositories.ProcessionRepository;
 
 @Service
 @Transactional
@@ -38,6 +38,7 @@ public class ProcessionService {
 
 	@Autowired
 	private MemberService			memberService;
+	
 
 	// Validator
 	@Autowired
@@ -100,8 +101,10 @@ public class ProcessionService {
 		Assert.isInstanceOf(Brotherhood.class, principal);
 		Assert.isTrue(procession.getId() != 0);
 
-		final Brotherhood brotherhood = (Brotherhood) principal;
+		Brotherhood brotherhood = (Brotherhood) principal;
 		Assert.isTrue(brotherhood.getProcessions().contains(procession));
+		
+		
 
 		this.processionRepository.delete(procession);
 
