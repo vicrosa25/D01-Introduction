@@ -47,10 +47,10 @@
 					<li><a href="procession/list.do"><spring:message code="master.page.procession.list" /></a></li>				
 				</ul>
 			</li>
-			<li><a class="fNiv"><spring:message	code="master.page.coach" /></a>
+			<li><a class="fNiv"><spring:message	code="master.page.coach.brotherhood" /></a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="coach/list.do"><spring:message code="master.page.coach.list" /></a></li>
+					<li><a href="coach/brotherhood/list.do"><spring:message code="master.page.coach.list" /></a></li>
 					<li><a href="coach/brotherhood/create.do"><spring:message code="master.page.coach.create" /></a></li>
 				</ul>
 			</li>
@@ -111,12 +111,6 @@
 		
 		<!-- An actor who is authenticated -->
 		<security:authorize access="isAuthenticated()">
-			<li><a class="fNiv"><spring:message	code="master.page.coach" /></a>
-				<ul>
-					<li class="arrow"></li>
-					<li><a href="coach/list.do"><spring:message code="master.page.coach.list" /></a></li>
-				</ul>
-			</li>
 			<li>
 				<a class="fNiv"> 
 					<spring:message code="master.page.profile" /> 

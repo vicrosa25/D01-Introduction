@@ -25,6 +25,7 @@
 	</display:column>
 
    <security:authorize access="hasRole('BROTHERHOOD')">
+   <jstl:if test="${not empty bro}">
         <display:column>
           <a href="coach/brotherhood/delete.do?coachId=${row.id}">
             <spring:message code="coach.delete"/>
@@ -35,6 +36,7 @@
             <spring:message code="coach.edit"/>
           </a>
         </display:column>
+   </jstl:if>
    </security:authorize>
 
 </display:table>

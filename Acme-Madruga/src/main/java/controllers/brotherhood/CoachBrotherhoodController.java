@@ -1,13 +1,13 @@
 
 package controllers.brotherhood;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
@@ -21,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import services.BrotherhoodService;
 import services.CoachService;
 import controllers.AbstractController;
+import domain.Brotherhood;
 import domain.Coach;
 import domain.Url;
 
@@ -40,15 +41,45 @@ public class CoachBrotherhoodController extends AbstractController {
 		return new ModelAndView("redirect:/");
 	}
 
+	// List ------------------------------------------------------------------------------------
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public ModelAndView list() {
+		ModelAndView result;
+		Collection<Coach> coaches;
+		Brotherhood brotherhood;
+
+		try {
+			brotherhood = this.brotherhoodService.findByPrincipal();
+			coaches = brotherhood.getCoaches();
+			result = new ModelAndView("coach/list");
+			result.addObject("coaches", coaches);
+			result.addObject("bro", 1);
+		} catch (final Throwable oops) {
+			System.out.println(oops.getMessage());
+			System.out.println(oops.getClass());
+			System.out.println(oops.getCause());
+			result = this.forbiddenOpperation();
+		}
+
+		return result;
+	}
+
 	// Create ------------------------------------------------------------------------------------
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create() {
 		ModelAndView result;
 		Coach coach;
+		try {
+			coach = this.coachService.create();
+			result = this.createEditModelAndView(coach);
 
-		coach = this.coachService.create();
-
-		result = this.createEditModelAndView(coach);
+		} catch (final Throwable oops) {
+			System.out.println(oops.getMessage());
+			System.out.println(oops.getClass());
+			System.out.println(oops.getCause());
+			//oops.printStackTrace();
+			result = new ModelAndView("redirect:/");
+		}
 
 		return result;
 	}
@@ -64,24 +95,17 @@ public class CoachBrotherhoodController extends AbstractController {
 				System.out.println(e.toString());
 			}
 
-			result = new ModelAndView("coach/brotherhood/create");
-			result.addObject("coach", coach);
+			result = this.createEditModelAndView(coach);
 		} else {
 			try {
 				this.coachService.save(coach);
-				result = new ModelAndView("coach/list");
+				result = new ModelAndView("redirect:/coach/brotherhood/list.do");
 			} catch (final Throwable oops) {
 				System.out.println(coach);
 				System.out.println(oops.getMessage());
 				System.out.println(oops.getClass());
 				System.out.println(oops.getCause());
-				result = this.createEditModelAndView(coach);
-
-				if (oops instanceof DataIntegrityViolationException) {
-					result = this.createEditModelAndView(coach, "coach.commit.username");
-				} else {
-					result = this.createEditModelAndView(coach, "coach.commit.error");
-				}
+				result = this.createEditModelAndView(coach, "coach.commit.error");
 			}
 		}
 		return result;
@@ -113,7 +137,7 @@ public class CoachBrotherhoodController extends AbstractController {
 
 		try {
 			this.coachService.delete(coachId);
-			result = new ModelAndView("coach/list");
+			result = new ModelAndView("redirect:/coach/brotherhood/list.do");
 		} catch (final Throwable oops) {
 			result = this.forbiddenOpperation();
 			return result;
