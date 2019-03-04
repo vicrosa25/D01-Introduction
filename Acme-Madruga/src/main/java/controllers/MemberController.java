@@ -1,18 +1,22 @@
 
 package controllers;
 
+import java.util.List;
+
+import org.springframework.beans.TypeMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.MemberService;
-import utilities.Md5;
 import domain.Member;
 import forms.MemberForm;
+import services.MemberService;
+import utilities.Md5;
 
 @Controller
 @RequestMapping("/member")
@@ -20,8 +24,13 @@ public class MemberController extends AbstractController {
 
 	@Autowired
 	private MemberService	memberService;
+	
+	@ExceptionHandler(TypeMismatchException.class)
+	public ModelAndView handleMismatchException(final TypeMismatchException oops) {
+		return new ModelAndView("redirect:/");
+	}
 
-
+	// Register ------------------------------------------------------------------------------------
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create() {
 		ModelAndView result;
@@ -41,6 +50,9 @@ public class MemberController extends AbstractController {
 
 		return result;
 	}
+	
+	
+	// Save the new member ----------------------------------------------------------------------
 	@RequestMapping(value = "/create", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(final MemberForm memberForm, final BindingResult binding) {
 		ModelAndView result;
@@ -56,37 +68,81 @@ public class MemberController extends AbstractController {
 				password = Md5.encodeMd5(member.getUserAccount().getPassword());
 				member.getUserAccount().setPassword(password);
 				this.memberService.save(member);
-				result = new ModelAndView("redirect:/"); //TODO: mirar a donde hay que redireccionar esto
-
+				result = new ModelAndView("redirect:../security/login.do"); 
+				
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(memberForm, "member.commit.error");
 			}
 		return result;
 	}
 
+	// Edit ------------------------------------------------------------------------------------
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public ModelAndView edit() {
-		final ModelAndView result;
+		ModelAndView result;
 		Member member;
-		member = this.memberService.findByPrincipal();
+		
+		
+		try {
+			member = this.memberService.findByPrincipal();
 
-		Assert.notNull(member);
+			// Set relations to null to use as a prune object
+			member.setFinder(null);
+			member.setEnrols(null);
+			member.setDropouts(null);
+			member.setRequests(null);
 
-		final MemberForm memberForm = new MemberForm();
-
-		memberForm.setAddress(member.getAddress());
-		memberForm.setEmail(member.getEmail());
-		memberForm.setMiddleName(member.getMiddleName());
-		memberForm.setName(member.getName());
-		memberForm.setPhoneNumber(member.getPhoneNumber());
-		memberForm.setPhoto(member.getPhoto());
-		memberForm.setSurname(member.getSurname());
-		memberForm.setUserAccount(member.getUserAccount());
-
-		result = this.createEditModelAndView(memberForm);
+			result = new ModelAndView("member/edit");
+			result.addObject("member", member);
+		} catch (final Throwable oops) {
+			System.out.println(oops.getMessage());
+			System.out.println(oops.getClass());
+			System.out.println(oops.getCause());
+			result = this.forbiddenOpperation();
+		}
+		
 
 		return result;
 	}
+	
+	// SAVE ------------------------------------------------------------------------------------
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
+	public ModelAndView saveEdit(Member prune, BindingResult binding) {
+		ModelAndView result;
+		Member member;
+
+		member = this.memberService.reconstruct(prune, binding);
+
+		if (binding.hasErrors()) {
+			final List<ObjectError> errors = binding.getAllErrors();
+			for (final ObjectError e : errors)
+				System.out.println(e.toString());
+
+			result = new ModelAndView("brotherhood/edit");
+			result.addObject("brotherhood", prune);
+		}
+
+		else
+			try {
+				this.memberService.save(member);
+				result = new ModelAndView("redirect:/");
+			} catch (final Throwable oops) {
+				System.out.println();
+				System.out.println(oops.getMessage());
+				System.out.println(oops.getClass());
+				System.out.println(oops.getCause());
+				result = this.editModelAndView(member, "brotherhood.registration.error");
+			}
+		return result;
+	}
+	
+	
+	
+	
+	
+	
+	
+	// Ancillary methods -----------------------------------------------------------------------
 	protected ModelAndView createEditModelAndView(final MemberForm memberForm) {
 		ModelAndView result;
 
@@ -105,6 +161,25 @@ public class MemberController extends AbstractController {
 
 		return result;
 
+	}
+
+	
+	protected ModelAndView editModelAndView(Member member) {
+		ModelAndView result;
+
+		result = this.editModelAndView(member, null);
+
+		return result;
+	}
+
+	protected ModelAndView editModelAndView(Member member, String message) {
+		ModelAndView result;
+
+		result = new ModelAndView("member/edit");
+		result.addObject("member", member);
+		result.addObject("message", message);
+
+		return result;
 	}
 
 	private ModelAndView forbiddenOpperation() {

@@ -11,10 +11,6 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
-import repositories.MemberRepository;
-import security.Authority;
-import security.LoginService;
-import security.UserAccount;
 import domain.Brotherhood;
 import domain.Dropout;
 import domain.Enrol;
@@ -22,6 +18,10 @@ import domain.Member;
 import domain.MessageBox;
 import domain.Request;
 import forms.MemberForm;
+import repositories.MemberRepository;
+import security.Authority;
+import security.LoginService;
+import security.UserAccount;
 
 @Service
 @Transactional
@@ -105,7 +105,7 @@ public class MemberService {
 	@Autowired
 	private Validator	validator;
 
-
+	/*** Reconstruct object, check validity and update binding ***/
 	public Member reconstruct(final MemberForm memberForm, final BindingResult binding) {
 		Member result = new Member();
 		try {
@@ -133,6 +133,37 @@ public class MemberService {
 
 		return result;
 	}
+	
+	public Member reconstruct(Member member, BindingResult binding) {
+		Member result = this.create();
+		Member temp = this.findOne(member.getId());
+
+		Assert.isTrue(this.findByPrincipal().getId() == member.getId());
+
+		result.setAddress(member.getAddress());
+		result.setEmail(member.getEmail());
+		result.setMiddleName(member.getMiddleName());
+		result.setName(member.getName());
+		result.setPhoneNumber(member.getPhoneNumber());
+		result.setPhoto(member.getPhoto());
+		result.setSurname(member.getSurname());
+		result.setName(member.getName());
+
+		
+		result.setFinder(temp.getFinder());
+		result.setEnrols(temp.getEnrols());
+		result.setDropouts(temp.getDropouts());
+		result.setRequests(temp.getRequests());
+		
+		result.setId(temp.getId());
+		result.setVersion(temp.getVersion());
+
+		this.validator.validate(result, binding);
+
+		return result;
+	}
+	
+	
 	public Member findByUserAccount(final UserAccount userAccount) {
 		Assert.notNull(userAccount);
 
