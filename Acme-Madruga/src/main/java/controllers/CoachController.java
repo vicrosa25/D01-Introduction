@@ -48,6 +48,26 @@ public class CoachController extends AbstractController {
 		return result;
 	}
 
+	// Display ------------------------------------------------------------------------------------
+	@RequestMapping(value = "/display", method = RequestMethod.GET)
+	public ModelAndView display(@RequestParam final int coachId) {
+		ModelAndView result;
+		Coach coach;
+
+		try {
+			coach = this.coachService.findOne(coachId);
+			result = new ModelAndView("coach/display");
+			result.addObject("coach", coach);
+		} catch (final Throwable oops) {
+			System.out.println(oops.getMessage());
+			System.out.println(oops.getClass());
+			System.out.println(oops.getCause());
+			result = this.forbiddenOpperation();
+		}
+
+		return result;
+	}
+
 	private ModelAndView forbiddenOpperation() {
 		return new ModelAndView("redirect:/");
 	}
