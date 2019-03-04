@@ -1,26 +1,13 @@
-<%@page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-
+<%@page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@taglib prefix="security"
-	uri="http://www.springframework.org/security/tags"%>
+<%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
-<%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 <form:form action="member/create.do" modelAttribute="memberForm">
 
-	<%-- Hidden properties from handy worker
-	<form:hidden path="id" />
-	<form:hidden path="version" />
-	<form:hidden path="userAccount.authorities" />
-	<form:hidden path="enrols" />
-	<form:hidden path="dropouts" />
-	<form:hidden path="requests" />
-	<form:hidden path="finder" />
-	<form:hidden path="messageBoxes" />
---%>
 	<%-- UserAccount--%>
 
 	<%-- username--%>
@@ -59,7 +46,6 @@
 	<acme:textbox code="member.address" path="address" />
 	<br>
 
-
 	<script type="text/javascript">
 		function phoneNumberValidator() {
 
@@ -79,13 +65,16 @@
 			else if (patternPN.test(phoneNumber))
 				return true;
 			else
-				return confirm('<spring:message code="member.confirm"/>');
+				return confirm('<spring:message code="administrator.confirm"/>');
 		}
 	</script>
+
+
 	<%-- Buttons --%>
 	<input type="submit" name="save"
-		value="<spring:message code="member.save"/>" />
-	<!--  onClick="javascript: return phoneNumberValidator()" -->
+		value="<spring:message code="member.save"/>" 
+		onClick="javascript: return phoneNumberValidator()" />
+	
 
 
 	<acme:cancel code="member.cancel" url="/" />
