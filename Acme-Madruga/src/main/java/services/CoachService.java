@@ -22,11 +22,14 @@ public class CoachService {
 	// Manage Repository
 
 	@Autowired
-	private CoachRepository	coachRepository;
+	private CoachRepository		coachRepository;
 
 	// Supporting services
 	@Autowired
-	private ActorService	actorService;
+	private ActorService		actorService;
+
+	@Autowired
+	private BrotherhoodService	brotherhoodService;
 
 
 	/************************************* CRUD methods ********************************/
@@ -61,14 +64,26 @@ public class CoachService {
 	}
 
 	public Coach save(final Coach coach) {
+		Boolean isNew = false;
 		Assert.notNull(coach);
 		Actor principal;
 
 		// Principal must be a Brotherhood
 		principal = this.actorService.findByPrincipal();
 		Assert.isInstanceOf(Brotherhood.class, principal);
+		if (coach.getId() == 0) {
+			isNew = true;
+		}
+		final Brotherhood bro = this.brotherhoodService.findByPrincipal();
+		if (isNew) {
+			final Coach saved = this.coachRepository.save(coach);
+			bro.getCoaches().add(saved);
+			return saved;
+		} else {
+			Assert.isTrue(bro.getCoaches().contains(coach));
+			return this.save(coach);
+		}
 
-		return this.coachRepository.save(coach);
 	}
 
 	public void delete(final int coachId) {
@@ -84,6 +99,8 @@ public class CoachService {
 
 		final Brotherhood brotherhood = (Brotherhood) principal;
 		Assert.isTrue(brotherhood.getCoaches().contains(coach));
+
+		brotherhood.getCoaches().remove(coach);
 
 		this.coachRepository.delete(coach);
 
