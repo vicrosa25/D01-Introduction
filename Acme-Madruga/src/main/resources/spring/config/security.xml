@@ -95,6 +95,7 @@
 
 		<!-- COACH -->
 		<security:intercept-url pattern="/coach/list.do" access="permitAll" />
+		<security:intercept-url pattern="/coach/display.do" access="permitAll" />
 		<security:intercept-url pattern="/coach/brotherhood/**" access="hasRole('BROTHERHOOD')" />
 
 		<!-- FINDER -->

@@ -8,6 +8,22 @@
 
 <display:table name="coaches" id="row" requestURI="coaches/list.do" pagesize="5" class="displaytag">
 
+	<!-- Title -->
+	<spring:message code="coach.title" var="titleHeader" />
+	<display:column property="title" title="${titleHeader}" />
+	
+	<!-- Description -->
+	<spring:message code="coach.description" var="descriptionHeader" />
+	<display:column property="description" title="${descriptionHeader}" />
+
+	<!-- Display -->
+	<spring:message code="coach.display" var="displayHeader" />
+	<display:column title="${displayHeader}">
+		<a href="coach/display.do?coachId=${row.id}">
+		<spring:message code="coach.display"/>
+		</a>
+	</display:column>
+
    <security:authorize access="hasRole('BROTHERHOOD')">
         <display:column>
           <a href="coach/brotherhood/delete.do?coachId=${row.id}">
@@ -20,17 +36,5 @@
           </a>
         </display:column>
    </security:authorize>
-	
-	<!-- Title -->
-	<spring:message code="coach.title" var="titleHeader" />
-	<display:column property="title" title="${titleHeader}" />
-	
-	<!-- Description -->
-	<spring:message code="coach.description" var="descriptionHeader" />
-	<display:column property="description" title="${descriptionHeader}" />
-
-	<!-- Picture -->
-	<spring:message code="coach.picture" var="pictureHeader" />
-	<display:column property="picture" title="${pictureHeader}" />
 
 </display:table>

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.CoachService;
@@ -29,12 +30,12 @@ public class CoachController extends AbstractController {
 
 	// List ------------------------------------------------------------------------------------
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list() {
+	public ModelAndView list(@RequestParam final int brotherhoodId) {
 		ModelAndView result;
 		Collection<Coach> coaches;
 
 		try {
-			coaches = this.coachService.findAll();
+			coaches = this.coachService.findByBrotherhood(brotherhoodId);
 			result = new ModelAndView("coach/list");
 			result.addObject("coaches", coaches);
 		} catch (final Throwable oops) {
