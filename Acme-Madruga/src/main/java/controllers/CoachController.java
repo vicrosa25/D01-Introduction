@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.BrotherhoodService;
 import services.CoachService;
+import domain.Brotherhood;
 import domain.Coach;
 
 @Controller
@@ -20,7 +22,10 @@ import domain.Coach;
 public class CoachController extends AbstractController {
 
 	@Autowired
-	private CoachService	coachService;
+	private CoachService		coachService;
+
+	@Autowired
+	private BrotherhoodService	brotherhoodService;
 
 
 	@ExceptionHandler(TypeMismatchException.class)
@@ -35,9 +40,11 @@ public class CoachController extends AbstractController {
 		Collection<Coach> coaches;
 
 		try {
-			coaches = this.coachService.findByBrotherhood(brotherhoodId);
+			final Brotherhood brotherhood = this.brotherhoodService.findOne(brotherhoodId);
+			coaches = brotherhood.getCoaches();
 			result = new ModelAndView("coach/list");
 			result.addObject("coaches", coaches);
+			result.addObject("brotherhood", brotherhood);
 		} catch (final Throwable oops) {
 			System.out.println(oops.getMessage());
 			System.out.println(oops.getClass());

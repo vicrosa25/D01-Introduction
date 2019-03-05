@@ -53,6 +53,7 @@ public class CoachBrotherhoodController extends AbstractController {
 			coaches = brotherhood.getCoaches();
 			result = new ModelAndView("coach/list");
 			result.addObject("coaches", coaches);
+			result.addObject("brotherhood", brotherhood);
 			result.addObject("bro", 1);
 		} catch (final Throwable oops) {
 			System.out.println(oops.getMessage());
