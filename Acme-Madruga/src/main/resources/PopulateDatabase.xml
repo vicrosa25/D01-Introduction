@@ -597,7 +597,7 @@
 			</list>
 		</property>
 	</bean>
-
+	
 	<bean id="enrol2" class="domain.Enrol">
 		<property name="moment" value="2019/02/19" />
 		<property name="member" ref="member2" />
@@ -605,6 +605,17 @@
 		<property name="positions">
 			<list>
 				<ref bean="President" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="enrol3" class="domain.Enrol">
+		<property name="moment" value="2019/02/15" />
+		<property name="member" ref="member2" />
+		<property name="brotherhood" ref="brotherhood1" />
+		<property name="positions">
+			<list>
+				<ref bean="Secretary" />
 			</list>
 		</property>
 	</bean>
@@ -619,7 +630,7 @@
 	</bean>
 
 
-	<!-- Positions default **************************************************************************************** -->
+	<!-- positions default **************************************************************************************** -->
 	<bean id="President" class="domain.Position">
 		<property name="spanishName" value="Presidente" />
 		<property name="englishName" value="President" />
@@ -639,6 +650,11 @@
 	<bean id="Secretary" class="domain.Position">
 		<property name="spanishName" value="Secretario" />
 		<property name="englishName" value="Secretary" />
+		<property name="enrol">
+			<list>
+				<ref bean="enrol3" />
+			</list>
+		</property>
 	</bean>
 
 	<bean id="Treasurer" class="domain.Position">

@@ -19,10 +19,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import domain.Brotherhood;
+import domain.Dropout;
 import domain.Member;
 import domain.Url;
 import forms.BrotherhoodForm;
 import services.BrotherhoodService;
+import services.DropoutService;
 import services.MemberService;
 import utilities.Md5;
 
@@ -35,6 +37,9 @@ public class BrotherhoodController extends AbstractController {
 
 	@Autowired
 	private MemberService		memberService;
+	
+	@Autowired
+	private DropoutService		dropoutService;
 
 
 	@ExceptionHandler(TypeMismatchException.class)
@@ -270,6 +275,31 @@ public class BrotherhoodController extends AbstractController {
 				result = new ModelAndView("brotherhood/addPicture");
 				result.addObject("url", url);
 			}
+		return result;
+	}
+	
+	
+	
+	// Dropout ------------------------------------------------------------------------------------
+	@RequestMapping(value = "/member/dropout", method = RequestMethod.GET)
+	public ModelAndView dropOut(@RequestParam int brotherhoodId) {
+		ModelAndView result;
+		Dropout drop;
+
+		try {
+			drop = this.dropoutService.create();
+			drop.setBrotherhood(this.brotherhoodService.findOne(brotherhoodId));
+			this.dropoutService.save(drop);
+			
+			result = this.memberList();
+
+		} catch (final Throwable oops) {
+			System.out.println(oops.getMessage());
+			System.out.println(oops.getClass());
+			System.out.println(oops.getCause());
+			result = this.forbiddenOpperation();
+		}
+
 		return result;
 	}
 

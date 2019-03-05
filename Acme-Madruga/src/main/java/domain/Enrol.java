@@ -63,7 +63,7 @@ public class Enrol extends DomainEntity {
 
 	@ManyToMany(cascade = {
 			CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH
-	})
+	}, mappedBy = "enrol")
 	public Collection<Position> getPositions() {
 		return this.positions;
 	}

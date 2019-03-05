@@ -163,8 +163,7 @@ public class MemberController extends AbstractController {
 		return result;
 	}
 	
-	
-	
+
 
 	// Ancillary methods -----------------------------------------------------------------------
 	protected ModelAndView createEditModelAndView(final MemberForm memberForm) {

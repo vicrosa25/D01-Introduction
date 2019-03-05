@@ -36,49 +36,14 @@
 		<a href="coach/list.do?brotherhoodId=${row.id}"> <spring:message code="brotherhood.coaches" /></a>
 	</display:column>
 
-	<!-- Enrol/Dropout -->
+	<!-- Dropout -->
 	<security:authorize access="hasRole('MEMBER')">
-
-
-
-
+		<jstl:if test="${requestUri.contains('member')}">
 		<display:column>
-
-
-			<!-- para cada row, recorremos su coleccion de enrols, para cada enrol, 
-	si ese enrol.member.id es igual a nuestro id, colocamos el link a dropout, 
-	si no lo colocamos a enrol -->
-
-			<security:authentication var="id" property="principal" />
-
-			<jstl:set var="contains" value="false" />
-			<jstl:forEach var="enr" items="${row.enrols }">
-				<jstl:if test="${enr.member.userAccount == principal }">
-					<jstl:set var="contains" value="true" />
-				</jstl:if>
-
-			</jstl:forEach>
-			<jstl:choose>
-				<jstl:when test="${contains == true }">
-					<a href="enrol/member/dropout.do?brotherhoodId=${row.id}"> <spring:message
-							code="brotherhood.dropout" />
-					</a>
-				</jstl:when>
-
-				<jstl:when test="${contains == false }">
-					<a href="enrol/member/enrol.do?brotherhoodId=${row.id}"> <spring:message
-							code="brotherhood.enrol" />
-					</a>
-				</jstl:when>
-			</jstl:choose>
-			<!-- 
-	 <a href="enrol/member/enrol.do?brotherhoodId=${row.id}">
-		<spring:message code ="brotherhood.enrol"/>
-	</a>
-	
-	-->
+			<a href="brotherhood/member/dropout.do?brotherhoodId=${row.id}"> <spring:message code="brotherhood.dropout" /></a>
 		</display:column>
-
+		</jstl:if>
 	</security:authorize>
+	
 
 </display:table>

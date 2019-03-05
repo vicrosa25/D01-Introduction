@@ -19,10 +19,10 @@ public class Dropout extends DomainEntity {
 
 	// Attributes -------------------------------------------------
 	private Date moment;
+	
+	
 	// Relashionships --------------------------------------------
-
 	private Member member;
-
 	private Brotherhood brotherhood;
 
 	// Methods ------------------------------------------------
