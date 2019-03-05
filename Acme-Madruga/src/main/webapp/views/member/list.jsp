@@ -24,5 +24,15 @@
 				${position.englishName}${!loop.last ? ',' : ''}&nbsp
 		</jstl:forEach>
 	</display:column>
+	
+	<security:authorize access="hasRole('BROTHERHOOD')">
+	<jstl:if test="${not empty bro}">
+		<display:column>
+        	<a href="member/brotherhood/display.do?memberId=${row.member.id}">
+        		<spring:message code="member.display"/>
+        	</a>
+        </display:column>
+   </jstl:if>
+   </security:authorize>
 
 </display:table>
