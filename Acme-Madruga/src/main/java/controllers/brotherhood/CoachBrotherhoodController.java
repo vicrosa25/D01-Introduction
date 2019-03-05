@@ -86,7 +86,7 @@ public class CoachBrotherhoodController extends AbstractController {
 
 	// Save the coach ------------------------------------------------------------------------------------
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(final Coach coach, final BindingResult binding) {
+	public ModelAndView save(@Valid final Coach coach, final BindingResult binding) {
 		ModelAndView result;
 
 		if (binding.hasErrors()) {
@@ -154,9 +154,9 @@ public class CoachBrotherhoodController extends AbstractController {
 
 		try {
 			url = new Url();
+			url.setTargetId(coachId);
 			result = new ModelAndView("coach/brotherhood/addPicture");
 			result.addObject("url", url);
-			result.addObject("coachId", coachId);
 		} catch (final Throwable oops) {
 			System.out.println(oops.getMessage());
 			System.out.println(oops.getClass());
@@ -191,7 +191,7 @@ public class CoachBrotherhoodController extends AbstractController {
 
 	// SAVE ------------------------------------------------------------------------------------
 	@RequestMapping(value = "/addPicture", method = RequestMethod.POST, params = "save")
-	public ModelAndView savePicture(@RequestParam final int coachId, @Valid final Url url, final BindingResult binding) {
+	public ModelAndView savePicture(@Valid final Url url, final BindingResult binding) {
 		ModelAndView result;
 		if (binding.hasErrors()) {
 			final List<ObjectError> errors = binding.getAllErrors();
@@ -201,10 +201,9 @@ public class CoachBrotherhoodController extends AbstractController {
 
 			result = new ModelAndView("coach/brotherhood/addPicture");
 			result.addObject("url", url);
-			result.addObject("coachId", coachId);
 		} else {
 			try {
-				Coach c = this.coachService.findOne(coachId);
+				Coach c = this.coachService.findOne(url.getTargetId());
 				c.getPictures().add(url);
 				c = this.coachService.save(c);
 				result = this.createEditModelAndView(c);
@@ -213,9 +212,9 @@ public class CoachBrotherhoodController extends AbstractController {
 				System.out.println(oops.getMessage());
 				System.out.println(oops.getClass());
 				System.out.println(oops.getCause());
+				oops.printStackTrace();
 				result = new ModelAndView("coach/brotherhood/addPicture");
 				result.addObject("url", url);
-				result.addObject("coachId", coachId);
 			}
 		}
 		return result;

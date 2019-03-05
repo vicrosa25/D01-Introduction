@@ -32,7 +32,7 @@
 	<!-- Processions -->
 	<spring:message code="brotherhood.processions" var="processionsHeader" />
 	<display:column>
-		<a href="procession/list.do?brotherhoodId=${row.id}"> <spring:message
+		<a href="procession/brotherhoodList.do?brotherhoodId=${row.id}"> <spring:message
 				code="brotherhood.processions" />
 		</a>
 	</display:column>

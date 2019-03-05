@@ -14,6 +14,7 @@
 	<%-- Hidden properties --%>
 	<form:hidden path="id" />
 	<form:hidden path="version" />
+	<form:hidden path="pictures" />
 
 
     <%-- title--%>
@@ -35,17 +36,19 @@
 
 				<spring:message code="coach.pictures.delete" var="deleteHeader" />
 				<display:column title="${deleteHeader}">
-					<a href="coach/brotherhood/deletePicture.do?link=${row.link}"><spring:message code="coach.picture.delete"/></a>
+					<a href="coach/brotherhood/deletePicture.do?link=${row.link}&coachId=${coach.id}"><spring:message code="coach.picture.delete"/></a>
 				</display:column>
 
 				<display:caption><spring:message code="coach.pictures"/></display:caption>
 			</display:table>
 		</jstl:if>
 	</jstl:if>
+	<jstl:if test="${coach.id ne 0}">
 	<br>
 	<a href="coach/brotherhood/addPicture.do?coachId=${coach.id}">
 		<spring:message code="coach.picture.create"/>
 	</a>
+	</jstl:if>
 	<br>
 
 	<%-- Buttons --%>

@@ -81,7 +81,7 @@ public class CoachService {
 			return saved;
 		} else {
 			Assert.isTrue(bro.getCoaches().contains(coach));
-			return this.save(coach);
+			return this.coachRepository.save(coach);
 		}
 
 	}
