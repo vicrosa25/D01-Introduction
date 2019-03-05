@@ -106,7 +106,7 @@ public class MemberService {
 	private Validator	validator;
 
 	/*** Reconstruct object, check validity and update binding ***/
-	public Member reconstruct(final MemberForm memberForm, final BindingResult binding) {
+	public Member reconstruct(MemberForm memberForm, BindingResult binding) {
 		Member result = new Member();
 		try {
 			result = this.findByPrincipal();
@@ -138,6 +138,7 @@ public class MemberService {
 		Member result = this.create();
 		Member temp = this.findOne(member.getId());
 
+		// Check the principal is updating his own data.
 		Assert.isTrue(this.findByPrincipal().getId() == member.getId());
 
 		result.setAddress(member.getAddress());
@@ -154,7 +155,6 @@ public class MemberService {
 		result.setEnrols(temp.getEnrols());
 		result.setDropouts(temp.getDropouts());
 		result.setRequests(temp.getRequests());
-		
 		result.setId(temp.getId());
 		result.setVersion(temp.getVersion());
 
