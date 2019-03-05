@@ -30,12 +30,7 @@
 	<%-- MEMBER --%>
 	<security:authorize access="hasRole('MEMBER')">
 	    <!-- Select Procession -->
-        <form:label path="procession"><spring:message code="request.procession" /></form:label>
-        <form:select id="processions" path="procession">
-            <form:option value="0" label="----" />
-            <form:options items="${processions}" itemValue="id" itemLabel="title" />
-        </form:select>
-        <form:errors class="error" path="procession" />
+		<acme:select items="${ processions }" itemLabel="title" code="request.procession" path="procession"/>
 	</security:authorize>
 	<br>
 	<br>

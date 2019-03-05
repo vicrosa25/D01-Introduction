@@ -32,9 +32,7 @@
 	<br><br>
 
 	<%-- draftMode --%>
-	<form:label path="draftMode">
-		<spring:message code="procession.draftMode" />
-	</form:label>
+	<form:label path="draftMode"><spring:message code="procession.draftMode" /></form:label>
 	<form:select id="modeDropdown" path="draftMode">
 		<form:option value="">--</form:option>
 		<form:option value="0"><spring:message code="procession.false" /></form:option>
