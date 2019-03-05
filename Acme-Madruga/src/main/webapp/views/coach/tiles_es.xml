@@ -7,12 +7,12 @@
 <tiles-definitions>
 
 	<definition name="coach/brotherhood/create" extends="master.page">
-		<put-attribute name="title" value="Crear Cuadrilla" />
+		<put-attribute name="title" value="Crear Paso" />
 		<put-attribute name="body" value="/views/coach/edit.jsp" />
 	</definition>
 
 	<definition name="coach/brotherhood/edit" extends="master.page">
-		<put-attribute name="title" value="Editar Cuadrilla" />
+		<put-attribute name="title" value="Editar Paso" />
 		<put-attribute name="body" value="/views/coach/edit.jsp" />
 	</definition>
 
