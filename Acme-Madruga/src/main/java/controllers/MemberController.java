@@ -1,6 +1,7 @@
 
 package controllers;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.TypeMismatchException;
@@ -11,25 +12,54 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import domain.Member;
-import forms.MemberForm;
+import services.BrotherhoodService;
 import services.MemberService;
 import utilities.Md5;
+import domain.Brotherhood;
+import domain.Enrol;
+import domain.Member;
+import forms.MemberForm;
 
 @Controller
 @RequestMapping("/member")
 public class MemberController extends AbstractController {
 
 	@Autowired
-	private MemberService	memberService;
-	
+	private MemberService		memberService;
+
+	@Autowired
+	private BrotherhoodService	brotherhoodService;
+
+
 	@ExceptionHandler(TypeMismatchException.class)
 	public ModelAndView handleMismatchException(final TypeMismatchException oops) {
 		return new ModelAndView("redirect:/");
 	}
 
+	// List ------------------------------------------------------------------------------------
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public ModelAndView list(@RequestParam final int brotherhoodId) {
+		ModelAndView result;
+		Collection<Enrol> enrols;
+		Brotherhood brotherhood;
+
+		try {
+			brotherhood = this.brotherhoodService.findOne(brotherhoodId);
+			enrols = brotherhood.getEnrols();
+			result = new ModelAndView("member/list");
+			result.addObject("enrols", enrols);
+		} catch (final Throwable oops) {
+			System.out.println(oops.getMessage());
+			System.out.println(oops.getClass());
+			System.out.println(oops.getCause());
+			result = this.forbiddenOpperation();
+		}
+
+		return result;
+	}
 	// Register ------------------------------------------------------------------------------------
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create() {
@@ -50,8 +80,7 @@ public class MemberController extends AbstractController {
 
 		return result;
 	}
-	
-	
+
 	// Save the new member ----------------------------------------------------------------------
 	@RequestMapping(value = "/create", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(final MemberForm memberForm, final BindingResult binding) {
@@ -60,19 +89,19 @@ public class MemberController extends AbstractController {
 
 		final Member member = this.memberService.reconstruct(memberForm, binding);
 
-		if (binding.hasErrors())
-
+		if (binding.hasErrors()) {
 			result = this.createEditModelAndView(memberForm);
-		else
+		} else {
 			try {
 				password = Md5.encodeMd5(member.getUserAccount().getPassword());
 				member.getUserAccount().setPassword(password);
 				this.memberService.save(member);
-				result = new ModelAndView("redirect:../security/login.do"); 
-				
+				result = new ModelAndView("redirect:../security/login.do");
+
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(memberForm, "member.commit.error");
 			}
+		}
 		return result;
 	}
 
@@ -81,8 +110,7 @@ public class MemberController extends AbstractController {
 	public ModelAndView edit() {
 		ModelAndView result;
 		Member member;
-		
-		
+
 		try {
 			member = this.memberService.findByPrincipal();
 
@@ -100,14 +128,13 @@ public class MemberController extends AbstractController {
 			System.out.println(oops.getCause());
 			result = this.forbiddenOpperation();
 		}
-		
 
 		return result;
 	}
-	
+
 	// SAVE ------------------------------------------------------------------------------------
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView saveEdit(Member prune, BindingResult binding) {
+	public ModelAndView saveEdit(final Member prune, final BindingResult binding) {
 		ModelAndView result;
 		Member member;
 
@@ -115,14 +142,13 @@ public class MemberController extends AbstractController {
 
 		if (binding.hasErrors()) {
 			final List<ObjectError> errors = binding.getAllErrors();
-			for (final ObjectError e : errors)
+			for (final ObjectError e : errors) {
 				System.out.println(e.toString());
+			}
 
 			result = new ModelAndView("brotherhood/edit");
 			result.addObject("brotherhood", prune);
-		}
-
-		else
+		} else {
 			try {
 				this.memberService.save(member);
 				result = new ModelAndView("redirect:/");
@@ -133,17 +159,12 @@ public class MemberController extends AbstractController {
 				System.out.println(oops.getCause());
 				result = this.editModelAndView(member, "member.registration.error");
 			}
+		}
 		return result;
 	}
-	
-	
-	
-	
-	
-	
-	
+
 	// Ancillary methods -----------------------------------------------------------------------
-	protected ModelAndView createEditModelAndView(MemberForm memberForm) {
+	protected ModelAndView createEditModelAndView(final MemberForm memberForm) {
 		ModelAndView result;
 
 		result = this.createEditModelAndView(memberForm, null);
@@ -151,7 +172,7 @@ public class MemberController extends AbstractController {
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(MemberForm memberForm, String messageCode) {
+	protected ModelAndView createEditModelAndView(final MemberForm memberForm, final String messageCode) {
 		final ModelAndView result;
 
 		result = new ModelAndView("member/create");
@@ -163,8 +184,7 @@ public class MemberController extends AbstractController {
 
 	}
 
-	
-	protected ModelAndView editModelAndView(Member member) {
+	protected ModelAndView editModelAndView(final Member member) {
 		ModelAndView result;
 
 		result = this.editModelAndView(member, null);
@@ -172,7 +192,7 @@ public class MemberController extends AbstractController {
 		return result;
 	}
 
-	protected ModelAndView editModelAndView(Member member, String message) {
+	protected ModelAndView editModelAndView(final Member member, final String message) {
 		ModelAndView result;
 
 		result = new ModelAndView("member/edit");
