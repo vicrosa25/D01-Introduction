@@ -13,10 +13,6 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
-import repositories.BrotherhoodRepository;
-import security.Authority;
-import security.LoginService;
-import security.UserAccount;
 import domain.Area;
 import domain.Brotherhood;
 import domain.Coach;
@@ -25,6 +21,10 @@ import domain.MessageBox;
 import domain.Procession;
 import domain.Url;
 import forms.BrotherhoodForm;
+import repositories.BrotherhoodRepository;
+import security.Authority;
+import security.LoginService;
+import security.UserAccount;
 
 @Service
 @Transactional
@@ -32,15 +32,14 @@ public class BrotherhoodService {
 
 	// Manage Repository
 	@Autowired
-	private BrotherhoodRepository	brotherhoodRepository;
+	private BrotherhoodRepository brotherhoodRepository;
 
 	@Autowired
-	private MessageBoxService		messageBoxService;
+	private MessageBoxService messageBoxService;
 
 	@Autowired
 	@Qualifier("validator")
-	private Validator				validator;
-
+	private Validator validator;
 
 	// CRUD methods
 	public Brotherhood create() {
@@ -64,6 +63,7 @@ public class BrotherhoodService {
 
 		return result;
 	}
+
 	public Brotherhood findOne(final int brotherhoodId) {
 		final Brotherhood result = this.brotherhoodRepository.findOne(brotherhoodId);
 		Assert.notNull(result);
@@ -109,16 +109,23 @@ public class BrotherhoodService {
 		bro.setTitle(form.getTitle());
 		bro.getEstablishment().setTime(bro.getEstablishment().getTime() - 1000);
 
+		// Default attributes from Actor
+		bro.setUsername(form.getUserAccount().getUsername());
+		bro.setIsSpammer(false);
+		bro.setIsBanned(false);
+
 		this.validator.validate(bro, binding);
 
 		return bro;
 	}
+
 	public Brotherhood reconstruct(final Brotherhood brotherhood, final BindingResult binding) {
 		final Brotherhood result = this.create();
 		final Brotherhood temp = this.findOne(brotherhood.getId());
 
 		Assert.isTrue(this.findByPrincipal().getId() == brotherhood.getId());
 
+		// Updated attributes
 		result.setAddress(brotherhood.getAddress());
 		result.setEmail(brotherhood.getEmail());
 		result.setMiddleName(brotherhood.getMiddleName());
@@ -128,19 +135,27 @@ public class BrotherhoodService {
 		result.setSurname(brotherhood.getSurname());
 		result.setTitle(brotherhood.getTitle());
 
+		// Not updated attributes
+		result.setId(temp.getId());
+		result.setVersion(temp.getVersion());
+		result.setUsername(temp.getUsername());
+		result.setIsSpammer(temp.getIsSpammer());
+		result.setIsBanned(temp.getIsBanned());
+		result.setScore(temp.getScore());
+
+		// Relantionships
 		result.setCoaches(temp.getCoaches());
 		result.setEnrols(temp.getEnrols());
 		result.setEstablishment(temp.getEstablishment());
 		result.setPictures(temp.getPictures());
 		result.setProcessions(temp.getProcessions());
 		result.setUserAccount(temp.getUserAccount());
-		result.setId(temp.getId());
-		result.setVersion(temp.getVersion());
 
 		this.validator.validate(result, binding);
 
 		return result;
 	}
+
 	/************************************************************************************************/
 
 	// Other business methods
@@ -180,8 +195,10 @@ public class BrotherhoodService {
 
 		return bros;
 	}
+
 	public Collection<Brotherhood> findAllMemberBelonged(final Member member) {
-		final Collection<Brotherhood> bros = this.brotherhoodRepository.findBrotherhoodsMemberHashBelong(member.getId());
+		final Collection<Brotherhood> bros = this.brotherhoodRepository
+				.findBrotherhoodsMemberHashBelong(member.getId());
 
 		Assert.notNull(bros);
 

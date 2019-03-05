@@ -130,6 +130,11 @@ public class MemberService {
 		result.setPhoto(memberForm.getPhoto());
 
 		result.setSurname(memberForm.getSurname());
+		
+		// Default attributes from Actor
+		result.setUsername(memberForm.getUserAccount().getUsername());
+		result.setIsSpammer(false);
+		result.setIsBanned(false);
 
 		this.validator.validate(result, binding);
 
