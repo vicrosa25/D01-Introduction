@@ -10,10 +10,12 @@
 <display:table name="processions" id="row" requestURI="${uri}" pagesize="5" class="displaytag">
 
 	<security:authorize access="hasRole('BROTHERHOOD')">
+	<jstl:if test="${not empty bro}">
 		<spring:message code="procession.edit" var="editHeader" />
 		<display:column title="${editHeader}">
 			<a href="procession/brotherhood/edit.do?processionId=${row.id}"> <spring:message code="procession.edit" /></a>
 		</display:column>
+	</jstl:if>
 	</security:authorize>
 
 	<!-- title -->
@@ -41,14 +43,18 @@
 <%-- 	<display:column property="draftMode" title="${draftModeHeader}" /> --%>
 
 	<security:authorize access="hasRole('BROTHERHOOD')">
+	<jstl:if test="${not empty bro}">
 		<spring:message code="procession.delete" var="deleteHeader" />
 		<display:column title="${deleteHeader}">
 			<a href="procession/brotherhood/delete.do?processionId=${row.id}"> <spring:message code="procession.delete" /></a>
 		</display:column>
+	</jstl:if>
 	</security:authorize>
 
 </display:table>
 
 <security:authorize access="hasRole('BROTHERHOOD')">
+<jstl:if test="${not empty bro}">
 	<a href=procession/brotherhood/create.do><spring:message code="procession.create" /></a>
+</jstl:if>
 </security:authorize>

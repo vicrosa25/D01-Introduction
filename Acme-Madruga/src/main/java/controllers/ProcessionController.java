@@ -57,6 +57,7 @@ public class ProcessionController extends AbstractController {
 			result = new ModelAndView("procession/list");
 			result.addObject("processions", processions);
 			result.addObject("uri", "procession/list");
+			result.addObject("bro", 1);
 		} catch (final Throwable oops) {
 			System.out.println(oops.getMessage());
 			System.out.println(oops.getClass());
