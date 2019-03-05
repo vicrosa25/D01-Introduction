@@ -6,28 +6,20 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
-<form:form action="member/brotherhood/selectPosition.do" modelAttribute="enrol">
+<form:form action="enrol/member/create.do" modelAttribute="enrol">
 
 	<%-- Hidden properties from enrol--%>
 	<form:hidden path="id" />
 	<form:hidden path="version" />
 	<form:hidden path="member" />
-	<form:hidden path="brotherhood" />
 	<form:hidden path="moment" />
 	
-	<%-- Position --%>
-	<jstl:if test="${pageContext.response.locale == 'en'}">
-		<acme:select2 code="enrol.position" path="positions" items="${positions}" itemLabel="englishName" />
-	</jstl:if>
-		
-	<jstl:if test="${pageContext.response.locale == 'es'}">
-		<acme:select2 code="enrol.position" path="positions" items="${positions}" itemLabel="spanishName" />
-	</jstl:if>
-	
+	<%-- Brotherhood --%>
+	<acme:select2 code="enrol.brotherhood" path="brotherhood" items="${brotherhoods}" itemLabel="title" />
 	<br>
 
 	<%-- Buttons --%>
 	<input type="submit" name="save" value="<spring:message code="brotherhood.save"/> "/>
 	
-	<acme:cancel code="brotherhood.cancel" url="/member/brotherhood/list.do" />
+	<acme:cancel code="brotherhood.cancel" url="/brotherhood/member/list.do" />
 </form:form>

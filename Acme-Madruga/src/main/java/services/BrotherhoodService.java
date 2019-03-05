@@ -13,6 +13,10 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
+import repositories.BrotherhoodRepository;
+import security.Authority;
+import security.LoginService;
+import security.UserAccount;
 import domain.Area;
 import domain.Brotherhood;
 import domain.Coach;
@@ -21,10 +25,6 @@ import domain.MessageBox;
 import domain.Procession;
 import domain.Url;
 import forms.BrotherhoodForm;
-import repositories.BrotherhoodRepository;
-import security.Authority;
-import security.LoginService;
-import security.UserAccount;
 
 @Service
 @Transactional
@@ -32,14 +32,15 @@ public class BrotherhoodService {
 
 	// Manage Repository
 	@Autowired
-	private BrotherhoodRepository brotherhoodRepository;
+	private BrotherhoodRepository	brotherhoodRepository;
 
 	@Autowired
-	private MessageBoxService messageBoxService;
+	private MessageBoxService		messageBoxService;
 
 	@Autowired
 	@Qualifier("validator")
-	private Validator validator;
+	private Validator				validator;
+
 
 	// CRUD methods
 	public Brotherhood create() {
@@ -188,29 +189,25 @@ public class BrotherhoodService {
 		return this.brotherhoodRepository.findByUserName(username);
 	}
 
-	
-	public Collection<Brotherhood> findAllByMember(Member member) {
-		Collection<Brotherhood> result = new ArrayList<Brotherhood>();
-		
+	public Collection<Brotherhood> findAllByMember(final Member member) {
+		final Collection<Brotherhood> result = new ArrayList<Brotherhood>();
+
 		result.addAll(this.findAllMemberBelongs(member));
 		result.addAll(this.findAllMemberBelonged(member));
-		
+
 		return result;
 	}
-	
-	
-	private Collection<Brotherhood> findAllMemberBelongs(Member member) {
-		Collection<Brotherhood> bros = this.brotherhoodRepository.findBrotherhoodsMemberBelongs(member.getId());
+
+	private Collection<Brotherhood> findAllMemberBelongs(final Member member) {
+		final Collection<Brotherhood> bros = this.brotherhoodRepository.findBrotherhoodsMemberBelongs(member.getId());
 
 		Assert.notNull(bros);
 
 		return bros;
 	}
 
-	
-	private Collection<Brotherhood> findAllMemberBelonged(Member member) {
-		Collection<Brotherhood> bros = this.brotherhoodRepository
-				.findBrotherhoodsMemberHashBelong(member.getId());
+	private Collection<Brotherhood> findAllMemberBelonged(final Member member) {
+		final Collection<Brotherhood> bros = this.brotherhoodRepository.findBrotherhoodsMemberHashBelong(member.getId());
 
 		Assert.notNull(bros);
 
@@ -219,5 +216,14 @@ public class BrotherhoodService {
 
 	public Brotherhood findBrotherhoodByArea(final Area area) {
 		return this.brotherhoodRepository.findBrotherhoodByArea(area.getId());
+	}
+
+	public Collection<Brotherhood> findAllNotEnroller(final Member member) {
+		final Collection<Brotherhood> result = this.findAll();
+		result.removeAll(this.brotherhoodRepository.findBrotherhoodsMemberBelongs(member.getId()));
+
+		Assert.notNull(result);
+
+		return result;
 	}
 }

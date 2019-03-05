@@ -30,5 +30,10 @@
 		<put-attribute name="title" value="Select Position" />
 		<put-attribute name="body" value="/views/member/selectPosition.jsp" />
 	</definition>
+	
+	<definition name="member/enrol" extends="master.page">
+		<put-attribute name="title" value="Enrol a Brotherhood" />
+		<put-attribute name="body" value="/views/member/enrol.jsp" />
+	</definition>
 
 </tiles-definitions>
