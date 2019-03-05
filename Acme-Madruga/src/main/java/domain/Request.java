@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -64,7 +65,7 @@ public class Request extends DomainEntity {
 	}
 
 	// RELATIONSHIPS	---------------------------------------
-
+	@NotNull
 	@Valid
 	@ManyToOne(optional = false)
 	public Member getMember() {
@@ -74,7 +75,8 @@ public class Request extends DomainEntity {
 	public void setMember(final Member member) {
 		this.member = member;
 	}
-
+	
+	@NotNull
 	@Valid
 	@ManyToOne(optional = false)
 	public Procession getProcession() {

@@ -113,7 +113,7 @@ public class RequestController extends AbstractController {
 		return result;
 	}
 
-	// Edit ------------------------------------------------------------------------------------
+	// Edit Request GET------------------------------------------------------------------------------------
 	@RequestMapping(value = "/brotherhood/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@RequestParam final int requestId) {
 		ModelAndView result;
@@ -132,7 +132,7 @@ public class RequestController extends AbstractController {
 		return result;
 	}
 
-	// Save the edited request ------------------------------------------------------------------------------------
+	// Edit Request POST------------------------------------------------------------------------------------
 	@RequestMapping(value = "/brotherhood/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView saveEdit(final Request request, final BindingResult binding) {
 		ModelAndView result;
