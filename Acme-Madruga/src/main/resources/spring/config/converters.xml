@@ -27,8 +27,8 @@
 		<bean class="converters.ActorToStringConverter" />
 		<bean class="converters.StringToActorConverter" />
 
-		<bean class="converters.UrlToStringConverter" />
-		<bean class="converters.StringToUrlConverter" />
+		<bean class="converters.MemberToStringConverter" />
+		<bean class="converters.StringToMemberConverter" />
 
 		<bean class="converters.BrotherhoodToStringConverter" />
 		<bean class="converters.StringToBrotherhoodConverter" />
@@ -60,6 +60,9 @@
 
 		<bean class="converters.FinderToStringConverter" />
 		<bean class="converters.StringToFinderConverter" />
+		
+		<bean class="converters.UrlToStringConverter" />
+		<bean class="converters.StringToUrlConverter" />
 
 	</util:list>
 

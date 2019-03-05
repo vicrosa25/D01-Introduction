@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -18,10 +20,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import domain.Procession;
+import domain.Request;
 import services.BrotherhoodService;
 import services.MemberService;
+import services.ProcessionService;
 import services.RequestService;
-import domain.Request;
 
 @Controller
 @RequestMapping("/request")
@@ -35,6 +39,9 @@ public class RequestController extends AbstractController {
 
 	@Autowired
 	private BrotherhoodService	brotherhoodService;
+	
+	@Autowired
+	private ProcessionService	processionService;
 
 
 	@ExceptionHandler(TypeMismatchException.class)
@@ -67,7 +74,7 @@ public class RequestController extends AbstractController {
 		return result;
 	}
 
-	// Create ------------------------------------------------------------------------------------
+	// Create request GET------------------------------------------------------------------------------------
 	@RequestMapping(value = "/member/create", method = RequestMethod.GET)
 	public ModelAndView create() {
 		ModelAndView result;
@@ -80,9 +87,9 @@ public class RequestController extends AbstractController {
 		return result;
 	}
 
-	// Save the new request ------------------------------------------------------------------------------------
+	// Create request POST ------------------------------------------------------------------------------------
 	@RequestMapping(value = "/member/create", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(final Request request, final BindingResult binding) {
+	public ModelAndView save(@Valid Request request, BindingResult binding) {
 		ModelAndView result;
 
 		if (binding.hasErrors()) {
@@ -90,25 +97,17 @@ public class RequestController extends AbstractController {
 			for (final ObjectError e : errors) {
 				System.out.println(e.toString());
 			}
-
-			result = new ModelAndView("request/member/create");
-			result.addObject("request", request);
+			result = this.createEditModelAndView(request);
 		} else {
 			try {
 				this.requestService.save(request);
-				result = new ModelAndView("request/list");
+				result = new ModelAndView("redirect:../list.do");
 			} catch (final Throwable oops) {
-				System.out.println(request);
-				System.out.println(oops.getMessage());
-				System.out.println(oops.getClass());
-				System.out.println(oops.getCause());
-				result = this.createEditModelAndView(request);
-
-				if (oops instanceof DataIntegrityViolationException) {
-					result = this.createEditModelAndView(request, "request.commit.username");
-				} else {
-					result = this.createEditModelAndView(request, "request.commit.error");
-				}
+//				System.out.println(request);
+//				System.out.println(oops.getMessage());
+//				System.out.println(oops.getClass());
+//				System.out.println(oops.getCause());
+				result = this.createEditModelAndView(request, "request.commit.error");
 			}
 		}
 		return result;
@@ -187,7 +186,7 @@ public class RequestController extends AbstractController {
 	}
 
 	// Ancillary methods -----------------------------------------------------------------------
-	protected ModelAndView createEditModelAndView(final Request request) {
+	protected ModelAndView createEditModelAndView(Request request) {
 		ModelAndView result;
 
 		result = this.createEditModelAndView(request, null);
@@ -195,17 +194,27 @@ public class RequestController extends AbstractController {
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(final Request request, final String message) {
+	protected ModelAndView createEditModelAndView(Request request, String message) {
 		ModelAndView result;
+		Collection<Procession> processions;
+		
+		processions = this.processionService.findAll();
+		String actionURI = "request/member/create.do";
 
 		result = new ModelAndView("request/member/create");
+		result.addObject("actionURI", actionURI);
 		result.addObject("request", request);
+		result.addObject("processions", processions);
 		result.addObject("message", message);
 
 		return result;
 	}
 
-	protected ModelAndView editModelAndView(final Request request) {
+	
+	
+	
+	
+	protected ModelAndView editModelAndView(Request request) {
 		ModelAndView result;
 
 		result = this.editModelAndView(request, null);
@@ -213,9 +222,9 @@ public class RequestController extends AbstractController {
 		return result;
 	}
 
-	protected ModelAndView editModelAndView(final Request request, final String message) {
+	protected ModelAndView editModelAndView(Request request, String message) {
 		ModelAndView result;
-
+	
 		result = new ModelAndView("request/brotherhood/edit");
 		result.addObject("request", request);
 		result.addObject("message", message);

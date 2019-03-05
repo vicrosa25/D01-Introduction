@@ -76,7 +76,6 @@
 				<ul>
 					<li class="arrow"></li>
 					<li><a href="request/list.do"><spring:message code="master.page.request.list" /></a></li>
-					<li><a href="request/member/create.do"><spring:message code="master.page.request.create" /></a></li>
 				</ul>
 			</li>
 			<li><a class="fNiv"><spring:message	code="master.page.finder" /></a>

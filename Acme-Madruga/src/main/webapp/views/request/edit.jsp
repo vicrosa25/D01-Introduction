@@ -1,45 +1,47 @@
 <%@page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 
-<%@taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@taglib prefix="security"
-	uri="http://www.springframework.org/security/tags"%>
-<%@taglib prefix="display" uri="http://displaytag.sf.net"%>
-<%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
+<%@taglib prefix="jstl" 	uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="spring" 	uri="http://www.springframework.org/tags"%>
+<%@taglib prefix="form" 	uri="http://www.springframework.org/tags/form"%>
+<%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
+<%@taglib prefix="display" 	uri="http://displaytag.sf.net"%>
+<%@ taglib prefix="acme" 	tagdir="/WEB-INF/tags" %>
 
-<form:form action="request/edit.do" modelAttribute="request">
+<form:form action="${actionURI}" modelAttribute="request">
 
 	<%-- Hidden properties --%>
 	<form:hidden path="id" />
 	<form:hidden path="version" />
 	<form:hidden path="member" />
+	
 	<security:authorize access="hasRole('MEMBER')">
 	    <form:hidden path="status" />
 	    <form:hidden path="reason" />
 	    <form:hidden path="assignedRow" />
 	    <form:hidden path="assignedColumn" />
 	</security:authorize>
+    
     <security:authorize access="hasRole('BROTHERHOOD')">
         <form:hidden path="procession" />
     </security:authorize>
-
-
+		
+		
+	<%-- MEMBER --%>
 	<security:authorize access="hasRole('MEMBER')">
 	    <!-- Select Procession -->
-        <form:label path="procession">
-            <spring:message code="request.procession" />:
-        </form:label>
+        <form:label path="procession"><spring:message code="request.procession" /></form:label>
         <form:select id="processions" path="procession">
             <form:option value="0" label="----" />
-            <form:options items="${processions}" itemValue="id" itemLabel="ticker" />
+            <form:options items="${processions}" itemValue="id" itemLabel="title" />
         </form:select>
-        <form:errors cssClass="error" path="procession" />
-        <br />
+        <form:errors class="error" path="procession" />
 	</security:authorize>
+	<br>
+	<br>
 
-
+	
+	<%-- BROTHERHOOD --%>
     <security:authorize access="hasRole('BROTHERHOOD')">
         <!-- Select Status -->
          <form:label path="status">
@@ -53,7 +55,7 @@
                     <spring:message code="request.status.rejected"/>
                 </option>
          </form:select>
-         <form:errors cssClass="error" path="status"/>
+         <form:errors Class="error" path="status"/>
          <br/>
 
         <%-- assignedRow--%>
@@ -69,9 +71,20 @@
         <br>
     </security:authorize>
 
-	<%-- Buttons --%>
-	<input type="submit" name="save"
-		value="<spring:message code="request.save"/>"/>
 	
+	
+	<%-- Buttons --%>
+	<input type="submit" name="save" value="<spring:message code="request.save"/>"/>
 	<acme:cancel code="request.cancel" url="/" />
+	
+	
 </form:form>
+
+
+
+
+
+
+
+
+

@@ -28,17 +28,13 @@
 
 	<security:http auto-config="true" use-expressions="true">
 		<security:intercept-url pattern="/" access="permitAll" /> 
-
 		<security:intercept-url pattern="/favicon.ico" access="permitAll" /> 
 		<security:intercept-url pattern="/images/**" access="permitAll" /> 
 		<security:intercept-url pattern="/scripts/**" access="permitAll" /> 
 		<security:intercept-url pattern="/styles/**" access="permitAll" /> 
-
 		<security:intercept-url pattern="/views/misc/index.jsp" access="permitAll" /> 
-
 		<security:intercept-url pattern="/security/login.do" access="permitAll" /> 
 		<security:intercept-url pattern="/security/loginFailure.do" access="permitAll" /> 
-
 		<security:intercept-url pattern="/welcome/index.do" access="permitAll" /> 
 
 		<!-- ADMIN -->
@@ -86,7 +82,6 @@
 		<!--  MEMBER -->
 		<security:intercept-url pattern="/member/create.do" access="isAnonymous()" />
 		<security:intercept-url pattern="/member/edit.do" access="hasRole('MEMBER')" />
-
 
 		<!-- REQUEST -->
 		<security:intercept-url pattern="/request/list.do" access="hasAnyRole('BROTHERHOOD','MEMBER')" />

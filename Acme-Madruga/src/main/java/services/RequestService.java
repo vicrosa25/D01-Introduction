@@ -69,19 +69,22 @@ public class RequestService {
 		return result;
 	}
 
-	public Request save(final Request request) {
+	public Request save(Request request) {
 		Assert.notNull(request);
 		Actor principal;
 
 		// Principal must be a Member or a Brotherhood
 		principal = this.actorService.findByPrincipal();
 
-		if (request.getId() != 0)
+		if (request.getId() != 0){
 			Assert.isInstanceOf(Brotherhood.class, principal);
-		else
+			this.checkRequest(request);
+		}
+		else {
 			Assert.isInstanceOf(Member.class, principal);
-
-		this.checkRequest(request);
+			Member member = (Member) principal;
+			request.setMember(member);
+		}
 
 		return this.requestRepository.save(request);
 	}
