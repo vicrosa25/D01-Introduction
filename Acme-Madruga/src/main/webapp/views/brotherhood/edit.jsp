@@ -1,6 +1,4 @@
-<%@page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-
+<%@page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
@@ -12,11 +10,6 @@
 
 	<%-- Hidden properties from handy worker--%>
 	<form:hidden path="id" />
-<%-- 	<form:hidden path="version" />
-	<form:hidden path="userAccount.Authorities" />
-	<form:hidden path="userAccount" />
-	<form:hidden path="processions" />
-	<form:hidden path="coaches" /> --%>
 	<form:hidden path="establishment" />
 	
 	<%-- Name --%>
