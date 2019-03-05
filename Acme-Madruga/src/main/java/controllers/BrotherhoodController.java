@@ -18,13 +18,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.BrotherhoodService;
-import services.MemberService;
-import utilities.Md5;
 import domain.Brotherhood;
 import domain.Member;
 import domain.Url;
 import forms.BrotherhoodForm;
+import services.BrotherhoodService;
+import services.MemberService;
+import utilities.Md5;
 
 @Controller
 @RequestMapping("/brotherhood")
@@ -51,6 +51,7 @@ public class BrotherhoodController extends AbstractController {
 		try {
 			bros = this.brotherhoodService.findAll();
 			result = new ModelAndView("brotherhood/list");
+			result.addObject("requestUri", "brotherhood/list.do");
 			result.addObject("brotherhoods", bros);
 		} catch (final Throwable oops) {
 			System.out.println(oops.getMessage());
@@ -66,18 +67,16 @@ public class BrotherhoodController extends AbstractController {
 	@RequestMapping(value = "/member/list", method = RequestMethod.GET)
 	public ModelAndView memberList() {
 		ModelAndView result;
-		final Collection<Brotherhood> belonging;
-		final Collection<Brotherhood> belonged;
+		Collection<Brotherhood> brotherhoods;
+		Member member ;
 
 		try {
-			final Member member = this.memberService.findByPrincipal();
-
-			belonging = this.brotherhoodService.findAllMemberBelongs(member);
-			belonged = this.brotherhoodService.findAllMemberBelonged(member);
+			member = this.memberService.findByPrincipal();
+			brotherhoods = this.brotherhoodService.findAllByMember(member);
 
 			result = new ModelAndView("brotherhood/member/list");
-			result.addObject("belonging", belonging);
-			result.addObject("belonged", belonged);
+			result.addObject("requestUri", "brotherhood/member/list.do");
+			result.addObject("brotherhoods", brotherhoods);
 		} catch (final Throwable oops) {
 			System.out.println(oops.getMessage());
 			System.out.println(oops.getClass());

@@ -188,16 +188,28 @@ public class BrotherhoodService {
 		return this.brotherhoodRepository.findByUserName(username);
 	}
 
-	public Collection<Brotherhood> findAllMemberBelongs(final Member member) {
-		final Collection<Brotherhood> bros = this.brotherhoodRepository.findBrotherhoodsMemberBelongs(member.getId());
+	
+	public Collection<Brotherhood> findAllByMember(Member member) {
+		Collection<Brotherhood> result = new ArrayList<Brotherhood>();
+		
+		result.addAll(this.findAllMemberBelongs(member));
+		result.addAll(this.findAllMemberBelonged(member));
+		
+		return result;
+	}
+	
+	
+	private Collection<Brotherhood> findAllMemberBelongs(Member member) {
+		Collection<Brotherhood> bros = this.brotherhoodRepository.findBrotherhoodsMemberBelongs(member.getId());
 
 		Assert.notNull(bros);
 
 		return bros;
 	}
 
-	public Collection<Brotherhood> findAllMemberBelonged(final Member member) {
-		final Collection<Brotherhood> bros = this.brotherhoodRepository
+	
+	private Collection<Brotherhood> findAllMemberBelonged(Member member) {
+		Collection<Brotherhood> bros = this.brotherhoodRepository
 				.findBrotherhoodsMemberHashBelong(member.getId());
 
 		Assert.notNull(bros);
