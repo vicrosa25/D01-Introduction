@@ -71,13 +71,13 @@
 		
 		<!-- An actor who is authenticated as a MEMBER -->
 		<security:authorize access="hasRole('MEMBER')">
-			<li><a class="fNiv"><spring:message	code="master.page.brotherhood" /></a>
-				<ul>
-					<li class="arrow"></li>
-					<li><a href="brotherhood/list.do"><spring:message code="master.page.brotherhood.list" /></a></li>
-					<li><a href="brotherhood/member/list.do"><spring:message code="master.page.brotherhood.member.list" /></a></li>				
-				</ul>
-			</li>
+<%-- 			<li><a class="fNiv"><spring:message	code="master.page.brotherhood" /></a> --%>
+<!-- 				<ul> -->
+<!-- 					<li class="arrow"></li> -->
+<%-- 					<li><a href="brotherhood/list.do"><spring:message code="master.page.brotherhood.list" /></a></li> --%>
+<%-- 					<li><a href="brotherhood/member/list.do"><spring:message code="master.page.brotherhood.member.list" /></a></li>				 --%>
+<!-- 				</ul> -->
+<!-- 			</li> -->
 			<li><a class="fNiv"><spring:message	code="master.page.request" /></a>
 				<ul>
 					<li class="arrow"></li>
@@ -115,6 +115,15 @@
 		
 		<!-- An actor who is authenticated -->
 		<security:authorize access="isAuthenticated()">
+			<li><a class="fNiv"><spring:message	code="master.page.brotherhood" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="brotherhood/list.do"><spring:message code="master.page.brotherhood.list" /></a></li>
+					<security:authorize access="hasRole('MEMBER')">
+						<li><a href="brotherhood/member/list.do"><spring:message code="master.page.brotherhood.member.list" /></a></li>				
+					</security:authorize>
+				</ul>
+			</li>
 			<li>
 				<a class="fNiv"> 
 					<spring:message code="master.page.profile" /> 
@@ -141,12 +150,7 @@
 					<li><a href="j_spring_security_logout"><spring:message code="master.page.logout" /> </a></li>
 				</ul>
 			</li>
-			<li><a class="fNiv"><spring:message	code="master.page.brotherhood" /></a>
-				<ul>
-					<li class="arrow"></li>
-					<li><a href="brotherhood/list.do"><spring:message code="master.page.brotherhood.list" /></a></li>				
-				</ul>
-			</li>
+			
 		</security:authorize>
 	</ul>
 </div>

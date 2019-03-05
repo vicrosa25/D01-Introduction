@@ -16,18 +16,17 @@ import org.hibernate.validator.constraints.NotBlank;
 @Access(AccessType.PROPERTY)
 public class Request extends DomainEntity {
 
-	// Attributes
-
+	// Attributes ----------------------------------------------------------------------------
 	private String		status;
 	private Integer		assignedRow;
 	private Integer		assignedColumn;
 	private String		reason;
-	// relationships --------------------
+	// Relationships --------------------------------------------------------------------------
 	private Member		member;
 	private Procession	procession;
 
 
-	// Getters & setters
+	// Getters & setters ----------------------------------------------------------------------
 	@NotBlank
 	@Pattern(regexp = "^(PENDING|APPROVED|REJECTED)$")
 	public String getStatus() {
@@ -64,7 +63,7 @@ public class Request extends DomainEntity {
 		this.reason = reason;
 	}
 
-	// RELATIONSHIPS	---------------------------------------
+	// RELATIONSHIPS ------------------------------------------------------------------------
 	@NotNull
 	@Valid
 	@ManyToOne(optional = false)
@@ -86,5 +85,4 @@ public class Request extends DomainEntity {
 	public void setProcession(final Procession procession) {
 		this.procession = procession;
 	}
-
 }

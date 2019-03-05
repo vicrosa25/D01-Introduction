@@ -8,8 +8,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<display:table name="brotherhoods" id="row"
-	requestURI="brotherhood/list.do" pagesize="5" class="displaytag">
+<display:table name="brotherhoods" id="row" requestURI="brotherhood/list.do" pagesize="5" class="displaytag">
 
 	<!-- Title -->
 	<spring:message code="brotherhood.title" var="titleHeader" />
