@@ -131,7 +131,7 @@ public class MemberController extends AbstractController {
 				System.out.println(oops.getMessage());
 				System.out.println(oops.getClass());
 				System.out.println(oops.getCause());
-				result = this.editModelAndView(member, "brotherhood.registration.error");
+				result = this.editModelAndView(member, "member.registration.error");
 			}
 		return result;
 	}
@@ -143,7 +143,7 @@ public class MemberController extends AbstractController {
 	
 	
 	// Ancillary methods -----------------------------------------------------------------------
-	protected ModelAndView createEditModelAndView(final MemberForm memberForm) {
+	protected ModelAndView createEditModelAndView(MemberForm memberForm) {
 		ModelAndView result;
 
 		result = this.createEditModelAndView(memberForm, null);
@@ -151,7 +151,7 @@ public class MemberController extends AbstractController {
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(final MemberForm memberForm, final String messageCode) {
+	protected ModelAndView createEditModelAndView(MemberForm memberForm, String messageCode) {
 		final ModelAndView result;
 
 		result = new ModelAndView("member/create");

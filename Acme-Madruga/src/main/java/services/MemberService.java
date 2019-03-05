@@ -106,6 +106,8 @@ public class MemberService {
 	private Validator	validator;
 
 	/*** Reconstruct object, check validity and update binding ***/
+	
+	/** Form Object**/
 	public Member reconstruct(MemberForm memberForm, BindingResult binding) {
 		Member result = new Member();
 		try {
@@ -134,6 +136,8 @@ public class MemberService {
 		return result;
 	}
 	
+	
+	/** Pruned Object **/
 	public Member reconstruct(Member member, BindingResult binding) {
 		Member result = this.create();
 		Member temp = this.findOne(member.getId());
@@ -141,6 +145,7 @@ public class MemberService {
 		// Check the principal is updating his own data.
 		Assert.isTrue(this.findByPrincipal().getId() == member.getId());
 
+		// Updated attributes
 		result.setAddress(member.getAddress());
 		result.setEmail(member.getEmail());
 		result.setMiddleName(member.getMiddleName());
@@ -150,13 +155,21 @@ public class MemberService {
 		result.setSurname(member.getSurname());
 		result.setName(member.getName());
 
+		// Not updated attributes
+		result.setId(temp.getId());
+		result.setVersion(temp.getVersion());
+		result.setUsername(temp.getUsername());
+		result.setIsSpammer(temp.getIsSpammer());
+		result.setIsBanned(temp.getIsBanned());
+		result.setScore(temp.getScore());
 		
+		// Relantionships
 		result.setFinder(temp.getFinder());
 		result.setEnrols(temp.getEnrols());
 		result.setDropouts(temp.getDropouts());
 		result.setRequests(temp.getRequests());
-		result.setId(temp.getId());
-		result.setVersion(temp.getVersion());
+		result.setUserAccount(temp.getUserAccount());
+		
 
 		this.validator.validate(result, binding);
 
