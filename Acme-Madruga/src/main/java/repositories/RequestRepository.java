@@ -10,7 +10,7 @@ import domain.Request;
 
 public interface RequestRepository extends JpaRepository<Request, Integer> {
 
-	@Query("select r from Request r join r.procession p where p.brotherhood.id = ?1")
+	@Query("select r from Request r join r.procession p where p.brotherhood.id = ?1 order by r.status")
 	Collection<Request> findRequestByBrotherhood(int brotherhoodId);
 
 }
