@@ -15,6 +15,8 @@ import domain.Procession;
 @Repository
 public interface AdministratorRepository extends JpaRepository<Administrator, Integer> {
 
+	
+	// Queries level C
 	@Query("select admin from Administrator admin where admin.userAccount.id = ?1")
 	Administrator findByUserAccountId(int id);
 
@@ -40,6 +42,9 @@ public interface AdministratorRepository extends JpaRepository<Administrator, In
 	Collection<Object> query8();
 	
 	
+	// Queries level B
+	@Query("select count(a)*1.0/(select count(b)*1.0 from Brotherhood b), count(a.brotherhoods.size), avg(a.brotherhoods.size), min(a.brotherhoods.size), max(a.brotherhoods.size), stddev(a.brotherhoods.size) from Area a")
+	Object[] query9();
 	
 	// Chart queries
 	@Query("select count(a) from Actor a where a.isSpammer = true")

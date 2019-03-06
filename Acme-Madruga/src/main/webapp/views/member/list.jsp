@@ -45,9 +45,9 @@
         	</display:column>
 	   </jstl:if>
 	   </security:authorize>
-	</jstl:when>
+		</jstl:when>
 	
-	<jstl:otherwise>
+		<jstl:otherwise>
 		<security:authorize access="hasRole('BROTHERHOOD')">
 		<jstl:if test="${not empty bro}">
 			<display:column>

@@ -153,8 +153,7 @@ public class AdministratorService {
 	// 12.2 Manage the catalogue of positions
 	// ---------------------------------------------------
 
-	// 12.3 Display a dashboard with the following
-	// information-----------------------------------
+	// 12.3 Display a dashboard with the following information-------------------------------
 	public Object[] query1() {
 		return this.adminRepository.query1();
 	}
@@ -191,6 +190,11 @@ public class AdministratorService {
 		return this.adminRepository.query8();
 	}
 	
+	
+	// 22.2 Display a dashboard with the following information-----------------------------
+	public Object[] query9() {
+		return this.adminRepository.query1();
+	}
 	
 	
 	
