@@ -14,6 +14,8 @@
 	<%-- Hidden properties --%>
 	<form:hidden path="id" />
 	<form:hidden path="version" />
+	<form:hidden path="brotherhoods" />
+	<form:hidden path="pictures" />
 
 
     <%-- title--%>
@@ -27,12 +29,13 @@
 			<display:table name="area.pictures"  id="row" >
 				<spring:message code="area.picture" var="pictureNameHeader" />
 				<display:column title="${pictureNameHeader}" sortable="false" >
-					<img src="${row.link}" width="50%" height="200"/>
+					<img src="${row.link}" width="200" height="200"/>
 				</display:column>
 
 				<spring:message code="area.pictures.delete" var="deleteHeader" />
 				<display:column title="${deleteHeader}">
-					<a href="area/administrator/deletePicture.do?link=${row.link}"><spring:message code="area.picture.delete"/></a>
+					<a href="area/administrator/deletePicture.do?link=${row.link}&areaId=${area.id}"><spring:message code="area.picture.delete"/></a>
+					
 				</display:column>
 
 				<display:caption><spring:message code="area.pictures"/></display:caption>
@@ -40,7 +43,10 @@
 		</jstl:if>
 	</jstl:if>
 	<br>
+	
+	 <%-- Add Picture link --%>
 	<a href="area/administrator/addPicture.do?areaId=${area.id}"><spring:message code="area.picture.create"/></a>
+	<br>
 	<br>
 
 	<%-- Buttons --%>

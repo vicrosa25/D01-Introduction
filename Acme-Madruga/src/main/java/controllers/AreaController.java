@@ -8,7 +8,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
@@ -121,33 +120,27 @@ public class AreaController extends AbstractController {
 
 	// Save area POST --------------------------------------------------------------------
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(final Area area, final BindingResult binding) {
+	public ModelAndView save(@Valid Area area, BindingResult binding) {
 		ModelAndView result;
 
 		if (binding.hasErrors()) {
 			final List<ObjectError> errors = binding.getAllErrors();
 			for (final ObjectError e : errors)
 				System.out.println(e.toString());
-
-			result = new ModelAndView("area/administrator/create");
-			result.addObject("area", area);
+			
+			result = this.createEditModelAndView(area);
 		}
 
 		else
 			try {
 				this.areaService.save(area);
-				result = new ModelAndView("area/list");
+				result = this.list();
 			} catch (final Throwable oops) {
 				System.out.println(area);
 				System.out.println(oops.getMessage());
 				System.out.println(oops.getClass());
 				System.out.println(oops.getCause());
 				result = this.createEditModelAndView(area);
-
-				if (oops instanceof DataIntegrityViolationException)
-					result = this.createEditModelAndView(area, "area.commit.username");
-				else
-					result = this.createEditModelAndView(area, "area.commit.error");
 			}
 		return result;
 	}
@@ -171,14 +164,15 @@ public class AreaController extends AbstractController {
 
 	// Add Picture -------------------------------------------------------------------------
 	@RequestMapping(value = "/addPicture", method = RequestMethod.GET)
-	public ModelAndView addPicture() {
+	public ModelAndView addPicture(@RequestParam int areaId) {
 		ModelAndView result;
-		final Url url;
+		Url url;
 
 		try {
 			url = new Url();
 			result = new ModelAndView("area/administrator/addPicture");
 			result.addObject("url", url);
+			result.addObject("areaId", areaId);
 		} catch (final Throwable oops) {
 			System.out.println(oops.getMessage());
 			System.out.println(oops.getClass());
@@ -188,33 +182,15 @@ public class AreaController extends AbstractController {
 
 		return result;
 	}
-
-	// Delete Picture ---------------------------------------------------------------------
-	@RequestMapping(value = "/deletePicture", method = RequestMethod.GET)
-	public ModelAndView deletePicture(@RequestParam final String link, @RequestParam final int areaId) {
-		ModelAndView result;
-		try {
-			final Area a = this.areaService.findOne(areaId);
-			for (final Url picture : a.getPictures())
-				if (picture.getLink().equals(link)) {
-					a.getPictures().remove(picture);
-					break;
-				}
-			result = this.createEditModelAndView(a);
-		} catch (final Throwable oops) {
-			System.out.println(oops.getMessage());
-			System.out.println(oops.getClass());
-			System.out.println(oops.getCause());
-			result = this.forbiddenOpperation();
-		}
-
-		return result;
-	}
+	
 
 	// SAVE -------------------------------------------------------------------------
 	@RequestMapping(value = "/addPicture", method = RequestMethod.POST, params = "save")
-	public ModelAndView savePicture(@RequestParam final int areaId, @Valid final Url url, final BindingResult binding) {
+	public ModelAndView savePicture(@Valid Url url, BindingResult binding, @RequestParam int areaId) {
 		ModelAndView result;
+		Area area;
+		
+		
 		if (binding.hasErrors()) {
 			final List<ObjectError> errors = binding.getAllErrors();
 			for (final ObjectError e : errors)
@@ -227,11 +203,11 @@ public class AreaController extends AbstractController {
 
 		else
 			try {
-				Area c = this.areaService.findOne(areaId);
-				c.getPictures().add(url);
-				c = this.areaService.save(c);
-				result = this.createEditModelAndView(c);
-			} catch (final Throwable oops) {
+				area = this.areaService.findOne(areaId);
+				area.getPictures().add(url);
+				area = this.areaService.save(area);
+				result = this.createEditModelAndView(area);
+			} catch (Throwable oops) {
 				System.out.println(url);
 				System.out.println(oops.getMessage());
 				System.out.println(oops.getClass());
@@ -243,8 +219,32 @@ public class AreaController extends AbstractController {
 		return result;
 	}
 
+	// Delete Picture ---------------------------------------------------------------------
+	@RequestMapping(value = "/deletePicture", method = RequestMethod.GET)
+	public ModelAndView deletePicture(@RequestParam String link, @RequestParam int areaId) {
+		ModelAndView result;
+		Area area;
+		try {
+			area = this.areaService.findOne(areaId);
+			for (Url picture : area.getPictures())
+				if (picture.getLink().equals(link)) {
+					area.getPictures().remove(picture);
+					break;
+				}
+			area = this.areaService.save(area);
+			result = this.createEditModelAndView(area);
+		} catch (final Throwable oops) {
+			System.out.println(oops.getMessage());
+			System.out.println(oops.getClass());
+			System.out.println(oops.getCause());
+			result = this.forbiddenOpperation();
+		}
+
+		return result;
+	}
+
 	// Ancillary methods------------------------------------------------------------------
-	protected ModelAndView createEditModelAndView(final Area area) {
+	protected ModelAndView createEditModelAndView(Area area) {
 		ModelAndView result;
 
 		result = this.createEditModelAndView(area, null);
@@ -252,7 +252,7 @@ public class AreaController extends AbstractController {
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(final Area area, final String message) {
+	protected ModelAndView createEditModelAndView(Area area, String message) {
 		ModelAndView result;
 
 		result = new ModelAndView("area/administrator/edit");
