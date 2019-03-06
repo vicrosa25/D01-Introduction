@@ -23,8 +23,12 @@
 	<!-- Select Procession -->
 	<acme:select items="${ processions }" itemLabel="title" code="request.procession" path="procession"/>
 	<br>
-	<br>
 	
+	<jstl:if test="${empty processions}">
+		<spring:message code="procession.empty.list"/>
+		<br>
+	</jstl:if>
+	<br>
 	<%-- Buttons --%>
 	<input type="submit" name="save" value="<spring:message code="request.save"/>"/>
 	<acme:cancel code="request.cancel" url="request/list.do" />

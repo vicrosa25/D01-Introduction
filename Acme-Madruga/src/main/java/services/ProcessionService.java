@@ -3,6 +3,7 @@ package services;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -14,12 +15,14 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
+import repositories.ProcessionRepository;
 import domain.Actor;
 import domain.Brotherhood;
+import domain.Enrol;
 import domain.Member;
 import domain.Message;
 import domain.Procession;
-import repositories.ProcessionRepository;
+import domain.Request;
 
 @Service
 @Transactional
@@ -148,21 +151,44 @@ public class ProcessionService {
 	}
 
 	private void automaticNotification(final Procession procession) {
-		final Message message = this.messageService.create();
-		message.setBody("The brotherhood " + procession.getBrotherhood().getTitle() + " has published a procession called " + procession.getTitle() + ".");
-
-		message.setIsNotification(true);
-		for (final Member m : this.memberService.findByBrotherhood(procession.getBrotherhood())) {
-			message.getMessageBoxes().add(m.getMessageBox("in"));
-			message.getRecipients().add(m);
+		if(!procession.getBrotherhood().getEnrols().isEmpty()){
+			final Message message = this.messageService.create();
+			message.setBody("The brotherhood " + procession.getBrotherhood().getTitle() + " has published a procession called " + procession.getTitle() + ".");
+		
+			message.setIsNotification(true);
+			for (final Member m : this.memberService.findByBrotherhood(procession.getBrotherhood())) {
+				message.getMessageBoxes().add(m.getMessageBox("in"));
+				message.getRecipients().add(m);
+			}
+			message.setPriority("MEDIUM");
+			message.setSubject("New procession by " + procession.getBrotherhood().getTitle());
+		
+			final Message send = this.messageService.save(message);
+		
+			for (final Member m : this.memberService.findByBrotherhood(procession.getBrotherhood())) {
+				m.getMessageBox("in").addMessage(send);
+			}
 		}
-		message.setPriority("MEDIUM");
-		message.setSubject("New procession by " + procession.getBrotherhood().getTitle());
+	}
 
-		final Message send = this.messageService.save(message);
+	public Collection<Procession> findByBrotherhoodNotDraft(int brotherhoodId) {
+		Collection<Procession> result = this.processionRepository.findByBrotherhoodNotDraft(brotherhoodId);
+		Assert.notNull(result);
+		return result;
+	}
 
-		for (final Member m : this.memberService.findByBrotherhood(procession.getBrotherhood())) {
-			m.getMessageBox("in").addMessage(send);
+	public Collection<Procession> findAllMemberToRequest(Member member) {
+		Collection<Procession> result = new ArrayList<Procession>();
+		// Todas las brotherhood a las que pertenece, de ahi las que no tenga request suyas
+		for(Enrol enrol:member.getEnrols()){
+			result.addAll(this.findByBrotherhoodNotDraft(enrol.getBrotherhood().getId()));
 		}
+		for(Request r:member.getRequests()){
+			result.remove(r.getProcession());
+		}
+
+		Assert.notNull(result);
+		
+		return result;
 	}
 }

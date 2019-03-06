@@ -98,34 +98,3 @@
 <security:authorize access="hasRole('MEMBER')">
 	<a href=request/member/create.do><spring:message code="request.create" /></a>
 </security:authorize>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

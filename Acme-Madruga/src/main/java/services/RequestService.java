@@ -30,9 +30,6 @@ public class RequestService {
 	private ActorService		actorService;
 
 	@Autowired
-	private BrotherhoodService	brotherhoodService;
-
-	@Autowired
 	private MessageService		messageService;
 
 

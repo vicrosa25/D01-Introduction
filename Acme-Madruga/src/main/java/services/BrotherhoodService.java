@@ -108,6 +108,7 @@ public class BrotherhoodService {
 		bro.setPhoto(form.getPhoto());
 		bro.setSurname(form.getSurname());
 		bro.setTitle(form.getTitle());
+		bro.setArea(form.getArea());
 		bro.getEstablishment().setTime(bro.getEstablishment().getTime() - 1000);
 
 		// Default attributes from Actor

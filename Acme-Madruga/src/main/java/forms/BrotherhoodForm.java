@@ -2,6 +2,7 @@
 package forms;
 
 import security.UserAccount;
+import domain.Area;
 
 public class BrotherhoodForm {
 
@@ -14,6 +15,7 @@ public class BrotherhoodForm {
 	private String		address;
 	private String		photo;
 	private String		title;
+	private Area		area;
 
 
 	// Getters and Setters
@@ -78,6 +80,13 @@ public class BrotherhoodForm {
 	}
 	public void setTitle(final String title) {
 		this.title = title;
+	}
+
+	public Area getArea() {
+		return this.area;
+	}
+	public void setArea(final Area area) {
+		this.area = area;
 	}
 
 	@Override

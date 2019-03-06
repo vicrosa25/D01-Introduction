@@ -60,9 +60,10 @@
 	<%-- Title --%>
 	<acme:textbox code="brotherhood.title" path="title" />
 	<br>
-	<%-- Picture --%>
-<%--  	<acme:textbox code="brotherhood.picture" path="pictures" />
-	<br> --%>
+	
+	<!-- Select Area -->
+	<acme:select items="${ area }" itemLabel="name" code="brotherhood.area" path="area"/>
+	<br>
 
 	<script type="text/javascript">
 		function phoneNumberValidator() {

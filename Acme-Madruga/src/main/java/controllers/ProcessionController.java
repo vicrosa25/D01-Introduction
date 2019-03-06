@@ -75,10 +75,12 @@ public class ProcessionController extends AbstractController {
 		Collection<Procession> processions;
 
 		try {
-			processions = this.brotherhoodService.findOne(brotherhoodId).getProcessions();
+			processions = this.processionService.findByBrotherhoodNotDraft(brotherhoodId);
+
 			result = new ModelAndView("procession/list");
 			result.addObject("processions", processions);
 			result.addObject("uri", "procession/brotherhoodList");
+		
 		} catch (final Throwable oops) {
 			System.out.println(oops.getMessage());
 			System.out.println(oops.getClass());
