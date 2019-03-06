@@ -1,7 +1,6 @@
 
 package services;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Locale;
 
@@ -10,13 +9,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import repositories.RequestRepository;
 import domain.Actor;
 import domain.Brotherhood;
 import domain.Member;
 import domain.Message;
-import domain.Procession;
 import domain.Request;
-import repositories.RequestRepository;
 
 @Service
 @Transactional
@@ -69,27 +67,26 @@ public class RequestService {
 		return result;
 	}
 
-	public Request save(Request request) {
+	public Request save(final Request request) {
 		Assert.notNull(request);
 		Actor principal;
 
 		// Principal must be a Member or a Brotherhood
 		principal = this.actorService.findByPrincipal();
 
-		if (request.getId() != 0){
+		if (request.getId() != 0) {
 			Assert.isInstanceOf(Brotherhood.class, principal);
 			this.checkRequest(request);
-		}
-		else {
+		} else {
 			Assert.isInstanceOf(Member.class, principal);
-			Member member = (Member) principal;
+			final Member member = (Member) principal;
 			request.setMember(member);
 		}
 
 		return this.requestRepository.save(request);
 	}
 
-	public void delete(int requestId) {
+	public void delete(final int requestId) {
 		Assert.isTrue(requestId != 0);
 		final Request request = this.findOne(requestId);
 
@@ -115,22 +112,22 @@ public class RequestService {
 		boolean check = true;
 
 		if (request.getStatus() == "ACCEPTED") {
-			if ((request.getAssignedColumn() < 0) || (request.getAssignedRow() < 0))
+			if ((request.getAssignedColumn() < 0) || (request.getAssignedRow() < 0)) {
 				check = false;
-		} else if (request.getStatus() == "REJECTED")
-			if (request.getReason() == null)
+			}
+		} else if (request.getStatus() == "REJECTED") {
+			if (request.getReason() == null) {
 				check = false;
+			}
+		}
 
 		Assert.isTrue(check);
 	}
 
 	public Collection<Request> findRequestByBrotherhood(final int brotherhoodId) {
-		final Collection<Request> result = new ArrayList<Request>();
+		final Collection<Request> result = this.requestRepository.findRequestByBrotherhood(brotherhoodId);
 
-		final Brotherhood b = this.brotherhoodService.findOne(brotherhoodId);
-
-		for (final Procession p : b.getProcessions())
-			result.addAll(p.getRequests());
+		Assert.notNull(result);
 
 		return result;
 	}
