@@ -9,12 +9,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import repositories.RequestRepository;
 import domain.Actor;
 import domain.Brotherhood;
 import domain.Member;
 import domain.Message;
 import domain.Request;
-import repositories.RequestRepository;
 
 @Service
 @Transactional
@@ -113,10 +113,13 @@ public class RequestService {
 
 		if (request.getStatus() == "ACCEPTED") {
 			if ((request.getAssignedColumn() < 0) || (request.getAssignedRow() < 0)) {
+				request.setReason(null);
 				check = false;
 			}
 		} else if (request.getStatus() == "REJECTED") {
 			if (request.getReason() == null) {
+				request.setAssignedColumn(null);
+				request.setAssignedRow(null);
 				check = false;
 			}
 		}

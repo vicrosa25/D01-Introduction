@@ -23,6 +23,9 @@
 
 	<%-- Hidden properties --%>
 	<form:hidden path="procession" />
+	<form:hidden path="id" />
+	<form:hidden path="version"/>
+	<form:hidden path="member" />
 
 	<!-- Select Status -->
 	<form:label path="status">
@@ -37,6 +40,7 @@
 		</option>
 	</form:select>
 	<form:errors Class="error" path="status" />
+	<br />
 	<br />
 
 	<!-- assignedRow -->
