@@ -45,6 +45,14 @@
 	<%-- Address --%>
 	<acme:textbox code="member.address" path="address" />
 	<br>
+	
+	<%-- Accept Legal term --%>
+	<form:label path="accepted">
+		<spring:message code="register.terms.accept" />
+	</form:label>
+	<form:checkbox path="accepted"/>
+	<form:errors path="accepted" cssClass="error" />
+	<br><br>
 
 	<script type="text/javascript">
 		function phoneNumberValidator() {

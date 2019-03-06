@@ -14,7 +14,7 @@ public class MemberForm {
 	private String		name;
 	private String		phoneNumber;
 	private String		photo;
-
+	private boolean     accepted;
 	private String		surname;
 
 
@@ -81,5 +81,12 @@ public class MemberForm {
 	public void setUserAccount(final UserAccount userAccount) {
 		this.userAccount = userAccount;
 	}
+	
+	public boolean isAccepted() {
+		return this.accepted;
+	}
 
+	public void setAccepted(boolean accepted) {
+		this.accepted = accepted;
+	}
 }

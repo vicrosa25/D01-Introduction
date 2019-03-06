@@ -121,9 +121,12 @@ public class BrotherhoodController extends AbstractController {
 		ModelAndView result;
 		Brotherhood brotherhood;
 		String password;
-
+		
 		brotherhood = this.brotherhoodService.reconstruct(brotherhoodForm, binding);
-		if (binding.hasErrors()) {
+		
+		if(!brotherhoodForm.isAccepted()){
+			binding.rejectValue("accepted", "register.terms.error", "Service terms must be accepted");
+		}if (binding.hasErrors()) {
 			final List<ObjectError> errors = binding.getAllErrors();
 			for (final ObjectError e : errors)
 				System.out.println(e.toString());

@@ -64,6 +64,14 @@
 	<!-- Select Area -->
 	<acme:select items="${ area }" itemLabel="name" code="brotherhood.area" path="area"/>
 	<br>
+	
+	<%-- Accept Legal term --%>
+	<form:label path="accepted">
+		<spring:message code="register.terms.accept" />
+	</form:label>
+	<form:checkbox path="accepted"/>
+	<form:errors path="accepted" cssClass="error" />
+	<br><br>
 
 	<script type="text/javascript">
 		function phoneNumberValidator() {

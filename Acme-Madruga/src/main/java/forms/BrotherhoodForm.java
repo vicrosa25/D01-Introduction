@@ -16,7 +16,7 @@ public class BrotherhoodForm {
 	private String		photo;
 	private String		title;
 	private Area		area;
-
+	private boolean     accepted;
 
 	// Getters and Setters
 	public UserAccount getUserAccount() {
@@ -88,10 +88,17 @@ public class BrotherhoodForm {
 	public void setArea(final Area area) {
 		this.area = area;
 	}
+	
+	public boolean isAccepted() {
+		return this.accepted;
+	}
+
+	public void setAccepted(boolean accepted) {
+		this.accepted = accepted;
+	}
 
 	@Override
 	public String toString() {
 		return "RegistrationFormCustomer [Name=" + this.name + "]";
 	}
-
 }
