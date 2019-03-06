@@ -79,9 +79,10 @@ public class DropoutService {
 			if(enrol.getMember().equals(member)) {
 				// Delete enrol from position
 				positions.addAll(enrol.getPositions());
-				position = positions.get(0);
-				position.getEnrol().remove(enrol);
-				
+				if(!positions.isEmpty()) {
+					position = positions.get(0);
+					position.getEnrol().remove(enrol);
+				}
 				this.enrolService.delete(enrol);
 			}
 		}
