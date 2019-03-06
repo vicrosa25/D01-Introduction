@@ -35,8 +35,7 @@ public class AreaController extends AbstractController {
 		return new ModelAndView("redirect:/");
 	}
 
-	// List
-	// ------------------------------------------------------------------------------------
+	// List ------------------------------------------------------------------------------------
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView list() {
 		ModelAndView result;
@@ -57,7 +56,7 @@ public class AreaController extends AbstractController {
 		return result;
 	}
 
-	// Create area GET------------------------------------------------------------------------------------
+	// Create area GET------------------------------------------------------------------
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create() {
 		ModelAndView result;
@@ -71,7 +70,7 @@ public class AreaController extends AbstractController {
 		return result;
 	}
 
-	// Create area POST ------------------------------------------------------------------------------------
+	// Create area POST -----------------------------------------------------------------
 	@RequestMapping(value = "/create", method = RequestMethod.POST, params = "save")
 	public ModelAndView create(@Valid Area area, BindingResult binding) {
 		ModelAndView result;
@@ -94,15 +93,33 @@ public class AreaController extends AbstractController {
 				System.out.println(oops.getMessage());
 				System.out.println(oops.getClass());
 				System.out.println(oops.getCause());
-				
+
 				result = new ModelAndView("area/administrator/create");
 				result.addObject("area", area);
 			}
 		return result;
 	}
 
-	// Save area POST
-	// ------------------------------------------------------------------------------------
+	// Edit -----------------------------------------------------------------------------
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	public ModelAndView edit(@RequestParam int areaId) {
+		ModelAndView result;
+		Area area;
+
+		try {
+			area = this.areaService.findOne(areaId);
+			Assert.notNull(area);
+		} catch (final Throwable oops) {
+			result = this.forbiddenOpperation();
+			return result;
+		}
+
+		result = this.createEditModelAndView(area);
+
+		return result;
+	}
+
+	// Save area POST --------------------------------------------------------------------
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(final Area area, final BindingResult binding) {
 		ModelAndView result;
@@ -135,36 +152,15 @@ public class AreaController extends AbstractController {
 		return result;
 	}
 
-	// Edit
-	// ------------------------------------------------------------------------------------
-	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public ModelAndView edit(@RequestParam final int areaId) {
-		ModelAndView result;
-		Area area;
-
-		try {
-			area = this.areaService.findOne(areaId);
-			Assert.notNull(area);
-		} catch (final Throwable oops) {
-			result = this.forbiddenOpperation();
-			return result;
-		}
-
-		result = this.createEditModelAndView(area);
-
-		return result;
-	}
-
-	// Delete
-	// --------------------------------------------------------------------------------------
+	// Delete ------------------------------------------------------------------------------
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
 	public ModelAndView delete(@RequestParam final int areaId) {
 		ModelAndView result;
 
 		try {
-			final Area area = this.areaService.findOne(areaId);
+			Area area = this.areaService.findOne(areaId);
 			this.areaService.delete(area);
-			result = new ModelAndView("area/list");
+			result = this.list();
 		} catch (final Throwable oops) {
 			result = this.forbiddenOpperation();
 			return result;
@@ -173,8 +169,7 @@ public class AreaController extends AbstractController {
 		return result;
 	}
 
-	// Add Picture
-	// ------------------------------------------------------------------------------------
+	// Add Picture -------------------------------------------------------------------------
 	@RequestMapping(value = "/addPicture", method = RequestMethod.GET)
 	public ModelAndView addPicture() {
 		ModelAndView result;
@@ -194,8 +189,7 @@ public class AreaController extends AbstractController {
 		return result;
 	}
 
-	// Delete Picture
-	// ------------------------------------------------------------------------------------
+	// Delete Picture ---------------------------------------------------------------------
 	@RequestMapping(value = "/deletePicture", method = RequestMethod.GET)
 	public ModelAndView deletePicture(@RequestParam final String link, @RequestParam final int areaId) {
 		ModelAndView result;
@@ -217,8 +211,7 @@ public class AreaController extends AbstractController {
 		return result;
 	}
 
-	// SAVE
-	// ------------------------------------------------------------------------------------
+	// SAVE -------------------------------------------------------------------------
 	@RequestMapping(value = "/addPicture", method = RequestMethod.POST, params = "save")
 	public ModelAndView savePicture(@RequestParam final int areaId, @Valid final Url url, final BindingResult binding) {
 		ModelAndView result;
@@ -250,7 +243,7 @@ public class AreaController extends AbstractController {
 		return result;
 	}
 
-	// Ancillary methods-----------------------------------------------------------------------
+	// Ancillary methods------------------------------------------------------------------
 	protected ModelAndView createEditModelAndView(final Area area) {
 		ModelAndView result;
 
