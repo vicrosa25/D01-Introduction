@@ -187,6 +187,9 @@ public class AdministratorService {
 		return this.adminRepository.query7();
 	}
 	
+	public Collection<Object> query8() {
+		return this.adminRepository.query8();
+	}
 	
 	
 	

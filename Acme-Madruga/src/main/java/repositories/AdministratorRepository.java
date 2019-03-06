@@ -36,7 +36,8 @@ public interface AdministratorRepository extends JpaRepository<Administrator, In
 	@Query("select m.name, count(r), (select count(r2)*0.1 from Request r2) from Member m join m.requests r where r.status = 'APPROVED' group by m having count(r) >= (select count(r2)*0.1 from Request r2)")
 	Collection<Object> query7();
 	
-	
+	@Query("select p.englishName, p.enrol.size from Position p")
+	Collection<Object> query8();
 	
 	
 	

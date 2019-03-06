@@ -172,14 +172,8 @@ public class AdministratorController extends AbstractController {
 		Collection<Brotherhood> query3 = this.administratorService.query3();
 		Collection<Double> query4 = this.administratorService.query4();
 		Collection<Procession> query5 = this.administratorService.query5();
-
 		Collection<Object> query7 = this.administratorService.query7();
-
-//		final Collection<Position> query8a = this.positionService.findAll();
-//		final Collection<Integer> query8b = null;
-//
-//		for (final Position p : query8a)
-//			query8b.add(this.administratorService.query8(p.getId()));
+		Collection<Object> query8 = this.administratorService.query8();
 
 		result = new ModelAndView("administrator/dashboard");
 
@@ -189,6 +183,7 @@ public class AdministratorController extends AbstractController {
 		result.addObject("query4", query4);
 		result.addObject("query5", query5);
 		result.addObject("query7", query7);
+		result.addObject("query8", query8);
 
 		
 		// Charts
@@ -217,11 +212,6 @@ public class AdministratorController extends AbstractController {
 		
 		result.addObject("spammers", spammers);
 		result.addObject("notSpammers", notSpammers);
-		
-		//result.addObject("query7", query7);
-
-//		result.addObject("query8a", query8a);
-//		result.addObject("query8b", query8b);
 
 		return result;
 	}

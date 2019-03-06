@@ -34,21 +34,19 @@
 <spring:message code="administrator.approved.request" var="aprovedRequestHeader" />
 <spring:message code="administrator.total.request"    var="totalRequestHeader" />
 
-
 <spring:message code="administrator.dashboard.query1" var="query1Header" />
 <spring:message code="administrator.dashboard.query2" var="query2Header" />
 <spring:message code="administrator.dashboard.query3" var="query3Header" />
 <spring:message code="administrator.dashboard.query4" var="query4Header" />
 <spring:message code="administrator.dashboard.query5" var="query5Header" />
-<spring:message code="administrator.dashboard.query6" var="query6Header" />
 <spring:message code="administrator.dashboard.query7" var="query7Header" />
 <spring:message code="administrator.dashboard.query8" var="query8Header" />
 
 
 <!--  Custom table style -->
 <head>
-<link rel="stylesheet" href="styles/tablas.css" type="text/css">
-<link rel="stylesheet" href="styles/charts.css" type="text/css">
+	<link rel="stylesheet" href="styles/tablas.css" type="text/css">
+	<link rel="stylesheet" href="styles/charts.css" type="text/css">
 </head>
 
 
@@ -205,6 +203,24 @@
         	<td>${row[0]}</td>
         	<td>${row[1]}</td>
         	<td>${row[2]}</td>
+      </tr>
+   </jstl:forEach>
+</table>
+
+
+<!-- Query 8  -->
+<table>
+	<caption>
+		<jstl:out value="${query8Header}"></jstl:out>
+	</caption>
+	<tr>
+		<th><jstl:out value="${positionHeader}"></jstl:out></th>
+		<th><jstl:out value="${memberHeader}"></jstl:out></th>
+	</tr>
+	<jstl:forEach items="${query8}" var="row">
+      <tr>
+        	<td>${row[0]}</td>
+        	<td>${row[1]}</td>
       </tr>
    </jstl:forEach>
 </table>
