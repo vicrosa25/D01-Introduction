@@ -17,6 +17,7 @@
 	<form:hidden path="reason" />
 	<form:hidden path="assignedRow" />
 	<form:hidden path="assignedColumn" />
+	<form:hidden path="member" />
 	
 		
 	<!-- Select Procession -->

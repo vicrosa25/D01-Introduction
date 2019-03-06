@@ -18,15 +18,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import domain.Procession;
+import domain.Request;
 import services.BrotherhoodService;
 import services.MemberService;
 import services.ProcessionService;
 import services.RequestService;
-import domain.Procession;
-import domain.Request;
 
 @Controller
-@RequestMapping("/request/brotherhood")
+@RequestMapping("/request")
 public class RequestController extends AbstractController {
 
 	@Autowired
@@ -87,7 +87,7 @@ public class RequestController extends AbstractController {
 
 	// Create request POST ------------------------------------------------------------------------------------
 	@RequestMapping(value = "/member/create", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid final Request request, final BindingResult binding) {
+	public ModelAndView save(@Valid Request request, BindingResult binding) {
 		ModelAndView result;
 
 		if (binding.hasErrors()) {
@@ -113,7 +113,7 @@ public class RequestController extends AbstractController {
 
 	// Delete --------------------------------------------------------------------------------------
 	@RequestMapping(value = "/member/delete", method = RequestMethod.GET)
-	public ModelAndView delete(@RequestParam final int requestId) {
+	public ModelAndView delete(@RequestParam int requestId) {
 		ModelAndView result;
 
 		try {
@@ -128,7 +128,7 @@ public class RequestController extends AbstractController {
 	}
 
 	// Ancillary methods -----------------------------------------------------------------------
-	protected ModelAndView createEditModelAndView(final Request request) {
+	protected ModelAndView createEditModelAndView(Request request) {
 		ModelAndView result;
 
 		result = this.createEditModelAndView(request, null);
@@ -136,15 +136,13 @@ public class RequestController extends AbstractController {
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(final Request request, final String message) {
+	protected ModelAndView createEditModelAndView(Request request, String message) {
 		ModelAndView result;
 		Collection<Procession> processions;
 
 		processions = this.processionService.findAll();
-		final String actionURI = "request/member/create.do";
 
 		result = new ModelAndView("request/member/create");
-		result.addObject("actionURI", actionURI);
 		result.addObject("request", request);
 		result.addObject("processions", processions);
 		result.addObject("message", message);
@@ -152,7 +150,7 @@ public class RequestController extends AbstractController {
 		return result;
 	}
 
-	protected ModelAndView editModelAndView(final Request request) {
+	protected ModelAndView editModelAndView(Request request) {
 		ModelAndView result;
 
 		result = this.editModelAndView(request, null);
@@ -160,7 +158,7 @@ public class RequestController extends AbstractController {
 		return result;
 	}
 
-	protected ModelAndView editModelAndView(final Request request, final String message) {
+	protected ModelAndView editModelAndView(Request request, String message) {
 		ModelAndView result;
 
 		result = new ModelAndView("request/brotherhood/edit");

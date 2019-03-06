@@ -9,12 +9,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import repositories.RequestRepository;
 import domain.Actor;
 import domain.Brotherhood;
 import domain.Member;
 import domain.Message;
 import domain.Request;
+import repositories.RequestRepository;
 
 @Service
 @Transactional
@@ -46,7 +46,9 @@ public class RequestService {
 		// Principal must be a Member
 		principal = this.actorService.findByPrincipal();
 		Assert.isInstanceOf(Member.class, principal);
-
+		Member member = (Member) principal;
+		
+		result.setMember(member);
 		result.setStatus("PENDING");
 
 		return result;
@@ -67,7 +69,7 @@ public class RequestService {
 		return result;
 	}
 
-	public Request save(final Request request) {
+	public Request save(Request request) {
 		Assert.notNull(request);
 		Actor principal;
 
@@ -79,8 +81,6 @@ public class RequestService {
 			this.checkRequest(request);
 		} else {
 			Assert.isInstanceOf(Member.class, principal);
-			final Member member = (Member) principal;
-			request.setMember(member);
 		}
 
 		return this.requestRepository.save(request);
