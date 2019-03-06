@@ -18,12 +18,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import domain.Procession;
-import domain.Request;
 import services.BrotherhoodService;
 import services.MemberService;
 import services.ProcessionService;
 import services.RequestService;
+import domain.Procession;
+import domain.Request;
 
 @Controller
 @RequestMapping("/request")
@@ -139,14 +139,19 @@ public class RequestController extends AbstractController {
 	protected ModelAndView createEditModelAndView(Request request, String message) {
 		ModelAndView result;
 		Collection<Procession> processions;
+		try{
+			processions = this.processionService.findAllMemberToRequest(this.memberService.findByPrincipal());
 
-		processions = this.processionService.findAll();
-
-		result = new ModelAndView("request/member/create");
-		result.addObject("request", request);
-		result.addObject("processions", processions);
-		result.addObject("message", message);
-
+			result = new ModelAndView("request/member/create");
+			result.addObject("request", request);
+			result.addObject("processions", processions);
+			if(processions.isEmpty()){
+				result.addObject("empty","procession.empty.list");
+			}
+			result.addObject("message", message);
+		} catch (final Throwable oops) {
+			result = this.forbiddenOpperation();
+		}
 		return result;
 	}
 
