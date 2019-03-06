@@ -599,7 +599,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="enrol2" class="domain.Enrol">
 		<property name="moment" value="2019/01/19" />
 		<property name="member" ref="member2" />
@@ -610,7 +610,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="enrol3" class="domain.Enrol">
 		<property name="moment" value="2019/02/15" />
 		<property name="member" ref="member2" />
@@ -678,8 +678,8 @@
 		<property name="spanishName" value="Vocal" />
 		<property name="englishName" value="Officer" />
 	</bean>
-	
-	<!-- areas  *********************************************************************************** -->
+
+	<!-- areas *********************************************************************************** -->
 	<bean id="area1" class="domain.Area">
 		<property name="name" value="area1" />
 		<property name="brotherhoods">
@@ -687,8 +687,15 @@
 				<ref bean="brotherhood1" />
 			</list>
 		</property>
+		<property name="pictures">
+			<list>
+				<ref bean="picture1" />
+				<ref bean="picture2" />
+				<ref bean="picture3" />
+			</list>
+		</property>
 	</bean>
-	
+
 	<bean id="area2" class="domain.Area">
 		<property name="name" value="area2" />
 		<property name="brotherhoods">
@@ -696,6 +703,44 @@
 				<ref bean="brotherhood2" />
 			</list>
 		</property>
+		<property name="pictures">
+			<list>
+				<ref bean="picture4" />
+				<ref bean="picture5" />
+				<ref bean="picture6" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- pictures *************************************************************************** -->
+	<bean id="picture1" class="domain.Url">
+		<property name="link"
+			value="https://www.herramientasbricolaje.org/wp-content/uploads/2018/10/Taladro.jpg" />
+	</bean>
+
+	<bean id="picture2" class="domain.Url">
+		<property name="link"
+			value="https://i.blogs.es/556f4e/madrid-central-restricciones-trafico/1366_2000.jpg" />
+	</bean>
+
+	<bean id="picture3" class="domain.Url">
+		<property name="link"
+			value="https://i.blogs.es/b9d04b/madrid-central-restricciones-trafico/1366_2000.jpg" />
+	</bean>
+
+	<bean id="picture4" class="domain.Url">
+		<property name="link"
+			value="http://pointti.info/wp-content/uploads/2018/04/fixing-door-frame-how-to-repair-a-gouge-nick-or-dent-in-a-door-or-frame-view-this-quick-video-tip-demonstrating-how-to-fix-a-gouge-or-dent-in-a-door-easily-fixing-door-frame-to-breeze-block.jpg" />
+	</bean>
+
+	<bean id="picture5" class="domain.Url">
+		<property name="link"
+			value="https://cdn.pixabay.com/photo/2013/12/13/21/13/plumber-228010_960_720.jpg" />
+	</bean>
+
+	<bean id="picture6" class="domain.Url">
+		<property name="link"
+			value="https://image.shutterstock.com/image-photo/closeup-male-plumber-fixing-white-450w-1005704569.jpg" />
 	</bean>
 
 

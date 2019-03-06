@@ -9,11 +9,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import repositories.AreaRepository;
 import domain.Actor;
 import domain.Administrator;
 import domain.Area;
 import domain.Url;
+import repositories.AreaRepository;
 
 @Service
 @Transactional
@@ -57,15 +57,17 @@ public class AreaService {
 		return result;
 	}
 
-	public Area save(final Area area) {
+	public Area save(Area area) {
 		Assert.notNull(area);
 		Actor principal;
+		Area result;
 
 		// Principal must be an Admin
 		principal = this.actorService.findByPrincipal();
 		Assert.isInstanceOf(Administrator.class, principal);
 
-		return this.areaRepository.save(area);
+		result = this.areaRepository.save(area);
+		return result;
 	}
 
 	public void delete(final Area area) {
