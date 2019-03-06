@@ -19,10 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import domain.Administrator;
 import domain.Area;
 import domain.Url;
-import services.AdministratorService;
 import services.AreaService;
 
 @Controller
@@ -30,17 +28,15 @@ import services.AreaService;
 public class AreaController extends AbstractController {
 
 	@Autowired
-	private AreaService 		 areaService;
-
-	@Autowired
-	private AdministratorService administratorService;
+	private AreaService areaService;
 
 	@ExceptionHandler(TypeMismatchException.class)
 	public ModelAndView handleMismatchException(final TypeMismatchException oops) {
 		return new ModelAndView("redirect:/");
 	}
 
-	// List ------------------------------------------------------------------------------------
+	// List
+	// ------------------------------------------------------------------------------------
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView list() {
 		ModelAndView result;
@@ -69,12 +65,44 @@ public class AreaController extends AbstractController {
 
 		area = this.areaService.create();
 
-		result = this.createEditModelAndView(area);
+		result = new ModelAndView("area/administrator/create");
+		result.addObject("area", area);
 
 		return result;
 	}
 
-	// Save area POST ------------------------------------------------------------------------------------
+	// Create area POST ------------------------------------------------------------------------------------
+	@RequestMapping(value = "/create", method = RequestMethod.POST, params = "save")
+	public ModelAndView create(@Valid Area area, BindingResult binding) {
+		ModelAndView result;
+
+		if (binding.hasErrors()) {
+			final List<ObjectError> errors = binding.getAllErrors();
+			for (final ObjectError e : errors)
+				System.out.println(e.toString());
+
+			result = new ModelAndView("area/administrator/create");
+			result.addObject("area", area);
+		}
+
+		else
+			try {
+				this.areaService.save(area);
+				result = this.list();
+			} catch (final Throwable oops) {
+				System.out.println(area);
+				System.out.println(oops.getMessage());
+				System.out.println(oops.getClass());
+				System.out.println(oops.getCause());
+				
+				result = new ModelAndView("area/administrator/create");
+				result.addObject("area", area);
+			}
+		return result;
+	}
+
+	// Save area POST
+	// ------------------------------------------------------------------------------------
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(final Area area, final BindingResult binding) {
 		ModelAndView result;
@@ -127,7 +155,8 @@ public class AreaController extends AbstractController {
 		return result;
 	}
 
-	// Delete --------------------------------------------------------------------------------------
+	// Delete
+	// --------------------------------------------------------------------------------------
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
 	public ModelAndView delete(@RequestParam final int areaId) {
 		ModelAndView result;
@@ -144,7 +173,8 @@ public class AreaController extends AbstractController {
 		return result;
 	}
 
-	// Add Picture ------------------------------------------------------------------------------------
+	// Add Picture
+	// ------------------------------------------------------------------------------------
 	@RequestMapping(value = "/addPicture", method = RequestMethod.GET)
 	public ModelAndView addPicture() {
 		ModelAndView result;
@@ -164,8 +194,8 @@ public class AreaController extends AbstractController {
 		return result;
 	}
 
-	
-	// Delete Picture ------------------------------------------------------------------------------------
+	// Delete Picture
+	// ------------------------------------------------------------------------------------
 	@RequestMapping(value = "/deletePicture", method = RequestMethod.GET)
 	public ModelAndView deletePicture(@RequestParam final String link, @RequestParam final int areaId) {
 		ModelAndView result;
@@ -187,7 +217,8 @@ public class AreaController extends AbstractController {
 		return result;
 	}
 
-	// SAVE ------------------------------------------------------------------------------------
+	// SAVE
+	// ------------------------------------------------------------------------------------
 	@RequestMapping(value = "/addPicture", method = RequestMethod.POST, params = "save")
 	public ModelAndView savePicture(@RequestParam final int areaId, @Valid final Url url, final BindingResult binding) {
 		ModelAndView result;
@@ -219,7 +250,7 @@ public class AreaController extends AbstractController {
 		return result;
 	}
 
-	// Ancillary methods -----------------------------------------------------------------------
+	// Ancillary methods-----------------------------------------------------------------------
 	protected ModelAndView createEditModelAndView(final Area area) {
 		ModelAndView result;
 
@@ -233,16 +264,6 @@ public class AreaController extends AbstractController {
 
 		result = new ModelAndView("area/administrator/edit");
 		result.addObject("area", area);
-		result.addObject("message", message);
-
-		return result;
-	}
-
-	protected ModelAndView editModelAndView(final Administrator administrator, final String message) {
-		ModelAndView result;
-
-		result = new ModelAndView("administrator/edit");
-		result.addObject("administrator", administrator);
 		result.addObject("message", message);
 
 		return result;
