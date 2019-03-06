@@ -47,3 +47,26 @@
     </security:authorize>
      
 </display:table>
+
+<!-- Create Link -->
+<security:authorize access="hasRole('ADMIN')">
+	<a href=area/administrator/create.do><spring:message code="area.create" /></a>
+</security:authorize>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

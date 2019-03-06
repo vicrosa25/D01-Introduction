@@ -40,14 +40,10 @@
 		</jstl:if>
 	</jstl:if>
 	<br>
-	<a href="area/administrator/addPicture.do?areaId=${area.id}">
-		<spring:message code="area.picture.create"/>
-	</a>
+	<a href="area/administrator/addPicture.do?areaId=${area.id}"><spring:message code="area.picture.create"/></a>
 	<br>
 
 	<%-- Buttons --%>
-	<input type="submit" name="save"
-		value="<spring:message code="area.save"/>"/>
-	
-	<acme:cancel code="area.cancel" url="/" />
+	<input type="submit" name="save" value="<spring:message code="area.save"/>"/>
+	<acme:cancel code="area.cancel" url="area/administrator/list.do" />
 </form:form>

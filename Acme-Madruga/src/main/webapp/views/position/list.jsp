@@ -41,7 +41,7 @@
 
 
 
-<!-- Action link -->
+<!-- Create Link -->
 <security:authorize access="hasRole('ADMIN')">
 	<a href=position/admin/create.do><spring:message code="position.create" /></a>
 </security:authorize>
