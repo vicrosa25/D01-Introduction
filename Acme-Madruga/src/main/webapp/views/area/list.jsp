@@ -6,28 +6,44 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<display:table name="areas" id="row" requestURI="area/administrator/list.do" pagesize="5" class="displaytag">
+<display:table name="areas" id="row" requestURI="${ requestUri }" pagesize="5" class="displaytag">
 
-   <security:authorize access="hasRole('ADMINISTRATOR')">
-        <display:column>
-          <a href="area/administrator/delete.do?areaId=${row.id}">
-            <spring:message code="area.delete"/>
-          </a>
+	<!-- Edit -->
+   	<security:authorize access="hasRole('ADMIN')">
+   		<spring:message code="area.edit" var="editHeader" />
+        <display:column title="${ editHeader }">
+          <a href="area/administrator/edit.do?areaId=${row.id}"><spring:message code="area.edit"/></a>
         </display:column>
-        <display:column>
-          <a href="area/administrator/edit.do?areaId=${row.id}">
-            <spring:message code="area.edit"/>
-          </a>
-        </display:column>
-   </security:authorize>
+   	</security:authorize>
 	
 	<!-- Title -->
 	<spring:message code="area.name" var="nameHeader" />
 	<display:column property="name" title="${nameHeader}" />
 	
+	<!-- Brotherhoods -->
+	<spring:message code="area.bros" var="brosHeader" />
+	<display:column title="${brosHeader}">
+		<jstl:forEach var="bro" items="${row.brotherhoods}" varStatus="loop">
+			${bro.title}${!loop.last ? ',' : ''}&nbsp
+		</jstl:forEach>
+	</display:column>
 	
 	<!-- Picture -->
-	<spring:message code="area.picture" var="pictureHeader" />
-	<display:column property="picture" title="${pictureHeader}" />
-
+<%-- 	<spring:message code="area.pictures" var="picturesHeader" /> --%>
+<%-- 	<display:column property="pictures" title="${pictureHeader}" /> --%>
+	
+	<!-- Delete -->
+	<security:authorize access="hasRole('ADMIN')">
+	 <spring:message code="area.delete" var="deleteHeader" />
+	 <display:column title="${ deleteHeader }">
+	 	<jstl:if test="${empty row.brotherhoods}">
+          <a href="area/administrator/delete.do?areaId=${row.id}"><spring:message code="area.delete"/></a>
+        </jstl:if>
+        <jstl:if test="${not empty row.brotherhoods}">
+       	   <spring:message code="area.steady" var="steadyHeader" />
+           <jstl:out value="${steadyHeader}" />
+        </jstl:if>
+     </display:column>
+    </security:authorize>
+     
 </display:table>

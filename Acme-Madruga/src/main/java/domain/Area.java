@@ -7,6 +7,7 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.validation.Valid;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -16,13 +17,11 @@ import org.hibernate.validator.constraints.NotBlank;
 public class Area extends DomainEntity {
 
 	// Attributes
+	private String name;
+	private Collection<Url> pictures;
 
-	private String			name;
-	private Collection<Url>	pictures;
-
-
-	// Getters & setters
-
+	
+	
 	@ElementCollection
 	@Valid
 	public Collection<Url> getPictures() {
@@ -42,4 +41,23 @@ public class Area extends DomainEntity {
 		this.name = name;
 	}
 
+	
+	
+	// Relationships ----------------------------------------------------------------------
+	private Collection<Brotherhood> brotherhoods;
+
+	
+	@OneToMany(mappedBy = "area")
+	public Collection<Brotherhood> getBrotherhoods() {
+		return brotherhoods;
+	}
+
+	public void setBrotherhoods(Collection<Brotherhood> brotherhoods) {
+		this.brotherhoods = brotherhoods;
+	}
+
+	@Override
+	public String toString() {
+		return "Area [name=" + name + ", brotherhoods=" + brotherhoods + "]";
+	}
 }

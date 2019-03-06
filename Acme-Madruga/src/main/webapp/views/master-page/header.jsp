@@ -31,6 +31,7 @@
 					<li><a href="position/admin/list.do"><spring:message code="master.page.position.list" /></a></li>
 					<li><a href="administrator/dashboard.do"><spring:message code="master.page.dashboard" /></a></li>
 					<li><a href="message/broadcast.do"><spring:message code="master.page.administrator.broadcast" /></a></li>
+					<li><a href="area/administrator/list.do"><spring:message code="master.page.administrator.area" /></a></li>
 					<li><a href="administrator/spammers.do"><spring:message code="master.page.administrator.spammers" /></a></li>					
 					<li><a href="administrator/config/polarityWords/list.do"><spring:message code="master.page.administrator.polarity.words" /></a></li>
 					<li><a href="administrator/score.do"><spring:message code="master.page.administrator.score" /></a></li>

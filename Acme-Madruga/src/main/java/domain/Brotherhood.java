@@ -99,7 +99,7 @@ public class Brotherhood extends Actor {
 	}
 
 	@Valid
-	@ManyToOne(optional = true)
+	@ManyToOne(optional = false)
 	public Area getArea() {
 		return this.area;
 	}
