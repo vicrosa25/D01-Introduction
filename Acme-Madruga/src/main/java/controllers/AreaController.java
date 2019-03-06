@@ -221,16 +221,18 @@ public class AreaController extends AbstractController {
 
 	// Delete Picture ---------------------------------------------------------------------
 	@RequestMapping(value = "/deletePicture", method = RequestMethod.GET)
-	public ModelAndView deletePicture(@RequestParam final String link, @RequestParam final int areaId) {
+	public ModelAndView deletePicture(@RequestParam String link, @RequestParam int areaId) {
 		ModelAndView result;
+		Area area;
 		try {
-			final Area a = this.areaService.findOne(areaId);
-			for (final Url picture : a.getPictures())
+			area = this.areaService.findOne(areaId);
+			for (Url picture : area.getPictures())
 				if (picture.getLink().equals(link)) {
-					a.getPictures().remove(picture);
+					area.getPictures().remove(picture);
 					break;
 				}
-			result = this.createEditModelAndView(a);
+			area = this.areaService.save(area);
+			result = this.createEditModelAndView(area);
 		} catch (final Throwable oops) {
 			System.out.println(oops.getMessage());
 			System.out.println(oops.getClass());
