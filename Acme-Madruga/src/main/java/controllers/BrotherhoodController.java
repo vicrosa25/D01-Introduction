@@ -18,15 +18,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.AreaService;
+import services.BrotherhoodService;
+import services.DropoutService;
+import services.MemberService;
+import utilities.Md5;
 import domain.Brotherhood;
 import domain.Dropout;
 import domain.Member;
 import domain.Url;
 import forms.BrotherhoodForm;
-import services.BrotherhoodService;
-import services.DropoutService;
-import services.MemberService;
-import utilities.Md5;
 
 @Controller
 @RequestMapping("/brotherhood")
@@ -40,6 +41,9 @@ public class BrotherhoodController extends AbstractController {
 	
 	@Autowired
 	private DropoutService		dropoutService;
+	
+	@Autowired
+	private AreaService			areaService;
 
 
 	@ExceptionHandler(TypeMismatchException.class)
@@ -100,8 +104,7 @@ public class BrotherhoodController extends AbstractController {
 
 		try {
 			bro = new BrotherhoodForm();
-			result = new ModelAndView("brotherhood/create");
-			result.addObject("brotherhoodForm", bro);
+			result = this.createEditModelAndView(bro);
 		} catch (final Throwable oops) {
 			System.out.println(oops.getMessage());
 			System.out.println(oops.getClass());
@@ -125,8 +128,7 @@ public class BrotherhoodController extends AbstractController {
 			for (final ObjectError e : errors)
 				System.out.println(e.toString());
 
-			result = new ModelAndView("brotherhood/create");
-			result.addObject("brotherhoodForm", brotherhoodForm);
+			result = this.createEditModelAndView(brotherhoodForm);
 		}
 
 		else
@@ -316,6 +318,7 @@ public class BrotherhoodController extends AbstractController {
 		ModelAndView result;
 
 		result = new ModelAndView("brotherhood/create");
+		result.addObject("area", this.areaService.findAll());
 		result.addObject("brotherhoodForm", brotherhoodForm);
 		result.addObject("message", message);
 

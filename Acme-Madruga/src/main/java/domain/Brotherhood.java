@@ -98,6 +98,7 @@ public class Brotherhood extends Actor {
 		this.coaches = coaches;
 	}
 
+	@NotNull
 	@Valid
 	@ManyToOne(optional = false)
 	public Area getArea() {
