@@ -230,4 +230,10 @@ public class BrotherhoodService {
 
 		return result;
 	}
+
+	public Brotherhood findByCoach(Coach coach) {
+		Brotherhood result = this.brotherhoodRepository.findByCoach(coach.getId());
+		Assert.notNull(result);
+		return result;
+	}
 }
