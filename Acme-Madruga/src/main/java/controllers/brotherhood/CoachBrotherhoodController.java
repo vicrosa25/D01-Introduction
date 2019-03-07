@@ -121,6 +121,7 @@ public class CoachBrotherhoodController extends AbstractController {
 		try {
 			coach = this.coachService.findOne(coachId);
 			Assert.notNull(coach);
+			Assert.isTrue(this.brotherhoodService.findByPrincipal() == this.brotherhoodService.findByCoach(coach));
 		} catch (final Throwable oops) {
 			result = this.forbiddenOpperation();
 			return result;
