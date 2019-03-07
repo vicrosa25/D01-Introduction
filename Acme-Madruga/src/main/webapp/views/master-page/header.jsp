@@ -156,6 +156,9 @@
 					<!-- MessageBox -->
 					<li><a href="messageBox/list.do"><spring:message code="master.page.messageBox.list" /></a></li>
 					
+					<!-- Social Profile -->
+					<li><a href="socialIdentity/list.do"><spring:message code="master.page.socialProfile" /></a></li>
+					
 					<!-- LOGOUT -->
 					<li><a href="j_spring_security_logout"><spring:message code="master.page.logout" /> </a></li>
 				</ul>

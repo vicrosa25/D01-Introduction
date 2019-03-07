@@ -63,6 +63,9 @@
 		
 		<bean class="converters.UrlToStringConverter" />
 		<bean class="converters.StringToUrlConverter" />
+		
+		<bean class="converters.SocialIdentityToStringConverter" />
+		<bean class="converters.StringToSocialIdentityConverter" />
 
 	</util:list>
 

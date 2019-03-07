@@ -5,11 +5,9 @@ import java.util.Collection;
 
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,11 +28,6 @@ public class ProcessionController extends AbstractController {
 
 	@Autowired
 	private BrotherhoodService	brotherhoodService;
-
-	// Validator
-	@Autowired
-	@Qualifier("validator")
-	private Validator			validator;
 
 
 	@ExceptionHandler(TypeMismatchException.class)

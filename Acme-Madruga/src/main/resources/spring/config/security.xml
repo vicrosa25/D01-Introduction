@@ -129,6 +129,12 @@
 		<security:intercept-url pattern="/messageBox/edit.do" access="isAuthenticated()" /> 
 		<security:intercept-url pattern="/messageBox/list.do" access="isAuthenticated()" /> 
 		<security:intercept-url pattern="/messageBox/create.do" access="isAuthenticated()" />
+		
+		<!-- SOCIAL	IDENTITY -->
+		<security:intercept-url pattern="/socialIdentity/list.do" access="isAuthenticated()" />
+		<security:intercept-url pattern="/socialIdentity/create.do" access="isAuthenticated()" />
+		<security:intercept-url pattern="/socialIdentity/edit.do" access="isAuthenticated()" />
+		<security:intercept-url pattern="/socialIdentity/remove.do" access="isAuthenticated()" />
 
 
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />

@@ -7,6 +7,7 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
@@ -47,7 +48,7 @@ public abstract class Actor extends DomainEntity {
 	}
 	
 	public String getUsername() {
-		return username;
+		return this.username;
 	}
 
 	public void setUsername(String username) {
@@ -108,7 +109,7 @@ public abstract class Actor extends DomainEntity {
 	
 	
 	public Boolean getIsSpammer() {
-		return isSpammer;
+		return this.isSpammer;
 	}
 
 	public void setIsSpammer(Boolean isSpammer) {
@@ -116,7 +117,7 @@ public abstract class Actor extends DomainEntity {
 	}
 
 	public Boolean getIsBanned() {
-		return isBanned;
+		return this.isBanned;
 	}
 
 	public void setIsBanned(Boolean isBanned) {
@@ -125,7 +126,7 @@ public abstract class Actor extends DomainEntity {
 
 
 	public Double getScore() {
-		return score;
+		return this.score;
 	}
 
 	public void setScore(Double score) {
@@ -140,7 +141,20 @@ public abstract class Actor extends DomainEntity {
 
 	// Relationships ----------------------------------------------------------
 	private UserAccount					userAccount;
+	private Collection<SocialIdentity>	socialIdentities;
 	private Collection<MessageBox>		messageBoxes;
+
+
+	// 
+	@Valid
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "actor", fetch = FetchType.EAGER)
+	public Collection<SocialIdentity> getSocialIdentities() {
+		return this.socialIdentities;
+	}
+
+	public void setSocialIdentities(final Collection<SocialIdentity> socialIdentities) {
+		this.socialIdentities = socialIdentities;
+	}
 
 
 	@NotNull
@@ -159,7 +173,7 @@ public abstract class Actor extends DomainEntity {
 	@Valid
 	@OneToMany(cascade = CascadeType.ALL)
 	public Collection<MessageBox> getMessageBoxes() {
-		return messageBoxes;
+		return this.messageBoxes;
 	}
 
 	public void setMessageBoxes(Collection<MessageBox> messageBoxes) {
