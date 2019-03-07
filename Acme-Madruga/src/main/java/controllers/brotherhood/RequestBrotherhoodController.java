@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.BrotherhoodService;
-import services.RequestService;
 import controllers.AbstractController;
 import domain.Brotherhood;
 import domain.Request;
+import services.BrotherhoodService;
+import services.RequestService;
 
 @Controller
 @RequestMapping("/request/brotherhood")
@@ -72,7 +72,7 @@ public class RequestBrotherhoodController extends AbstractController {
 		try {
 			principal = this.brotherhoodService.findByPrincipal();
 			request = this.requestService.findOne(requestId);
-
+			Assert.isTrue(request.getStatus().equals("PENDING"));
 			Assert.isTrue(principal.getProcessions().contains(request.getProcession()));
 			
 			result = this.editModelAndView(request);
