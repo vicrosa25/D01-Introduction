@@ -17,9 +17,8 @@
 	format="{0,date,dd/MM/yyyy HH:mm}" />
 	
 	<!-- Positions -->
-	<jstl:choose>
-	<jstl:when test="${not empty row.positions}">
-		<spring:message code="enrol.position" var="positionsHeader" />
+	<spring:message code="enrol.position" var="positionsHeader" />
+	
 		<jstl:if test="${pageContext.response.locale == 'en'}">
 		<display:column title="${positionsHeader}" sortable="false">
 			<jstl:forEach var="position" items="${row.positions}" varStatus="loop">
@@ -35,6 +34,10 @@
 			</jstl:forEach>
 		</display:column>
 		</jstl:if>
+		
+	<jstl:choose>
+	<jstl:when test="${not empty row.positions}">
+
 		
 		<security:authorize access="hasRole('BROTHERHOOD')">
 		<jstl:if test="${not empty bro}">		
