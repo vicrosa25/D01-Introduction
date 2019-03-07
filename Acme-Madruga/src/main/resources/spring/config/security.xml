@@ -114,6 +114,7 @@
 		<!-- FINDER -->
 		<security:intercept-url pattern="/finder/member/edit.do" access="hasRole('MEMBER')" />
 		<security:intercept-url pattern="/finder/member/result.do" access="hasRole('MEMBER')" />
+		<security:intercept-url pattern="/finder/member/clear.do" access="hasRole('MEMBER')" />
 		
 		<!-- MESSAGE -->
 		<security:intercept-url pattern="/message/create.do" access="isAuthenticated()" />

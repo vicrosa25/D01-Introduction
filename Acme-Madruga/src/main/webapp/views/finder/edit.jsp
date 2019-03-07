@@ -19,11 +19,11 @@
 	<br>
 	
 	<%-- max date --%>
-	<acme:textbox code="finder.maxDate" path="maxDate" />
+	<acme:dateinput code="finder.maxDate" path="maxDate" placeholder="dd/mm/yyyy" format="{0,date,dd/MM/yyyy HH:mm}" />
 	<br>
 	
 	<%-- min date --%>
-	<acme:textbox code="finder.minDate" path="minDate" />
+	<acme:dateinput code="finder.minDate" path="minDate" placeholder="dd/mm/yyyy" format="{0,date,dd/MM/yyyy HH:mm}" />
 	<br>
 	
 	<%-- Area --%>

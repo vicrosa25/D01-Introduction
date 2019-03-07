@@ -23,6 +23,6 @@ public interface FinderRepository extends JpaRepository<Finder, Integer> {
 	@Query("select p from Procession p where p.title LIKE ?1 or p.description LIKE ?1 or p.ticker like ?1")// or p.area.name like ?1
 	Collection<Procession> filterByKeyword(String keyword);
 
-	@Query("select p from Procession p where p.area.id = ?1")
+	@Query("select p from Procession p where p.brotherhood.id = ?1")
 	Collection<Procession> filterByArea(int areaId);
 }

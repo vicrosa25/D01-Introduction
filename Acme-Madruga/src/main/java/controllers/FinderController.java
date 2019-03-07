@@ -46,6 +46,7 @@ public class FinderController extends AbstractController {
 	@RequestMapping(value = "/clear", method = RequestMethod.GET)
 	public ModelAndView clear() {
 		ModelAndView result;
+		Finder saved;
 		try{
 			final Finder finder = this.memberService.findByPrincipal().getFinder();
 			finder.setArea(null);
@@ -53,8 +54,11 @@ public class FinderController extends AbstractController {
 			finder.setLastUpdate(new Date());
 			finder.setMaxDate(null);
 			finder.setMinDate(null);
+			saved = this.finderService.updateResults(finder);
 
-			result = new ModelAndView("redirect:/finder/member/result.do");
+			result = new ModelAndView("procession/list");
+			result.addObject("processions", saved.getProcessions());
+			result.addObject("requestURI", "finder/member/result.do");
 		} catch (final Throwable oops) {
 			System.out.println(oops.getMessage());
 			System.out.println(oops.getClass());

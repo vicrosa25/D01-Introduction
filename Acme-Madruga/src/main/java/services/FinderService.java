@@ -83,7 +83,8 @@ public class FinderService {
 	// in the specified time
 	public Finder checkChanges(final Finder finder) {
 		final Finder old = this.findOne(finder.getId());
-		if (finder.getArea() != old.getArea() || (finder.getMinDate() != old.getMinDate()) || (finder.getKeyword() != old.getKeyword()) || (finder.getMaxDate() != old.getMaxDate())) {
+		if (finder.getArea() != old.getArea() || (finder.getMinDate() != old.getMinDate()) || (finder.getKeyword() != old.getKeyword())
+			|| (finder.getMaxDate() != old.getMaxDate())) {
 
 			final Finder saved = this.updateResults(finder);
 			return saved;
