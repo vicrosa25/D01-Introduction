@@ -20,13 +20,17 @@ import org.springframework.web.servlet.ModelAndView;
 
 import domain.Actor;
 import services.ActorService;
+import services.ConfigurationsService;
 
 @Controller
 @RequestMapping("/welcome")
 public class WelcomeController extends AbstractController {
 	
 	@Autowired
-	private ActorService	actorService;
+	private ActorService			actorService;
+	
+	@Autowired
+	private ConfigurationsService	configurationsService;
 
 	// Constructors -----------------------------------------------------------
 
@@ -43,9 +47,14 @@ public class WelcomeController extends AbstractController {
 		String moment;
 		String name;
 		Actor actor;
+		String englishMessage;
+		String spanishMessage;
 
 		formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		moment = formatter.format(new Date());
+		
+		englishMessage = this.configurationsService.getConfiguration().getEnglishMessage();
+		spanishMessage = this.configurationsService.getConfiguration().getSpanishMessage();
 
 		try {
 			actor = this.actorService.findByPrincipal();
@@ -53,10 +62,14 @@ public class WelcomeController extends AbstractController {
 			result = new ModelAndView("welcome/index");
 			result.addObject("moment", moment);
 			result.addObject("name", name);
+			result.addObject("englishMessage", englishMessage);
+			result.addObject("spanishMessage", spanishMessage);
 			return result;
 		} catch (final Exception e) {
 			result = new ModelAndView("welcome/index");
 			result.addObject("moment", moment);
+			result.addObject("englishMessage", englishMessage);
+			result.addObject("spanishMessage", spanishMessage);
 		}
 
 		return result;

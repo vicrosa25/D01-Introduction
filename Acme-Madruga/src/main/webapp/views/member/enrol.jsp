@@ -18,8 +18,6 @@
 	<acme:select2 code="enrol.brotherhood" path="brotherhood" items="${brotherhoods}" itemLabel="title" />
 	<br>
 
-	<%-- Buttons --%>
-	<input type="submit" name="save" value="<spring:message code="brotherhood.save"/> "/>
 	
 	<jstl:if test="${empty brotherhoods}">
 		<b><spring:message code="brotherhood.empty.list"/></b>
@@ -27,5 +25,9 @@
 	</jstl:if>
 	<br>
 	
+	<%-- Buttons --%>
+	<jstl:if test="${not empty brotherhoods}">
+		<input type="submit" name="save" value="<spring:message code="brotherhood.save"/> "/>
+	</jstl:if>
 	<acme:cancel code="brotherhood.cancel" url="/brotherhood/member/list.do" />
 </form:form>

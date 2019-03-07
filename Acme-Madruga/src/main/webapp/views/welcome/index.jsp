@@ -52,8 +52,18 @@
 	<!-- Fin del código de cookies --->
 			
 		<p><spring:message code="welcome.greeting.prefix" /> 
-		<security:authorize access="isAuthenticated()">&nbsp${name}&nbsp</security:authorize><spring:message code="welcome.greeting.suffix" /></p>
-		<p><spring:message code="welcome.greeting.current.time" /> ${moment}</p> 
+		<security:authorize access="isAuthenticated()">
+			&nbsp${name}&nbsp
+		</security:authorize>
+		<spring:message code="welcome.greeting.suffix" /></p>
+		
+		<jstl:if test="${pageContext.response.locale == 'en'}">
+			<p>${englishMessage} ${moment}</p> 
+		</jstl:if>
+		<jstl:if test="${pageContext.response.locale == 'es'}">
+			<p>${spanishMessage} ${moment}</p> 
+		</jstl:if>
+		
 	<a href="welcome/legal.do"><spring:message code="welcome.message"/></a>
 
 	</body>

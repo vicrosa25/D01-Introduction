@@ -22,10 +22,11 @@ public class Configurations extends DomainEntity {
 	// Attributes -------------------------------------------------------------
 	private int					cacheTime;
 	private int					finderMaxResult;
+	private String				spanishMessage;
+	private String 				englishMessage;
 	private Collection<String>	spamWords;
 	private Collection<String>	positiveWords;
 	private Collection<String>	negativeWords;
-	private double				vat;
 	private String				countryCode;
 	private String 				title;
 	private String 				logo;
@@ -82,14 +83,6 @@ public class Configurations extends DomainEntity {
 		this.negativeWords = negativeWords;
 	}
 
-	public double getVat() {
-		return this.vat;
-	}
-
-	public void setVat(final double vat) {
-		this.vat = vat;
-	}
-
 	@NotBlank
 	@Pattern(regexp = "([+]?\\d{1,2})")
 	public String getCountryCode() {
@@ -122,7 +115,30 @@ public class Configurations extends DomainEntity {
 		this.logo = logo;
 	}
 
+	
+	@NotBlank
+	public String getSpanishMessage() {
+		return spanishMessage;
+	}
 
+	public void setSpanishMessage(String spanishMessage) {
+		this.spanishMessage = spanishMessage;
+	}
+
+	@NotBlank
+	public String getEnglishMessage() {
+		return englishMessage;
+	}
+
+	public void setEnglishMessage(String englishMessage) {
+		this.englishMessage = englishMessage;
+	}
+
+	public void setFinderMaxResult(int finderMaxResult) {
+		this.finderMaxResult = finderMaxResult;
+	}
+
+	
 
 
 	// Relationships ----------------------------------------------------------

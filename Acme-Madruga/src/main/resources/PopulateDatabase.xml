@@ -808,10 +808,11 @@
 	<bean id="configurations" class="domain.Configurations">
 		<property name="cacheTime" value="1" />
 		<property name="finderMaxResult" value="10" />
-		<property name="vat" value="0.21" />
 		<property name="countryCode" value="+34" />
 		<property name="title" value="Acme Madruga Co., Inc." />
 		<property name="logo" value="https://tinyurl.com/acme-madruga" />
+		<property name="spanishMessage" value="¡Bienvenidos a Acme Madrugá! Tu sitio para organizar procesiones." />
+		<property name="englishMessage" value="Welcome to Acme Madruga, the site to organise your processions." />
 		<property name="spamWords">
 			<list>
 				<value>sex</value>

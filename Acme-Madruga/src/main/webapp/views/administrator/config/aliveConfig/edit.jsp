@@ -38,20 +38,28 @@
 	<form:errors class="error" path="title" />
 	<br><br>
 	
+	<%-- SpanishMessage --%>
+	<form:label path="spanishMessage">
+		<spring:message code="config.spanishMessage" />
+	</form:label>
+	<form:input path="spanishMessage" />
+	<form:errors class="error" path="spanishMessage" />
+	<br><br>
+	
+	<%-- EnglishMessage --%>
+	<form:label path="englishMessage">
+		<spring:message code="config.englishMessage" />
+	</form:label>
+	<form:input path="englishMessage" />
+	<form:errors class="error" path="englishMessage" />
+	<br><br>
+	
 	<%-- Logo --%>
 	<form:label path="logo">
 		<spring:message code="config.logo" />
 	</form:label>
 	<form:input path="logo" />
 	<form:errors class="error" path="logo" />
-	<br><br>
-	
-	<%-- vat --%>
-	<form:label path="vat">
-		<spring:message code="config.vat" />
-	</form:label>
-	<form:input path="vat" />
-	<form:errors class="error" path="vat" />
 	<br><br>
 	
 	<%-- countryCode --%>
