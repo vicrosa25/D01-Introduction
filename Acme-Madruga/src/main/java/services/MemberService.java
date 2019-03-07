@@ -133,7 +133,7 @@ public class MemberService {
 		
 		// Default attributes from Actor
 		result.setUsername(memberForm.getUserAccount().getUsername());
-		result.setIsSpammer(false);
+		//result.setIsSpammer(false);
 		result.setIsBanned(false);
 
 		this.validator.validate(result, binding);

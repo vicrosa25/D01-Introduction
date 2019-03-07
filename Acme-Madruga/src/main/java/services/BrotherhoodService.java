@@ -13,10 +13,6 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
-import repositories.BrotherhoodRepository;
-import security.Authority;
-import security.LoginService;
-import security.UserAccount;
 import domain.Area;
 import domain.Brotherhood;
 import domain.Coach;
@@ -25,6 +21,10 @@ import domain.MessageBox;
 import domain.Procession;
 import domain.Url;
 import forms.BrotherhoodForm;
+import repositories.BrotherhoodRepository;
+import security.Authority;
+import security.LoginService;
+import security.UserAccount;
 
 @Service
 @Transactional
@@ -113,7 +113,7 @@ public class BrotherhoodService {
 
 		// Default attributes from Actor
 		bro.setUsername(form.getUserAccount().getUsername());
-		bro.setIsSpammer(false);
+		//bro.setIsSpammer(false);
 		bro.setIsBanned(false);
 
 		this.validator.validate(bro, binding);

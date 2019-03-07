@@ -16,6 +16,41 @@
 	<display:column property="moment" title="${momentHeader}"
 	format="{0,date,dd/MM/yyyy HH:mm}" />
 	
+	<!-- Spammer -->
+	<security:authorize access="hasRole('ADMIN')">
+	<spring:message code="member.spammer" var="spammerHeader" />
+	<display:column title="${spammerHeader}">
+		<jstl:choose>
+			<jstl:when test="${row.member.isSpammer != null}">
+				<jstl:if test="${row.member.isSpammer}">
+				<spring:message code="brotherhood.true" var="trueVar" />
+					${trueVar}
+				</jstl:if>
+				<jstl:if test="${!row.member.isSpammer}">
+				<spring:message code="brotherhood.false" var="falseVar" />
+					${falseVar}
+				</jstl:if>
+			</jstl:when>
+			<jstl:otherwise>
+				N/A
+			</jstl:otherwise>
+		</jstl:choose>
+	</display:column>
+
+	<!-- Polarity Score -->
+	<spring:message code="member.polarity" var="polarityHeader" />
+	<display:column title="${polarityHeader}">
+		<jstl:choose>
+			<jstl:when test="${row.member.score != null}">
+				<jstl:out value="${row.member.score}" />
+			</jstl:when>
+			<jstl:otherwise>
+				N/A
+			</jstl:otherwise>
+		</jstl:choose>
+	</display:column>
+	</security:authorize>
+	
 	<!-- Positions -->
 	<jstl:choose>
 	<jstl:when test="${not empty row.positions}">

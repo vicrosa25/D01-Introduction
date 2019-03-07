@@ -120,7 +120,7 @@
 		<property name="email" value="member1@mail.com" />
 		<property name="UserAccount" ref="userAccount5" />
 		<property name="finder" ref="finder1" />
-		<property name="isSpammer" value="false" />
+<!-- 		<property name="isSpammer" value="false" /> -->
 		<property name="socialIdentities">
 			<list>
 				<ref bean="socialIdentity2" />
@@ -155,7 +155,7 @@
 		<property name="email" value="member2@mail.com" />
 		<property name="UserAccount" ref="userAccount6" />
 		<property name="finder" ref="finder2" />
-		<property name="isSpammer" value="false" />
+<!-- 		<property name="isSpammer" value="false" /> -->
 		<property name="socialIdentities">
 			<list>
 				<ref bean="socialIdentity3" />
@@ -194,7 +194,7 @@
 		<property name="establishment" value="2019/01/30" />
 		<property name="UserAccount" ref="userAccount2" />
 		<property name="area" ref="area1" />
-		<property name="isSpammer" value="false" />
+<!-- 		<property name="isSpammer" value="false" /> -->
 		<property name="socialIdentities">
 			<list>
 				<ref bean="socialIdentity4" />
@@ -230,7 +230,7 @@
 		<property name="establishment" value="2019/02/10" />
 		<property name="UserAccount" ref="userAccount4" />
 		<property name="area" ref="area2" />
-		<property name="isSpammer" value="false" />
+<!-- 		<property name="isSpammer" value="false" /> -->
 		<property name="socialIdentities">
 			<list>
 				<ref bean="socialIdentity5" />

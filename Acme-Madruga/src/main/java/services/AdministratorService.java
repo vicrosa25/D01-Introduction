@@ -251,8 +251,9 @@ public class AdministratorService {
 						if (message.getBody().contains(spamWord) || message.getSubject().contains(spamWord))
 							spamMessages++;
 			if ((spamMessages != 0) && (spamMessages >= (messages.size() * 0.1)))
-
 				user.setIsSpammer(true);
+			else
+				user.setIsSpammer(false);
 		}
 	}
 
