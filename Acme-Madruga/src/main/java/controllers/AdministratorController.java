@@ -176,8 +176,9 @@ public class AdministratorController extends AbstractController {
 		Collection<Object> query8 	   = this.administratorService.query8();
 		
 		// Queries level B
-		Object[] query9 	   = this.administratorService.query9();
-		Object[] query10 	   = this.administratorService.query10();
+		Object[] query9 	   		   = this.administratorService.query9();
+		Object[] query10 	  		   = this.administratorService.query10();
+		Double query11	 	   		   = this.administratorService.query11();
 
 		result = new ModelAndView("administrator/dashboard");
 
@@ -191,6 +192,7 @@ public class AdministratorController extends AbstractController {
 		result.addObject("query8", query8);
 		result.addObject("query9", query9);
 		result.addObject("query10", query10);
+		result.addObject("query11", query11);
 
 		
 		

@@ -49,6 +49,11 @@ public interface AdministratorRepository extends JpaRepository<Administrator, In
 	@Query("select min(f.processions.size), max(f.processions.size), avg(f.processions.size), stddev(f.processions.size) from Finder f")
 	Object[] query10();
 	
+	@Query("select count(f)*1.0 / (select count(f1)*1.0 from Finder f1 where f1.processions.size > 0) from Finder f where f.processions.size = 0")
+	Double query11();
+	
+	
+	
 	// Chart queries
 	@Query("select count(a) from Actor a where a.isSpammer = true")
 	Integer getAllSpammers();

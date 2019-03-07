@@ -44,6 +44,7 @@
 <spring:message code="administrator.dashboard.query8" var="query8Header" />
 <spring:message code="administrator.dashboard.query9" var="query9Header" />
 <spring:message code="administrator.dashboard.query10" var="query10Header" />
+<spring:message code="administrator.dashboard.query11" var="query11Header" />
 
 
 <!--  Custom table style -->
@@ -276,6 +277,21 @@
 </table>
 <br />
 
+
+<!-- Query 11 -->
+<table>
+	<caption>
+		<jstl:out value="${query11Header}"></jstl:out>
+	</caption>
+	<tr>
+		<th><jstl:out value="${ratioHeader}"></jstl:out></th>
+	</tr>
+
+	<tr>
+		<td><jstl:out value="${query11[0]}"></jstl:out></td>
+	</tr>
+</table>
+<br />
 
 
 

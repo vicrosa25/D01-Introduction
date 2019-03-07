@@ -200,6 +200,10 @@ public class AdministratorService {
 		return this.adminRepository.query10();
 	}
 	
+	public Double query11() {
+		return this.adminRepository.query11();
+	}
+	
 	
 	
 	// Chart Queries
