@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.ActorService;
-import services.SocialIdentityService;
 import domain.Actor;
 import domain.SocialIdentity;
+import services.ActorService;
+import services.SocialIdentityService;
 
 @Controller
 @RequestMapping("/socialIdentity")
@@ -143,7 +143,7 @@ public class SocialIdentityController extends AbstractController {
 	}
 
 	private ModelAndView forbiddenOpperation() {
-		JOptionPane.showMessageDialog(null, "Forbidden operation");
+		//JOptionPane.showMessageDialog(null, "Forbidden operation");
 		return new ModelAndView("redirect:list.do");
 	}
 

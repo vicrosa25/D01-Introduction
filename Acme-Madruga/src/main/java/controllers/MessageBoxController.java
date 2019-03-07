@@ -161,7 +161,7 @@ public class MessageBoxController extends AbstractController {
 	}
 
 	private ModelAndView forbiddenOperation() {
-		JOptionPane.showMessageDialog(null, "Forbidden operation");
+		//JOptionPane.showMessageDialog(null, "Forbidden operation");
 		return new ModelAndView("redirect:/messageBox/list.do");
 	}
 }
