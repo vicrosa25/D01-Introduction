@@ -51,9 +51,9 @@
     </script>
 	<!-- Fin del código de cookies --->
 			
-		<p><spring:message code="welcome.greeting.prefix" /> ${name}<spring:message code="welcome.greeting.suffix" /></p>
-		
-		<p><spring:message code="welcome.greeting.current.time" /> ${moment}</p>
+		<p><spring:message code="welcome.greeting.prefix" /> 
+		<security:authorize access="isAuthenticated()">&nbsp${name}&nbsp</security:authorize><spring:message code="welcome.greeting.suffix" /></p>
+		<p><spring:message code="welcome.greeting.current.time" /> ${moment}</p> 
 	<a href="welcome/legal.do"><spring:message code="welcome.message"/></a>
 
 	</body>

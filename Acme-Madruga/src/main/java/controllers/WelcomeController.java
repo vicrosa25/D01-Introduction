@@ -13,14 +13,20 @@ package controllers;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import domain.Actor;
+import services.ActorService;
 
 @Controller
 @RequestMapping("/welcome")
 public class WelcomeController extends AbstractController {
+	
+	@Autowired
+	private ActorService	actorService;
 
 	// Constructors -----------------------------------------------------------
 
@@ -31,17 +37,27 @@ public class WelcomeController extends AbstractController {
 	// Index ------------------------------------------------------------------		
 
 	@RequestMapping(value = "/index")
-	public ModelAndView index(@RequestParam(required = false, defaultValue = "John Doe") final String name) {
+	public ModelAndView index() {
 		ModelAndView result;
 		SimpleDateFormat formatter;
 		String moment;
+		String name;
+		Actor actor;
 
 		formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		moment = formatter.format(new Date());
 
-		result = new ModelAndView("welcome/index");
-		result.addObject("name", name);
-		result.addObject("moment", moment);
+		try {
+			actor = this.actorService.findByPrincipal();
+			name = actor.getName() + " " + actor.getSurname();
+			result = new ModelAndView("welcome/index");
+			result.addObject("moment", moment);
+			result.addObject("name", name);
+			return result;
+		} catch (final Exception e) {
+			result = new ModelAndView("welcome/index");
+			result.addObject("moment", moment);
+		}
 
 		return result;
 	}
