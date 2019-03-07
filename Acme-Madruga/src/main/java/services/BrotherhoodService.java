@@ -104,7 +104,7 @@ public class BrotherhoodService {
 		bro.setEmail(form.getEmail());
 		bro.setMiddleName(form.getMiddlename());
 		bro.setName(form.getName());
-		bro.setPhoneNumber(form.getPhone());
+		bro.setPhoneNumber(form.getPhoneNumber());
 		bro.setPhoto(form.getPhoto());
 		bro.setSurname(form.getSurname());
 		bro.setTitle(form.getTitle());

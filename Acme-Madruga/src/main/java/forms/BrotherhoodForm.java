@@ -40,10 +40,10 @@ public class BrotherhoodForm {
 		this.middlename = middlename;
 	}
 
-	public String getPhone() {
+	public String getPhoneNumber() {
 		return this.phoneNumber;
 	}
-	public void setPhone(final String phoneNumber) {
+	public void setPhoneNumber(final String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
 
