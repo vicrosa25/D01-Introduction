@@ -288,7 +288,7 @@
 	</tr>
 
 	<tr>
-		<td><jstl:out value="${query11[0]}"></jstl:out></td>
+		<td><jstl:out value="${query11}"></jstl:out></td>
 	</tr>
 </table>
 <br />

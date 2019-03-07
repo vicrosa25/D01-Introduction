@@ -31,6 +31,7 @@ import org.springframework.web.servlet.ModelAndView;
 import domain.Actor;
 import domain.Administrator;
 import domain.Brotherhood;
+import domain.Configurations;
 import domain.Procession;
 import services.ActorService;
 import services.AdministratorService;
@@ -532,6 +533,47 @@ public class AdministratorController extends AbstractController {
 
 		this.administratorService.removeNegativeWord(word);
 		return this.wordList();
+	}
+	
+	/**
+	 * 
+	 * Manage CACHE ****************************************************************************
+	 */
+
+	// Configurations cache -------------------------------------------------------------
+	@RequestMapping(value = "/config/cache/edit", method = RequestMethod.GET)
+	public ModelAndView cache() {
+		ModelAndView result;
+		Configurations configurations;
+
+		configurations = this.configurationsService.getConfiguration();
+		result = new ModelAndView("administrator/config/cache/edit");
+		result.addObject("configurations", configurations);
+
+		return result;
+	}
+
+	@RequestMapping(value = "/config/cache/edit", method = RequestMethod.POST, params = "update")
+	public ModelAndView cache(@Valid final Configurations configurations, final BindingResult binding) {
+		ModelAndView result;
+
+		if (binding.hasErrors()) {
+			final List<ObjectError> errors = binding.getAllErrors();
+			for (final ObjectError e : errors)
+				System.out.println(e.toString());
+			result = new ModelAndView("administrator/config/cache/edit");
+			result.addObject("configurations", configurations);
+		} else
+			try {
+				this.configurationsService.update(configurations);
+				result = new ModelAndView("redirect:/");
+			} catch (final Throwable oops) {
+				result = new ModelAndView("administrator/config/cache/edit");
+				result.addObject("configurations", configurations);
+				result.addObject("message", "administrator.commit.error");
+			}
+
+		return result;
 	}
 
 }
