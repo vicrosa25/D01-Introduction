@@ -35,8 +35,8 @@
 	<form:label path="draftMode"><spring:message code="procession.draftMode" /></form:label>
 	<form:select id="modeDropdown" path="draftMode">
 		<form:option value="">--</form:option>
-		<form:option value="0"><spring:message code="procession.false" /></form:option>
-		<form:option value="1"><spring:message code="procession.true" /></form:option>
+		<form:option value="0"><spring:message code="procession.true" /></form:option>
+		<form:option value="1"><spring:message code="procession.false" /></form:option>
 	</form:select>
 	<form:errors class="error" path="draftMode" />
 	<br>
