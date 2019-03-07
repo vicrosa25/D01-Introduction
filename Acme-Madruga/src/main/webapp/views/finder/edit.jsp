@@ -26,15 +26,16 @@
 	<acme:textbox code="finder.minDate" path="minDate" />
 	<br>
 	
-	<%-- Area 
+	<%-- Area --%>
 	<acme:select code="finder.area" path="area" items="${areas}" itemLabel="name" />
-	<br>--%>
+	<br>
 	
 	
 	<%-- Buttons --%>
 	<input type="submit" name="save" 
 		value="<spring:message code="finder.save"/>"/>
 	
+	<acme:cancel code="finder.clear" url="/finder/member/clear.do" />
 	<acme:cancel code="finder.cancel" url="/" />
 		
 </form:form>
