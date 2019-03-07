@@ -66,19 +66,7 @@ public class Finder extends DomainEntity {
 	// Relationships -------------------------------------------------------------
 	private Collection<Procession>	processions;
 
-
-	//private Area					area;
-
-	//	@Valid
-	//	@OneToOne(optional = true)
-	//	public Area getArea() {
-	//		return this.area;
-	//	}
-	//
-	//	public void setArea(final Area area) {
-	//		this.area = area;
-	//	}
-
+	
 	@Valid
 	@OneToMany
 	public Collection<Procession> getProcessions() {

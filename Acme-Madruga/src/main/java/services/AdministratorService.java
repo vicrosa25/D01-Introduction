@@ -196,6 +196,10 @@ public class AdministratorService {
 		return this.adminRepository.query9();
 	}
 	
+	public Object[] query10() {
+		return this.adminRepository.query10();
+	}
+	
 	
 	
 	// Chart Queries
