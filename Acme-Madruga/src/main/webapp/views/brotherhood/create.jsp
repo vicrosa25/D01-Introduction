@@ -10,15 +10,6 @@
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
 <form:form action="brotherhood/create.do" modelAttribute="brotherhoodForm">
-
-	<%-- Hidden properties from handy worker--%>
-<%-- 	<form:hidden path="id" />
-	<form:hidden path="version" />
-	<form:hidden path="userAccount.Authorities" />
-	<form:hidden path="processions" />
-	<form:hidden path="coaches" />
-	<form:hidden path="establishment" />
-	<form:hidden path="pictures" /> --%>
 	<%-- UserAccount--%>
 
 	<%-- username--%>
@@ -46,7 +37,7 @@
 	<br>
 
 	<%-- Phone --%>
-	<acme:textbox code="brotherhood.phone" path="phone" />
+	<acme:textbox code="brotherhood.phone" path="phoneNumber" />
 	<br>
 
 	<%-- email --%>

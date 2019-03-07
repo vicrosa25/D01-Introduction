@@ -11,7 +11,6 @@
 	<%-- Hidden properties from handy worker--%>
 	<form:hidden path="id" />
 	<form:hidden path="establishment" />
-	<form:hidden path="area" />
 	
 	<%-- Name --%>
 	<acme:textbox code="brotherhood.name" path="name" />
