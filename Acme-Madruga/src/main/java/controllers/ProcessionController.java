@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.BrotherhoodService;
-import services.ProcessionService;
 import domain.Brotherhood;
 import domain.Procession;
+import services.BrotherhoodService;
+import services.ProcessionService;
 
 @Controller
 @RequestMapping("/procession")
@@ -103,10 +103,13 @@ public class ProcessionController extends AbstractController {
 	public ModelAndView edit(@RequestParam final int processionId) {
 		ModelAndView result;
 		Procession procession = null;
+		Brotherhood principal = this.brotherhoodService.findByPrincipal();
 
 		try {
 			procession = this.processionService.findOne(processionId);
 			Assert.notNull(procession);
+			Assert.isTrue(principal.getProcessions().contains(procession));
+			
 		} catch (final Throwable oops) {
 			result = this.forbiddenOpperation();
 			return result;
@@ -146,9 +149,13 @@ public class ProcessionController extends AbstractController {
 	public ModelAndView delete(@RequestParam final int processionId) {
 		ModelAndView result = null;
 		Procession procession;
+		
+		Brotherhood principal = this.brotherhoodService.findByPrincipal();
 
 		try {
 			procession = this.processionService.findOne(processionId);
+			Assert.notNull(procession);
+			Assert.isTrue(principal.getProcessions().contains(procession));
 			this.processionService.delete(procession);
 			result = new ModelAndView("redirect:../list.do");
 		} catch (final Throwable oops) {

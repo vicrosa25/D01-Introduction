@@ -18,12 +18,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import domain.Procession;
+import domain.Request;
 import services.BrotherhoodService;
 import services.MemberService;
 import services.ProcessionService;
 import services.RequestService;
-import domain.Procession;
-import domain.Request;
 
 @Controller
 @RequestMapping("/request")
@@ -101,10 +101,6 @@ public class RequestController extends AbstractController {
 				this.requestService.save(request);
 				result = new ModelAndView("redirect:../list.do");
 			} catch (final Throwable oops) {
-				//				System.out.println(request);
-				//				System.out.println(oops.getMessage());
-				//				System.out.println(oops.getClass());
-				//				System.out.println(oops.getCause());
 				result = this.createEditModelAndView(request, "request.commit.error");
 			}
 		}
@@ -177,5 +173,5 @@ public class RequestController extends AbstractController {
 		return new ModelAndView("redirect:/");
 	}
 
-	/************************************************************************************************/
+	/************************************************************************************/
 }
