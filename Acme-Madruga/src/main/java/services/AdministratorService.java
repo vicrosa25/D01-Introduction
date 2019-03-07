@@ -222,6 +222,10 @@ public class AdministratorService {
 	public int queryGetNotSpammers(){
 		return this.adminRepository.getAllNotSpammers();
 	}
+	
+	public Double getAveragePolarity(){
+		return this.adminRepository.getAveragePolarity();
+	}
 
 
 

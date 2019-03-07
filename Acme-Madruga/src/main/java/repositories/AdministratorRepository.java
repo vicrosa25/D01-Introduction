@@ -60,4 +60,7 @@ public interface AdministratorRepository extends JpaRepository<Administrator, In
 
 	@Query("select count(a) from Actor a where a.isSpammer = false")
 	Integer getAllNotSpammers();
+	
+	@Query("select avg(a.score) from Actor a")
+	Double getAveragePolarity();
 }

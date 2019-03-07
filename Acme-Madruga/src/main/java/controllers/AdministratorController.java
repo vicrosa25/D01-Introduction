@@ -219,10 +219,12 @@ public class AdministratorController extends AbstractController {
 		
 		int spammers = this.administratorService.queryGetSpammers();
 		int notSpammers = this.administratorService.queryGetNotSpammers();
+		Double averagePolarity = this.administratorService.getAveragePolarity();
 		
 		
 		result.addObject("spammers", spammers);
 		result.addObject("notSpammers", notSpammers);
+		result.addObject("averagePolarity", averagePolarity);
 
 		return result;
 	}

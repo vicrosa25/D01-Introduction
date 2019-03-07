@@ -55,41 +55,24 @@
 
 
 
-<!-- Charts -->
-<!-- <div class="chart-container"> -->
-<!-- 	<div class="pie-chart-container"> -->
-<!-- 		<canvas id="pie-chartcanvas-1"></canvas> -->
-<!-- 	</div> -->
-<!-- </div> -->
+<!-- A+ Charts -->
+<canvas id="chartcanvas-4"></canvas>;
+<br>
+<br>
+<br>
+<br>
+<canvas id="chartcanvas-1"></canvas>
+<br>
+<br>
+<br>
+<br>
+<canvas id="chartcanvas-3"></canvas>
+<br>
+<br>
+<br>
+<br>
+<canvas id="chartcanvas-2"></canvas>
 
-<script>
-// $(document).ready(function () {
-// 	var ctx1 = $("#pie-chartcanvas-1");
-	
-// 	var data1 = {
-// 		labels: ["Spammers", "Not Spammers"],
-// 		datasets: [
-// 			{
-// 				label: "Acme-Madruga",
-// 				data: [${spammers}, ${notSpammers}],
-// 				backgroundColor: [
-// 					"#0000FF",
-// 					"#FF0000"
-// 				],
-// 				borderColor: ["#000000"],
-// 				borderWidth: [1]
-// 			}
-// 		]
-// 	};
-	
-	
-// 	var chart1 = new Chart(ctx1, {
-// 		type: "pie",
-// 		data: data1,
-// 		options: {}
-// 	});
-// });
-</script>
 
 
 <!-- C level -->
@@ -105,7 +88,6 @@
 		<th><jstl:out value="${maxHeader}"></jstl:out></th>
 		<th><jstl:out value="${stdHeader}"></jstl:out></th>
 	</tr>
-
 	<tr>
 		<td><jstl:out value="${query1[0]}"></jstl:out></td>
 		<td><jstl:out value="${query1[1]}"></jstl:out></td>
@@ -286,12 +268,119 @@
 	<tr>
 		<th><jstl:out value="${ratioHeader}"></jstl:out></th>
 	</tr>
-
 	<tr>
 		<td><jstl:out value="${query11}"></jstl:out></td>
 	</tr>
 </table>
 <br />
+
+
+<script>
+$(document).ready(function () {
+	
+	Chart.defaults.scale.ticks.beginAtZero = true;
+	
+	var ctx1 = $("#chartcanvas-1");
+	var ctx2 = $("#chartcanvas-2");
+	var ctx3 = $("#chartcanvas-3");
+	var ctx4 = $("#chartcanvas-4");
+	
+	var data1 = {
+		labels: ["Spammers", "Not Spammers"],
+		datasets: [
+			{
+				label: "The percentage of spammers/not spammers",
+				data: [${spammers}, ${notSpammers}],
+				backgroundColor: [
+					"#0000FF",
+					"#FF0000"
+				],
+				borderColor: ["#000000"],
+				borderWidth: [1]
+			}
+		]
+	};
+	
+	var data2 = {
+			labels: ["Average polarity"],
+			datasets: [
+				{
+					label: "The average polarity of the actors",
+					data: [${averagePolarity}],
+					backgroundColor: [
+						"#0000FF",
+						"#FF0000"
+					],
+					borderColor: ["#000000"],
+					borderWidth: [1]
+				}
+			]
+		};
+	
+	var data3 = {
+			labels: ["ratio", "count", "minimum", "maximum", "average", "standard deviation"],
+			datasets: [
+				{
+					label: "Number of brotherhoods per area",
+					data: [${query9[0]}, ${query9[1]}, ${query9[2]}, ${query9[3]}, ${query9[4]}, ${query9[5]}],
+					backgroundColor: [
+						"#0000FF",
+						"#FF0000",
+						"#ffcc66",
+						"#6699ff",
+						"#66ff66",
+						"#ff66ff"
+					],
+					borderColor: ["#000000"],
+					borderWidth: [1]
+				}
+			]
+		};
+	
+	var data4 = {
+			labels: ["average", "minimum", "maximum", "standard deviation"],
+			datasets: [
+				{
+					label: "Number of members per brotherhood",
+					data: [${query1[0]}, ${query1[1]}, ${query1[2]}, ${query1[3]}],
+					backgroundColor: [
+						"#0000FF",
+						"#FF0000",
+						"#ffcc66",
+						"#6699ff"
+					],
+					borderColor: ["#000000"],
+					borderWidth: [1]
+				}
+			]
+		};
+	
+	
+	var chart1 = new Chart(ctx1, {
+		type: "pie",
+		data: data1,
+		options: {}
+	});
+	
+	var chart2 = new Chart(ctx2, {
+		type: "pie",
+		data: data2,
+		options: {}
+	});
+	
+	var chart3 = new Chart(ctx3, {
+		type: "bar",
+		data: data3,
+		options: {}
+	});
+	
+	var chart4 = new Chart(ctx4, {
+		type: "bar",
+		data: data4,
+		options: {}
+	});
+});
+</script>
 
 
 
