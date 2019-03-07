@@ -37,6 +37,14 @@
 					<li><a href="administrator/score.do"><spring:message code="master.page.administrator.score" /></a></li>
 				</ul>
 			</li>
+			<li><a class="fNiv"><spring:message code="master.page.configurations" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="administrator/config/cache/edit.do"><spring:message code="master.page.cache" /></a></li>
+					<li><a href="administrator/config/aliveConfig/edit.do"><spring:message code="master.page.settings" /></a></li>
+					<li><a href="administrator/config/spam/list.do"><spring:message code="master.page.spam.words" /></a></li>
+				</ul>
+			</li>
 		</security:authorize>
 		
 		

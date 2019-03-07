@@ -18,7 +18,7 @@
 
 <!-- Listing Grid -->
 
-<b><spring:message code="config.spamWords"/>
+<b><spring:message code="config.spamWords"/></b>
 <display:table name="spamWords" id="row" requestURI="administrator/config/spam/list.do" pagesize="5" class="displaytag">
 
 	<!-- Word -->

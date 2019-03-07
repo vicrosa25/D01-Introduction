@@ -31,6 +31,7 @@ import org.springframework.web.servlet.ModelAndView;
 import domain.Actor;
 import domain.Administrator;
 import domain.Brotherhood;
+import domain.Configurations;
 import domain.Procession;
 import services.ActorService;
 import services.AdministratorService;
@@ -532,6 +533,185 @@ public class AdministratorController extends AbstractController {
 
 		this.administratorService.removeNegativeWord(word);
 		return this.wordList();
+	}
+	
+	/**
+	 * 
+	 * Manage CACHE ****************************************************************************
+	 */
+
+	// Configurations cache -------------------------------------------------------------
+	@RequestMapping(value = "/config/cache/edit", method = RequestMethod.GET)
+	public ModelAndView cache() {
+		ModelAndView result;
+		Configurations configurations;
+
+		configurations = this.configurationsService.getConfiguration();
+		result = new ModelAndView("administrator/config/cache/edit");
+		result.addObject("configurations", configurations);
+
+		return result;
+	}
+
+	@RequestMapping(value = "/config/cache/edit", method = RequestMethod.POST, params = "update")
+	public ModelAndView cache(@Valid final Configurations configurations, final BindingResult binding) {
+		ModelAndView result;
+
+		if (binding.hasErrors()) {
+			final List<ObjectError> errors = binding.getAllErrors();
+			for (final ObjectError e : errors)
+				System.out.println(e.toString());
+			result = new ModelAndView("administrator/config/cache/edit");
+			result.addObject("configurations", configurations);
+		} else
+			try {
+				this.configurationsService.update(configurations);
+				result = new ModelAndView("redirect:/");
+			} catch (final Throwable oops) {
+				result = new ModelAndView("administrator/config/cache/edit");
+				result.addObject("configurations", configurations);
+				result.addObject("message", "administrator.commit.error");
+			}
+
+		return result;
+	}
+	
+	/**
+	 * 
+	 * Settings ****************************************************************************
+	 */
+
+	@RequestMapping(value = "/config/aliveConfig/edit", method = RequestMethod.GET)
+	public ModelAndView config() {
+		ModelAndView result;
+		Configurations configurations;
+
+		configurations = this.configurationsService.getConfiguration();
+		result = new ModelAndView("administrator/config/aliveConfig/edit");
+		result.addObject("configurations", configurations);
+
+		return result;
+	}
+
+	@RequestMapping(value = "/config/aliveConfig/edit", method = RequestMethod.POST, params = "update")
+	public ModelAndView config(@Valid Configurations configurations, BindingResult binding) {
+		ModelAndView result;
+
+		if (binding.hasErrors()) {
+			final List<ObjectError> errors = binding.getAllErrors();
+			for (final ObjectError e : errors)
+				System.out.println(e.toString());
+			result = new ModelAndView("administrator/config/aliveConfig/edit");
+			result.addObject("configurations", configurations);
+		} else
+			try {
+				this.configurationsService.update(configurations);
+				result = new ModelAndView("redirect:/");
+			} catch (final Throwable oops) {
+				result = new ModelAndView("administrator/config/aliveConfig/edit");
+				result.addObject("configurations", configurations);
+				result.addObject("message", "administrator.commit.error");
+			}
+
+		return result;
+	}
+	
+	/**
+	 * 
+	 * Manage Spam Word ****************************************************************************
+	 */
+
+	// List SPAM Words-------------------------------------------------------------
+	@RequestMapping(value = "config/spam/list", method = RequestMethod.GET)
+	public ModelAndView spamWordList() {
+		ModelAndView result;
+		Collection<String> spamWords;
+
+		spamWords = this.configurationsService.getConfiguration().getSpamWords();
+
+		result = new ModelAndView("administrator/config/spam/list");
+		result.addObject("requestURI", "administrator/config/spam/list.do");
+		result.addObject("spamWords", spamWords);
+
+		return result;
+	}
+
+	// Add  - SPAM Words GET-------------------------------------------------------------
+	@RequestMapping(value = "/config/spam/add", method = RequestMethod.GET)
+	public ModelAndView addSpamWord() {
+		ModelAndView result;
+
+		result = new ModelAndView("administrator/config/spam/add");
+		result.addObject("action", "administrator/config/spam/add.do");
+		return result;
+	}
+
+	// Add  - SPAM Words POS-------------------------------------------------------------
+	@RequestMapping(value = "/config/spam/add", method = RequestMethod.POST, params = "save")
+	public ModelAndView addSpamWord(@RequestParam("word") final String word) {
+		ModelAndView result;
+
+		try {
+			// Add the word and update configurations
+			this.administratorService.addSpamWord(word);
+		} catch (final Exception e) {
+			result = new ModelAndView("administrator/config/spam/add");
+			result.addObject("action", "administrator/config/spam/add.do");
+			result.addObject("message", "config.field.error");
+			return result;
+		}
+
+		result = this.spamWordList();
+
+		return result;
+	}
+
+	// Edit SPAM Word GET ------------------------------------------------------------------
+	@RequestMapping(value = "/config/spam/edit", method = RequestMethod.GET)
+	public ModelAndView editSpamWord(@RequestParam("word") final String word, @RequestParam("index") final int index) {
+		ModelAndView result;
+
+		result = new ModelAndView("administrator/config/spam/edit");
+		result.addObject("action", "administrator/config/spam/edit.do");
+
+		result.addObject("word", word);
+		result.addObject("index", index);
+
+		return result;
+	}
+
+	// Edit SPAM word SAVE ------------------------------------------------------------------
+	@RequestMapping(value = "/config/spam/edit", method = RequestMethod.POST, params = "save")
+	public ModelAndView editSpamWordPost(@RequestParam("word") final String word, @RequestParam("index") final int index) {
+		ModelAndView result;
+
+		try {
+			// Add the word and update configurations
+			this.administratorService.editSpamWord(word, index - 1);
+		} catch (final Exception e) {
+			e.printStackTrace();
+			result = new ModelAndView("administrator/config/spam/edit");
+			result.addObject("action", "administrator/config/spam/edit.do");
+
+			result.addObject("word", word);
+			result.addObject("index", index);
+
+			result.addObject("message", "config.field.error");
+
+			return result;
+		}
+
+		result = this.spamWordList();
+
+		return result;
+	}
+
+	// Remove SPAM word ------------------------------------------------------------------
+	@RequestMapping(value = "/removeSpamWord", method = RequestMethod.GET)
+	public ModelAndView removeSpamWord(@RequestParam("word") final String word) {
+
+		this.administratorService.removeSpamWord(word);
+		return this.spamWordList();
 	}
 
 }
