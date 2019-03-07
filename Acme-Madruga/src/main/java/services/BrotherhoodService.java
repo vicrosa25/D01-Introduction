@@ -144,6 +144,7 @@ public class BrotherhoodService {
 		result.setIsSpammer(temp.getIsSpammer());
 		result.setIsBanned(temp.getIsBanned());
 		result.setScore(temp.getScore());
+		
 
 		// Relantionships
 		result.setCoaches(temp.getCoaches());
@@ -152,7 +153,9 @@ public class BrotherhoodService {
 		result.setPictures(temp.getPictures());
 		result.setProcessions(temp.getProcessions());
 		result.setUserAccount(temp.getUserAccount());
-
+		result.setArea(temp.getArea());
+		result.setSocialIdentities(temp.getSocialIdentities());
+		
 		this.validator.validate(result, binding);
 
 		return result;
