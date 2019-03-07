@@ -24,6 +24,7 @@
 	<form:input path="username" />	
 	<form:errors class="error" path="username" />
 	<br />
+	<br />
 
 	<form:label path="password">
 		<spring:message code="security.password" />

@@ -59,6 +59,10 @@
 				</a>
 			</jstl:if>
 		</display:column>
+	
+		<!-- Member -->
+		<spring:message code="member.name" var="memberHeader" />
+		<display:column property="member.name" title="${memberHeader}" class="${css}" />
 	</security:authorize>
 
 	<!-- Status -->

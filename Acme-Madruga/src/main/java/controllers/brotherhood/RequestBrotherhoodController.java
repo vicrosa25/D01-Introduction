@@ -110,16 +110,15 @@ public class RequestBrotherhoodController extends AbstractController {
 			result = this.editModelAndView(request);
 		} else {
 			try {
-				/*** Descomentar cuando el metodo funcione, comprobar que se manda la notificacion ***/
-				//final Request old = this.requestService.findOne(request.getId());
 				this.requestService.save(request);
-				//this.requestService.automaticNotification(request, old);
-				result = new ModelAndView("redirect:/request/brotherhood/list");
+				this.requestService.automaticNotification(request);
+				result = new ModelAndView("redirect:/request/brotherhood/list.do");
 			} catch (final Throwable oops) {
 				System.out.println(request);
 				System.out.println(oops.getMessage());
 				System.out.println(oops.getClass());
 				System.out.println(oops.getCause());
+				oops.printStackTrace();
 				result = this.editModelAndView(request);
 			}
 		}

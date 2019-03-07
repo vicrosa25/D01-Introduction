@@ -12,6 +12,7 @@ import org.springframework.util.Assert;
 
 import repositories.EnrolRepository;
 import domain.Enrol;
+import domain.Message;
 import domain.Position;
 
 @Service
@@ -22,6 +23,9 @@ public class EnrolService {
 	// -------------------------------------------------------------
 	@Autowired
 	private EnrolRepository	enrolRepository;
+
+	@Autowired
+	private MessageService		messageService;
 
 
 	// Supporting services
@@ -69,4 +73,17 @@ public class EnrolService {
 	// Other methods
 	// -----------------------------------------------------------------
 
+	public void automaticNotification(final Enrol enrol) {
+		final Message message = this.messageService.create();
+		ArrayList<Position> positions = new ArrayList<Position>(enrol.getPositions());
+		message.setBody("The brotherhood " + enrol.getBrotherhood().getTitle() + " has enrolled you with the position "
+		+ positions.get(0).getEnglishName() + ".");
+
+		message.setIsNotification(true);
+		message.setPriority("MEDIUM");
+		message.setSubject("Enroll to "+enrol.getBrotherhood().getTitle());
+		message.getRecipients().add(enrol.getMember());
+
+		this.messageService.save(message);
+	}
 }

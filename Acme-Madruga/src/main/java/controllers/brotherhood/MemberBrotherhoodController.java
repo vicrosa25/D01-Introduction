@@ -1,6 +1,7 @@
 
 package controllers.brotherhood;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -134,8 +135,11 @@ public class MemberBrotherhoodController extends AbstractController {
 	@RequestMapping(value = "/selectPosition", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@Valid final Enrol enrol, final BindingResult binding) {
 		ModelAndView result;
-
-		if (binding.hasErrors()) {
+		ArrayList<Position> positions = new ArrayList<Position>(enrol.getPositions());
+		
+		if(positions.isEmpty() || positions.size()>1){
+			binding.rejectValue("positions", "enrol.error.position", "One position must be selected");
+		}if (binding.hasErrors()) {
 			final List<ObjectError> errors = binding.getAllErrors();
 			for (final ObjectError e : errors) {
 				System.out.println(e.toString());
@@ -146,7 +150,9 @@ public class MemberBrotherhoodController extends AbstractController {
 			result.addObject("enrol", enrol);
 		} else {
 			try {
-				this.enrolService.save(enrol);
+				Enrol saved = this.enrolService.save(enrol);
+				positions.get(0).getEnrol().add(saved);
+				this.enrolService.automaticNotification(saved);
 				result = new ModelAndView("redirect:/member/brotherhood/list.do");
 			} catch (final Throwable oops) {
 				System.out.println(enrol);
