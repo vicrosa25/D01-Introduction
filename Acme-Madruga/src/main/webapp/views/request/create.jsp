@@ -25,7 +25,7 @@
 	<br>
 	
 	<jstl:if test="${empty processions}">
-		<spring:message code="procession.empty.list"/>
+		<b><spring:message code="procession.empty.list"/></b>
 		<br>
 	</jstl:if>
 	<br>

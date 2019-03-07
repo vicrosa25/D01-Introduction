@@ -82,8 +82,7 @@ public class EnrolController extends AbstractController {
 				System.out.println(e.toString());
 			}
 
-			result = new ModelAndView("enrol/member/create");
-			result.addObject("enrol", enrol);
+			result = new ModelAndView("redirect:/enrol/member/create.do");
 		} else {
 			try {
 				this.enrolService.save(enrol);
@@ -93,8 +92,7 @@ public class EnrolController extends AbstractController {
 				System.out.println(oops.getMessage());
 				System.out.println(oops.getClass());
 				System.out.println(oops.getCause());
-				result = new ModelAndView("enrol/member/create");
-				result.addObject("enrol", enrol);
+				result = new ModelAndView("redirect:/enrol/member/create.do");
 			}
 		}
 		return result;

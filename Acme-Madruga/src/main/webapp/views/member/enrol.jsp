@@ -21,5 +21,11 @@
 	<%-- Buttons --%>
 	<input type="submit" name="save" value="<spring:message code="brotherhood.save"/> "/>
 	
+	<jstl:if test="${empty brotherhoods}">
+		<b><spring:message code="brotherhood.empty.list"/></b>
+		<br>
+	</jstl:if>
+	<br>
+	
 	<acme:cancel code="brotherhood.cancel" url="/brotherhood/member/list.do" />
 </form:form>
