@@ -86,4 +86,9 @@ public class EnrolService {
 
 		this.messageService.save(message);
 	}
+	public Enrol findEnrolByBrotherhoodAndMember(int brotherhoodId, int memberId){
+		Enrol result = this.enrolRepository.findEnrolByBrotherhoodAndMember(brotherhoodId, memberId);
+		Assert.notNull(result);
+		return result;
+	}
 }

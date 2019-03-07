@@ -78,7 +78,7 @@
 
 	<!-- Dropout -->
 	<security:authorize access="hasRole('MEMBER')">
-		<jstl:if test="${requestUri.contains('member')}">
+		<jstl:if test="${requestUri.contains('member') and not requestUri.contains('dropped')}">
 			<display:column>
 				<a href="brotherhood/member/dropout.do?brotherhoodId=${row.id}">
 					<spring:message code="brotherhood.dropout" />

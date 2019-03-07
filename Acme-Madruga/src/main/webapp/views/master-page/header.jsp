@@ -130,7 +130,8 @@
 					<li><a href="brotherhood/list.do"><spring:message code="master.page.brotherhood.list" /></a></li>
 					<security:authorize access="hasRole('MEMBER')">
 						<li><a href="brotherhood/member/list.do"><spring:message code="master.page.brotherhood.member.list" /></a></li>
-						<li><a href="enrol/member/create.do"><spring:message code="master.page.member.enrol" /></a></li>				
+						<li><a href="brotherhood/member/dropped.do	"><spring:message code="master.page.brotherhood.member.list.dropped" /></a></li>
+						<li><a href="enrol/member/create.do"><spring:message code="master.page.member.enrol" /></a></li>		
 					</security:authorize>
 				</ul>
 			</li>

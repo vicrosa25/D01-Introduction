@@ -13,6 +13,10 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
+import repositories.BrotherhoodRepository;
+import security.Authority;
+import security.LoginService;
+import security.UserAccount;
 import domain.Area;
 import domain.Brotherhood;
 import domain.Coach;
@@ -21,10 +25,6 @@ import domain.MessageBox;
 import domain.Procession;
 import domain.Url;
 import forms.BrotherhoodForm;
-import repositories.BrotherhoodRepository;
-import security.Authority;
-import security.LoginService;
-import security.UserAccount;
 
 @Service
 @Transactional
@@ -199,7 +199,7 @@ public class BrotherhoodService {
 		return result;
 	}
 
-	private Collection<Brotherhood> findAllMemberBelongs(final Member member) {
+	public Collection<Brotherhood> findAllMemberBelongs(final Member member) {
 		final Collection<Brotherhood> bros = this.brotherhoodRepository.findBrotherhoodsMemberBelongs(member.getId());
 
 		Assert.notNull(bros);
@@ -207,7 +207,7 @@ public class BrotherhoodService {
 		return bros;
 	}
 
-	private Collection<Brotherhood> findAllMemberBelonged(final Member member) {
+	public Collection<Brotherhood> findAllMemberBelonged(final Member member) {
 		final Collection<Brotherhood> bros = this.brotherhoodRepository.findBrotherhoodsMemberHashBelong(member.getId());
 
 		Assert.notNull(bros);

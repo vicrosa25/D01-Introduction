@@ -30,27 +30,29 @@ public class Dropout extends DomainEntity {
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	public Date getDate() {
-		return moment;
+		return this.moment;
 	}
 
 	public void setDate(Date moment) {
 		this.moment = moment;
 	}
 
+	@NotNull
 	@Valid
 	@ManyToOne
 	public Member getMember() {
-		return member;
+		return this.member;
 	}
 
 	public void setMember(Member member) {
 		this.member = member;
 	}
 
+	@NotNull
 	@Valid
 	@ManyToOne
 	public Brotherhood getBrotherhood() {
-		return brotherhood;
+		return this.brotherhood;
 	}
 
 	public void setBrotherhood(Brotherhood brotherhood) {

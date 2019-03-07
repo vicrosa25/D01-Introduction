@@ -81,10 +81,34 @@ public class BrotherhoodController extends AbstractController {
 
 		try {
 			member = this.memberService.findByPrincipal();
-			brotherhoods = this.brotherhoodService.findAllByMember(member);
+			brotherhoods = this.brotherhoodService.findAllMemberBelongs(member);
 
 			result = new ModelAndView("brotherhood/member/list");
 			result.addObject("requestUri", "brotherhood/member/list.do");
+			result.addObject("brotherhoods", brotherhoods);
+		} catch (final Throwable oops) {
+			System.out.println(oops.getMessage());
+			System.out.println(oops.getClass());
+			System.out.println(oops.getCause());
+			result = this.forbiddenOpperation();
+		}
+
+		return result;
+	}
+
+	// List droppped  ------------------------------------------------------------------------------------
+	@RequestMapping(value = "/member/dropped", method = RequestMethod.GET)
+	public ModelAndView droppedList() {
+		ModelAndView result;
+		Collection<Brotherhood> brotherhoods;
+		Member member ;
+
+		try {
+			member = this.memberService.findByPrincipal();
+			brotherhoods = this.brotherhoodService.findAllMemberBelonged(member);
+
+			result = new ModelAndView("brotherhood/member/list");
+			result.addObject("requestUri", "brotherhood/member/dropped.do");
 			result.addObject("brotherhoods", brotherhoods);
 		} catch (final Throwable oops) {
 			System.out.println(oops.getMessage());
@@ -302,6 +326,7 @@ public class BrotherhoodController extends AbstractController {
 			System.out.println(oops.getMessage());
 			System.out.println(oops.getClass());
 			System.out.println(oops.getCause());
+			oops.printStackTrace();
 			result = this.forbiddenOpperation();
 		}
 

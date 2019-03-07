@@ -10,12 +10,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import repositories.DropoutRepository;
 import domain.Actor;
 import domain.Dropout;
 import domain.Enrol;
 import domain.Member;
+import domain.Message;
 import domain.Position;
-import repositories.DropoutRepository;
 
 @Service
 @Transactional
@@ -31,6 +32,9 @@ public class DropoutService {
 	
 	@Autowired
 	private EnrolService	  enrolService;
+
+	@Autowired
+	private MessageService		messageService;
 
 	
 
@@ -69,26 +73,24 @@ public class DropoutService {
 		Assert.isInstanceOf(Member.class, principal);
 		
 		Member member = (Member) principal;
+		dropout.setMember(member);
 		
 		ArrayList<Position> positions = new ArrayList<Position>();
 		Position position;
 		
 		
 		// Delete the enroll
-		for(Enrol enrol : dropout.getBrotherhood().getEnrols()) {
-			if(enrol.getMember().equals(member)) {
-				// Delete enrol from position
-				positions.addAll(enrol.getPositions());
-				if(!positions.isEmpty()) {
-					position = positions.get(0);
-					position.getEnrol().remove(enrol);
-				}
-				this.enrolService.delete(enrol);
-			}
+		Enrol enrol = this.enrolService.findEnrolByBrotherhoodAndMember(dropout.getBrotherhood().getId(), member.getId());
+		positions.addAll(enrol.getPositions());
+		if(!positions.isEmpty()) {
+			position = positions.get(0);
+			position.getEnrol().remove(enrol);
 		}
-		
-		result = this.dropoutRespository.save(dropout);
+		this.enrolService.delete(enrol);
 
+		result = this.dropoutRespository.save(dropout);
+		this.automaticNotification(result);
+		
 		return result;
 	}
 
@@ -102,4 +104,15 @@ public class DropoutService {
 	// Other methods
 	// -----------------------------------------------------------------
 
+	public void automaticNotification(final Dropout dropout) {
+		final Message message = this.messageService.create();
+		message.setBody("The member "+dropout.getMember().getName()+" has dropped out from your brotherhood.");
+
+		message.setIsNotification(true);
+		message.setPriority("MEDIUM");
+		message.setSubject("Member drop out");
+		message.getRecipients().add(dropout.getBrotherhood());
+
+		this.messageService.save(message);
+	}
 }
