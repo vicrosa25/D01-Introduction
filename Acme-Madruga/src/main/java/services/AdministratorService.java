@@ -193,7 +193,7 @@ public class AdministratorService {
 	
 	// 22.2 Display a dashboard with the following information-----------------------------
 	public Object[] query9() {
-		return this.adminRepository.query1();
+		return this.adminRepository.query9();
 	}
 	
 	

@@ -22,6 +22,7 @@
 <spring:message code="administrator.dashboard.max" 	  var="maxHeader" />
 <spring:message code="administrator.dashboard.std" 	  var="stdHeader" />
 <spring:message code="administrator.dashboard.ratio"  var="ratioHeader" />
+<spring:message code="administrator.dashboard.count"  var="countHeader" />
 <spring:message code="administrator.dashboard.name"   var="nameHeader" />
 <spring:message code="administrator.dashboard.email"  var="emailHeader" />
 <spring:message code="administrator.brotherhood" 	  var="brotherhoodlHeader" />
@@ -41,6 +42,7 @@
 <spring:message code="administrator.dashboard.query5" var="query5Header" />
 <spring:message code="administrator.dashboard.query7" var="query7Header" />
 <spring:message code="administrator.dashboard.query8" var="query8Header" />
+<spring:message code="administrator.dashboard.query9" var="query9Header" />
 
 
 <!--  Custom table style -->
@@ -224,4 +226,67 @@
       </tr>
    </jstl:forEach>
 </table>
+
+
+<!-- Query 9 -->
+<table>
+	<caption>
+		<jstl:out value="${query9Header}"></jstl:out>
+	</caption>
+	<tr>
+		<th><jstl:out value="${ratioHeader}"></jstl:out></th>
+		<th><jstl:out value="${countHeader}"></jstl:out></th>
+		<th><jstl:out value="${avgHeader}"></jstl:out></th>
+		<th><jstl:out value="${minHeader}"></jstl:out></th>
+		<th><jstl:out value="${maxHeader}"></jstl:out></th>
+		<th><jstl:out value="${stdHeader}"></jstl:out></th>
+	</tr>
+
+	<tr>
+		<td><jstl:out value="${query9[0]}"></jstl:out></td>
+		<td><jstl:out value="${query9[1]}"></jstl:out></td>
+		<td><jstl:out value="${query9[2]}"></jstl:out></td>
+		<td><jstl:out value="${query9[3]}"></jstl:out></td>
+		<td><jstl:out value="${query9[4]}"></jstl:out></td>
+		<td><jstl:out value="${query9[5]}"></jstl:out></td>
+	</tr>
+</table>
+<br />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
