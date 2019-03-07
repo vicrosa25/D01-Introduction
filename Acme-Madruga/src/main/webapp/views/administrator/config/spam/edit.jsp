@@ -34,8 +34,7 @@
 
 
 	<%-- Buttons --%>
-	<input type="submit" name="save"
-		value="<spring:message code="note.add"/>" />
+	<input type="submit" name="save" value="<spring:message code="admin.addWord"/>" />
 
 
 	<input type="button" name="cancel"
