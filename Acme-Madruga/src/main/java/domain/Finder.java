@@ -7,6 +7,7 @@ import java.util.Date;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -65,6 +66,7 @@ public class Finder extends DomainEntity {
 
 	// Relationships -------------------------------------------------------------
 	private Collection<Procession>	processions;
+	private Area					area;
 
 	
 	@Valid
@@ -75,5 +77,15 @@ public class Finder extends DomainEntity {
 
 	public void setProcessions(final Collection<Procession> processions) {
 		this.processions = processions;
+	}
+
+	@Valid
+	@ManyToOne(optional = true)
+	public Area getArea() {
+		return this.area;
+	}
+
+	public void setArea(final Area area) {
+		this.area = area;
 	}
 }

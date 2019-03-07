@@ -2,6 +2,7 @@
 package controllers;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.AreaService;
 import services.FinderService;
 import services.MemberService;
 import domain.Finder;
@@ -32,13 +34,35 @@ public class FinderController extends AbstractController {
 	@Autowired
 	private MemberService	memberService;
 
-
-	//@Autowired
-	//private AreaService		areaService;
+	@Autowired
+	private AreaService		areaService;
 
 	@ExceptionHandler(TypeMismatchException.class)
 	public ModelAndView handleMismatchException(final TypeMismatchException oops) {
 		return new ModelAndView("redirect:/");
+	}
+
+	// Clear -----------------------------------------------------------
+	@RequestMapping(value = "/clear", method = RequestMethod.GET)
+	public ModelAndView clear() {
+		ModelAndView result;
+		try{
+			final Finder finder = this.memberService.findByPrincipal().getFinder();
+			finder.setArea(null);
+			finder.setKeyword(null);
+			finder.setLastUpdate(new Date());
+			finder.setMaxDate(null);
+			finder.setMinDate(null);
+
+			result = new ModelAndView("redirect:/finder/member/result.do");
+		} catch (final Throwable oops) {
+			System.out.println(oops.getMessage());
+			System.out.println(oops.getClass());
+			System.out.println(oops.getCause());
+			oops.printStackTrace();
+			result = new ModelAndView("redirect:/");
+		}
+		return result;
 	}
 
 	// Edit -----------------------------------------------------------
@@ -46,13 +70,10 @@ public class FinderController extends AbstractController {
 	public ModelAndView edit() {
 		ModelAndView result;
 
-		System.out.println("Hola, entrando edit");
-
 		final Member member = this.memberService.findByPrincipal();
 		final Finder finder = member.getFinder();
 
 		result = this.createEditModelAndView(finder);
-		//result.addObject("categories", this.areaService.findAll());
 
 		return result;
 	}
@@ -92,7 +113,7 @@ public class FinderController extends AbstractController {
 	@RequestMapping(value = "/result", method = RequestMethod.GET)
 	public ModelAndView result() {
 		ModelAndView result;
-		System.out.println("Controller result");
+
 		try {
 			final Member member = this.memberService.findByPrincipal();
 			final Finder finder = member.getFinder();
@@ -123,6 +144,7 @@ public class FinderController extends AbstractController {
 		ModelAndView result;
 
 		result = new ModelAndView("finder/member/edit");
+		result.addObject("areas", this.areaService.findAll());
 		result.addObject("finder", finder);
 		result.addObject("message", message);
 

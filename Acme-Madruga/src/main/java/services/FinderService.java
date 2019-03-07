@@ -83,7 +83,7 @@ public class FinderService {
 	// in the specified time
 	public Finder checkChanges(final Finder finder) {
 		final Finder old = this.findOne(finder.getId());
-		if (/* finder.getArea() != old.getArea() || */(finder.getMinDate() != old.getMinDate()) || (finder.getKeyword() != old.getKeyword()) || (finder.getMaxDate() != old.getMaxDate())) {
+		if (finder.getArea() != old.getArea() || (finder.getMinDate() != old.getMinDate()) || (finder.getKeyword() != old.getKeyword()) || (finder.getMaxDate() != old.getMaxDate())) {
 
 			final Finder saved = this.updateResults(finder);
 			return saved;
@@ -124,8 +124,9 @@ public class FinderService {
 			result.retainAll(this.finderRepository.filterByKeyword("%" + finder.getKeyword() + "%"));
 		}
 
-		//		if (finder.getArea() != null)
-		//			result.retainAll(this.finderRepository.filterByArea(finder.getArea().getId()));
+		if (finder.getArea() != null){
+			result.retainAll(this.finderRepository.filterByArea(finder.getArea().getId()));
+		}
 
 		if (result.size() > this.configurationsService.getConfiguration().getFinderMaxResult()) {
 			finder.setProcessions(result.subList(0, this.configurationsService.getConfiguration().getFinderMaxResult() - 1));
