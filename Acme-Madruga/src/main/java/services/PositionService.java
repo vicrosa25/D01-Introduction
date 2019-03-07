@@ -7,10 +7,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import repositories.PositionRepository;
 import domain.Actor;
 import domain.Administrator;
+import domain.Enrol;
 import domain.Position;
-import repositories.PositionRepository;
 
 @Service
 @Transactional
@@ -76,5 +77,11 @@ public class PositionService {
 		Assert.isTrue(position.getEnrol().isEmpty());
 		
 		this.positionRepository.delete(position);
+	}
+
+	public Position findByEnrol(Enrol enrol) {
+		Position result = this.positionRepository.findByEnrol(enrol.getId());
+		Assert.notNull(result);
+		return result;
 	}
 }

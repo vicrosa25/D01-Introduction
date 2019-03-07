@@ -6,6 +6,7 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
 <display:table name="coach" id="row" requestURI="coach/display.do" class="displaytag">
 
@@ -29,3 +30,11 @@
 	<display:caption><spring:message code="brotherhood.pictures"/></display:caption>
 </display:table>
 </jstl:if>
+
+<security:authorize access="isAnonymous()">
+	<acme:cancel code="member.goback" url="/brotherhood/list.do" />
+</security:authorize>
+
+<security:authorize access="hasRole('BROTHERHOOD')">
+	<acme:cancel code="member.goback" url="/coach/brotherhood/list.do" />
+</security:authorize>

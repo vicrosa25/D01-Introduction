@@ -151,6 +151,7 @@ public class MemberBrotherhoodController extends AbstractController {
 		} else {
 			try {
 				Enrol saved = this.enrolService.save(enrol);
+				this.positionService.findByEnrol(saved).getEnrol().remove(saved);
 				positions.get(0).getEnrol().add(saved);
 				this.enrolService.automaticNotification(saved);
 				result = new ModelAndView("redirect:/member/brotherhood/list.do");
