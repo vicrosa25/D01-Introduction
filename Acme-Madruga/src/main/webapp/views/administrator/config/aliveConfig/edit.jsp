@@ -23,11 +23,9 @@
 <form:form action="administrator/config/aliveConfig/edit.do" modelAttribute="configurations">
 	<form:hidden path="id" />
 	<form:hidden path="version" />
-	<form:hidden path="defaultCategories" />
 	<form:hidden path="cacheTime" />
 	<form:hidden path="finderMaxResult" />
 	<form:hidden path="SpamWords" />
-	<form:hidden path="brandName" />
 	<form:hidden path="positiveWords" />
 	<form:hidden path="negativeWords" />
 
@@ -66,9 +64,6 @@
 
 
 	<acme:submit name="update" code="administrator.save" />
-
-	<input type="button" name="cancel"
-		value="<spring:message code="administrator.cancel" />"
-		onClick="javascript: window.location.replace('/')" />
+	<acme:cancel url="/" code="administrator.cancel"/>
 
 </form:form>
