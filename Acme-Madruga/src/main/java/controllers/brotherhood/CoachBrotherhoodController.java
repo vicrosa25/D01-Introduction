@@ -136,8 +136,11 @@ public class CoachBrotherhoodController extends AbstractController {
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
 	public ModelAndView delete(@RequestParam final int coachId) {
 		ModelAndView result;
-
+		Coach coach;
 		try {
+			coach = this.coachService.findOne(coachId);
+			Assert.notNull(coach);
+			Assert.isTrue(this.brotherhoodService.findByPrincipal() == this.brotherhoodService.findByCoach(coach));
 			this.coachService.delete(coachId);
 			result = new ModelAndView("redirect:/coach/brotherhood/list.do");
 		} catch (final Throwable oops) {
@@ -153,8 +156,12 @@ public class CoachBrotherhoodController extends AbstractController {
 	public ModelAndView addPicture(@RequestParam final int coachId) {
 		ModelAndView result;
 		final Url url;
+		Coach coach;
 
 		try {
+			coach = this.coachService.findOne(coachId);
+			Assert.notNull(coach);
+			Assert.isTrue(this.brotherhoodService.findByPrincipal() == this.brotherhoodService.findByCoach(coach));
 			url = new Url();
 			url.setTargetId(coachId);
 			result = new ModelAndView("coach/brotherhood/addPicture");
