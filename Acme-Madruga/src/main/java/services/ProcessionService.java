@@ -163,11 +163,7 @@ public class ProcessionService {
 			message.setPriority("MEDIUM");
 			message.setSubject("New procession by " + procession.getBrotherhood().getTitle());
 		
-			final Message send = this.messageService.save(message);
-		
-			for (final Member m : this.memberService.findByBrotherhood(procession.getBrotherhood())) {
-				m.getMessageBox("in").addMessage(send);
-			}
+			this.messageService.save(message);
 		}
 	}
 
