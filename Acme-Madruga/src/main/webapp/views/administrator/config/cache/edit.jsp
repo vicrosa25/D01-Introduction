@@ -25,7 +25,6 @@
 	<form:hidden path="spamWords" />
 	<form:hidden path="positiveWords" />
 	<form:hidden path="negativeWords" />
-	<form:hidden path="vat" />
 	<form:hidden path="countryCode" />
 
 
