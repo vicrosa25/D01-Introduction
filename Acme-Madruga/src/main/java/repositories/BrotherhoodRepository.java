@@ -24,12 +24,12 @@ public interface BrotherhoodRepository extends JpaRepository<Brotherhood, Intege
 	@Query("select e.brotherhood from Enrol e where e.member.id = ?1")
 	Collection<Brotherhood> findBrotherhoodsMemberBelongs(int memberId);
 
-	@Query("select d.brotherhood from Dropout d where d.member.id = ?1")
+	@Query("select distinct d.brotherhood from Dropout d where d.member.id = ?1")
 	Collection<Brotherhood> findBrotherhoodsMemberHashBelong(int memberId);
 
 	@Query("select b from Brotherhood b where b.area.id = ?1")
 	Brotherhood findBrotherhoodByArea(int areaId);
-	
+
 	@Query("select b from Brotherhood b join b.coaches c where c.id = ?1")
 	Brotherhood findByCoach(int coachId);
 
