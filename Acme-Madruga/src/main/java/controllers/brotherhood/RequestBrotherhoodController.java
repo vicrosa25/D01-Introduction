@@ -118,8 +118,9 @@ public class RequestBrotherhoodController extends AbstractController {
 		ModelAndView result;
 
 		Collection<Request> requests = request.getProcession().getRequests();
+		requests.remove(request);
 		for(Request req:requests){
-			if(req.getStatus().equals("APPROVED") && req.getAssignedColumn() == request.getAssignedColumn() && req.getAssignedRow() == req.getAssignedRow() && !req.equals(request)){
+			if(req.getStatus().equals("APPROVED") && req.getAssignedColumn() == request.getAssignedColumn() && req.getAssignedRow() == request.getAssignedRow()){
 				binding.rejectValue("assignedRow", "request.row.error", "Already taken");
 				binding.rejectValue("assignedColumn", "request.column.error", "Already taken");
 			}
