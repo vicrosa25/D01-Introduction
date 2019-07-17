@@ -29,7 +29,6 @@ public abstract class Actor extends DomainEntity {
 	private String	middleName;
 	private String	surname;
 	private String	photo;
-	private String	email;
 	private String	phoneNumber;
 	private String	address;
 	private Boolean	isSpammer;

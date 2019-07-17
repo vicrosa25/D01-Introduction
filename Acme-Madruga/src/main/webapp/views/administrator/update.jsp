@@ -18,16 +18,15 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<form:form action="administrator/update.do"
-	modelAttribute="administrator">
+<form:form action="administrator/update.do" modelAttribute="administrator">
 
 	<%-- Hidden properties from actor--%>
 	<form:hidden path="id" />
 	<form:hidden path="version" />
 	<form:hidden path="userAccount.Authorities" />
-<%-- 	<form:hidden path="messageBoxes" /> --%>
+	<form:hidden path="messageBoxes" />
 	<form:hidden path="userAccount" />
-<%-- 	<form:hidden path="username" /> --%>
+	<form:hidden path="username" />
 
 
 	<%-- Name --%>
