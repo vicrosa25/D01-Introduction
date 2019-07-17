@@ -17,11 +17,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import controllers.AbstractController;
-import domain.Brotherhood;
-import domain.Request;
 import services.BrotherhoodService;
 import services.RequestService;
+import controllers.AbstractController;
+import domain.Brotherhood;
+import domain.Procession;
+import domain.Request;
 
 @Controller
 @RequestMapping("/request/brotherhood")
@@ -61,20 +62,21 @@ public class RequestBrotherhoodController extends AbstractController {
 
 		return result;
 	}
-	
+
 	// Edit Request GET------------------------------------------------------------------------------------
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@RequestParam final int requestId) {
 		ModelAndView result;
 		Request request;
 		Brotherhood principal;
-		
+
 		try {
 			principal = this.brotherhoodService.findByPrincipal();
 			request = this.requestService.findOne(requestId);
+			this.recommendPosition(request, 1, 1, request.getProcession().getRequests());
 			Assert.isTrue(request.getStatus().equals("PENDING"));
 			Assert.isTrue(principal.getProcessions().contains(request.getProcession()));
-			
+
 			result = this.editModelAndView(request);
 		} catch (final Throwable oops) {
 			result = this.forbiddenOpperation();
@@ -83,11 +85,46 @@ public class RequestBrotherhoodController extends AbstractController {
 		return result;
 	}
 
+	private void recommendPosition(Request request, int col, int row, Collection<Request> requests) {
+		Boolean taken = true;
+		col = 1;
+		row = 1;
+		while(taken){
+			if(!takenPosition(col, row, request.getProcession())){
+				request.setAssignedColumn(col);
+				request.setAssignedRow(row);
+				taken = false;
+				break;
+			}else{
+				if(col > 10)
+					row = row+1;
+				else
+					col = col+1;
+			}
+		}
+	}
+	private Boolean takenPosition(int col,int row,Procession procession){
+		for(Request req:procession.getRequests()){
+			if(req.getStatus().equals("APPROVED") && req.getAssignedColumn() == col && req.getAssignedRow() == row){
+				return true;
+			}
+		}
+		return false;
+	}
+
 	// Edit Request POST------------------------------------------------------------------------------------
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView saveEdit(final Request request, final BindingResult binding) {
 		ModelAndView result;
-		
+
+		Collection<Request> requests = request.getProcession().getRequests();
+		for(Request req:requests){
+			if(req.getStatus().equals("APPROVED") && req.getAssignedColumn() == request.getAssignedColumn() && req.getAssignedRow() == req.getAssignedRow() && !req.equals(request)){
+				binding.rejectValue("assignedRow", "request.row.error", "Already taken");
+				binding.rejectValue("assignedColumn", "request.column.error", "Already taken");
+			}
+		}
+
 		if(request.getStatus().equals("APPROVED")){
 			if(request.getAssignedColumn() == null){
 				binding.rejectValue("assignedColumn", "request.error.column", "If the request is approved a valid column number mut be provided");
