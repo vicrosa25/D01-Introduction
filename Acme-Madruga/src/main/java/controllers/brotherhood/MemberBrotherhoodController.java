@@ -136,7 +136,7 @@ public class MemberBrotherhoodController extends AbstractController {
 	public ModelAndView save(@Valid final Enrol enrol, final BindingResult binding) {
 		ModelAndView result;
 		ArrayList<Position> positions = new ArrayList<Position>(enrol.getPositions());
-		
+
 		if(positions.isEmpty() || positions.size()>1){
 			binding.rejectValue("positions", "enrol.error.position", "One position must be selected");
 		}if (binding.hasErrors()) {
@@ -150,9 +150,12 @@ public class MemberBrotherhoodController extends AbstractController {
 			result.addObject("enrol", enrol);
 		} else {
 			try {
+				if(!this.enrolService.findOne(enrol.getId()).getPositions().isEmpty()){
+					this.positionService.findByEnrol(enrol).getEnrol().remove(enrol);
+				}
 				Enrol saved = this.enrolService.save(enrol);
-				this.positionService.findByEnrol(saved).getEnrol().remove(saved);
-				positions.get(0).getEnrol().add(saved);
+				Position pos = (Position) saved.getPositions().toArray()[0];
+				pos.getEnrol().add(saved);
 				this.enrolService.automaticNotification(saved);
 				result = new ModelAndView("redirect:/member/brotherhood/list.do");
 			} catch (final Throwable oops) {
@@ -160,6 +163,7 @@ public class MemberBrotherhoodController extends AbstractController {
 				System.out.println(oops.getMessage());
 				System.out.println(oops.getClass());
 				System.out.println(oops.getCause());
+				oops.printStackTrace();
 				result = new ModelAndView("member/brotherhood/selectPosition");
 				result.addObject("positions", this.positionService.findAll());
 				result.addObject("enrol", enrol);
@@ -180,7 +184,7 @@ public class MemberBrotherhoodController extends AbstractController {
 			enrol = this.enrolService.findOne(enrolId);
 
 			Assert.isTrue(brotherhood.getEnrols().contains(enrol));
-			
+
 			ArrayList<Position> positions = new ArrayList<Position>(enrol.getPositions());
 			positions.get(0).getEnrol().remove(enrol);
 
