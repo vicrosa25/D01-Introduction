@@ -15,6 +15,7 @@ import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -27,12 +28,25 @@ public class Brotherhood extends Actor {
 	private String					title;
 	private Date					establishment;
 	private Collection<Url>			pictures;
+	private String 					email;
 
 	// Relationships ----------------------------------------------------------
 	private Collection<Enrol>		enrols;
 	private Collection<Procession>	processions;
 	private Area					area;
 	private Collection<Coach>		coaches;
+	
+	
+	
+	@NotBlank
+	@Pattern(regexp = "^[\\w\\s]+(\\s*)\\<\\w+@[a-zA-Z_]+?\\.[a-zA-Z]{2,3}\\>|\\w+@[a-zA-Z_]+?\\.[a-zA-Z]{2,3}$")
+	public String getEmail() {
+		return this.email;
+	}
+
+	public void setEmail(final String email) {
+		this.email = email;
+	}
 
 
 	@NotBlank

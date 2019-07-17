@@ -13,7 +13,6 @@ import javax.persistence.OneToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
 
@@ -81,15 +80,16 @@ public abstract class Actor extends DomainEntity {
 		this.photo = photo;
 	}
 
-	@Email
-	@NotBlank
-	public String getEmail() {
-		return this.email;
-	}
+//	@Email
+//	@NotBlank
+//	public String getEmail() {
+//		return this.email;
+//	}
+//
+//	public void setEmail(final String email) {
+//		this.email = email;
+//	}
 
-	public void setEmail(final String email) {
-		this.email = email;
-	}
 
 	public String getPhoneNumber() {
 		return this.phoneNumber;
