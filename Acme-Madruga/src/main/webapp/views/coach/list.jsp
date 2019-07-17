@@ -45,6 +45,10 @@
 
 </display:table>
 
+<security:authorize access="hasRole('BROTHERHOOD')">
+	<a href=coach/brotherhood/create.do><spring:message code="coach.create" /></a>
+</security:authorize>
+
 <security:authorize access="isAnonymous()">
 	<acme:cancel code="member.goback" url="/brotherhood/list.do" />
 </security:authorize>

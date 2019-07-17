@@ -55,5 +55,5 @@
 	<input type="submit" name="save"
 		value="<spring:message code="coach.save"/>"/>
 	
-	<acme:cancel code="coach.cancel" url="/" />
+	<acme:cancel code="coach.cancel" url="/coach/brotherhood/list.do" />
 </form:form>

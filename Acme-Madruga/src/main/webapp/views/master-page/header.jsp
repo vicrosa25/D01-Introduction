@@ -60,7 +60,6 @@
 				<ul>
 					<li class="arrow"></li>
 					<li><a href="coach/brotherhood/list.do"><spring:message code="master.page.coach.list" /></a></li>
-					<li><a href="coach/brotherhood/create.do"><spring:message code="master.page.coach.create" /></a></li>
 				</ul>
 			</li>
 			<li><a class="fNiv"><spring:message	code="master.page.request" /></a>
