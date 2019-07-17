@@ -128,10 +128,9 @@ public class ProcessionController extends AbstractController {
 		Procession constructed;
 
 		constructed = this.processionService.reconstruct(pruned, binding);
-
-		if (pruned.getMoment().before(new Date()))
-			binding.rejectValue("moment", "procession.moment.error", "Must be future");
-
+		if (pruned.getMoment() != null)
+			if (pruned.getMoment().before(new Date()))
+				binding.rejectValue("moment", "procession.moment.error", "Must be future");
 		if (binding.hasErrors())
 			result = this.createEditModelAndView(pruned);
 		else
