@@ -44,7 +44,7 @@ public class RequestService {
 		principal = this.actorService.findByPrincipal();
 		Assert.isInstanceOf(Member.class, principal);
 		Member member = (Member) principal;
-		
+
 		result.setMember(member);
 		result.setStatus("PENDING");
 
@@ -132,10 +132,18 @@ public class RequestService {
 		return result;
 	}
 
+	public Collection<Request> findRequestByMember(final int memberId) {
+		final Collection<Request> result = this.requestRepository.findRequestByMember(memberId);
+
+		Assert.notNull(result);
+
+		return result;
+	}
+
 	public void automaticNotification(final Request request) {
 		final Message message = this.messageService.create();
 		message.setBody("The brotherhood " + request.getProcession().getBrotherhood().getTitle() + " changed the status of your request to march in "
-		+ request.getProcession().getTitle() + " to " + request.getStatus().toString().toLowerCase(Locale.ENGLISH) + ".");
+			+ request.getProcession().getTitle() + " to " + request.getStatus().toString().toLowerCase(Locale.ENGLISH) + ".");
 
 		message.setIsNotification(true);
 		message.setPriority("MEDIUM");

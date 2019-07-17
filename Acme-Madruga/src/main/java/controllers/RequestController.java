@@ -18,12 +18,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import domain.Procession;
-import domain.Request;
 import services.BrotherhoodService;
 import services.MemberService;
 import services.ProcessionService;
 import services.RequestService;
+import domain.Procession;
+import domain.Request;
 
 @Controller
 @RequestMapping("/request")
@@ -56,7 +56,7 @@ public class RequestController extends AbstractController {
 		try {
 
 			if (this.memberService.findByPrincipal() != null) {
-				requests = this.memberService.findByPrincipal().getRequests();
+				requests = this.requestService.findRequestByMember(this.memberService.findByPrincipal().getId());
 			} else if (this.brotherhoodService.findByPrincipal() != null) {
 				requests = this.requestService.findRequestByBrotherhood(this.brotherhoodService.findByPrincipal().getId());
 			}
