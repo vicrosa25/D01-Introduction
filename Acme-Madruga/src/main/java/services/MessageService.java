@@ -4,6 +4,7 @@ package services;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,10 @@ public class MessageService {
 		result.setMessageBoxes(messageBox);
 		result.setRecipients(recipients);
 		result.setTags(tags);
-		result.setMoment(calendar.getTime());
+		Date moment = calendar.getTime();
+		moment.setTime(moment.getTime()-1000);
+		result.setMoment(moment);
+
 
 		return result;
 	}
