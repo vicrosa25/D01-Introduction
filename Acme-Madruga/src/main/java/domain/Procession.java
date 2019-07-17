@@ -33,7 +33,7 @@ public class Procession extends DomainEntity {
 
 	@NotBlank
 	@Column(unique = true)
-	@Pattern(regexp = "^([0-9]{2})(0[1-9]|1[012])(0[1-9]|[12]\\d|3[01])(-)([A-Z0-9]{5})$")
+	@Pattern(regexp = "^([0-9]{2})(0[1-9]|1[012])(0[1-9]|[12]\\d|3[01])(-)([A-Z]{5})$")
 	public String getTicker() {
 		return this.ticker;
 	}

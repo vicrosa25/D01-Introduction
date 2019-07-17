@@ -15,7 +15,6 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
-import repositories.ProcessionRepository;
 import domain.Actor;
 import domain.Brotherhood;
 import domain.Enrol;
@@ -23,6 +22,7 @@ import domain.Member;
 import domain.Message;
 import domain.Procession;
 import domain.Request;
+import repositories.ProcessionRepository;
 
 @Service
 @Transactional
@@ -145,7 +145,7 @@ public class ProcessionService {
 		final DateFormat dateFormat = new SimpleDateFormat("yyMMdd");
 		final Date date = new Date();
 		final String tickerDate = (dateFormat.format(date));
-		final String tickerAlphanumeric = RandomStringUtils.randomAlphanumeric(5).toUpperCase();
+		final String tickerAlphanumeric = RandomStringUtils.randomAlphabetic(5).toUpperCase();
 		ticker = ticker.concat(tickerDate).concat("-").concat(tickerAlphanumeric);
 		return ticker;
 	}
