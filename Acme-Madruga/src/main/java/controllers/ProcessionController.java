@@ -2,6 +2,7 @@
 package controllers;
 
 import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import domain.Brotherhood;
-import domain.Procession;
 import services.BrotherhoodService;
 import services.ProcessionService;
+import domain.Brotherhood;
+import domain.Procession;
 
 @Controller
 @RequestMapping("/procession")
@@ -73,7 +74,7 @@ public class ProcessionController extends AbstractController {
 			result = new ModelAndView("procession/list");
 			result.addObject("processions", processions);
 			result.addObject("uri", "procession/brotherhoodList");
-		
+
 		} catch (final Throwable oops) {
 			System.out.println(oops.getMessage());
 			System.out.println(oops.getClass());
@@ -103,13 +104,13 @@ public class ProcessionController extends AbstractController {
 	public ModelAndView edit(@RequestParam final int processionId) {
 		ModelAndView result;
 		Procession procession = null;
-		Brotherhood principal = this.brotherhoodService.findByPrincipal();
+		final Brotherhood principal = this.brotherhoodService.findByPrincipal();
 
 		try {
 			procession = this.processionService.findOne(processionId);
 			Assert.notNull(procession);
 			Assert.isTrue(principal.getProcessions().contains(procession));
-			
+
 		} catch (final Throwable oops) {
 			result = this.forbiddenOpperation();
 			return result;
@@ -128,9 +129,12 @@ public class ProcessionController extends AbstractController {
 
 		constructed = this.processionService.reconstruct(pruned, binding);
 
-		if (binding.hasErrors()) {
+		if (pruned.getMoment().before(new Date()))
+			binding.rejectValue("moment", "procession.moment.error", "Must be future");
+
+		if (binding.hasErrors())
 			result = this.createEditModelAndView(pruned);
-		} else {
+		else
 			try {
 				this.processionService.save(constructed);
 				result = new ModelAndView("redirect:../list.do");
@@ -138,7 +142,6 @@ public class ProcessionController extends AbstractController {
 				oops.printStackTrace();
 				result = this.createEditModelAndView(pruned, "procession.registration.error");
 			}
-		}
 
 		return result;
 	}
@@ -149,8 +152,8 @@ public class ProcessionController extends AbstractController {
 	public ModelAndView delete(@RequestParam final int processionId) {
 		ModelAndView result = null;
 		Procession procession;
-		
-		Brotherhood principal = this.brotherhoodService.findByPrincipal();
+
+		final Brotherhood principal = this.brotherhoodService.findByPrincipal();
 
 		try {
 			procession = this.processionService.findOne(processionId);
