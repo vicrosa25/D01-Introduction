@@ -620,7 +620,7 @@
 		<property name="title" value="procession1" />
 		<property name="description" value="procession1 description" />
 
-		<property name="moment" value="2019/04/01" />
+		<property name="moment" value="2019/10/01" />
 
 		<property name="draftMode" value="false" />
 		<property name="brotherhood" ref="brotherhood1" />
@@ -636,7 +636,7 @@
 		<property name="ticker" value="190215-BBBBB" />
 		<property name="title" value="procession2" />
 		<property name="description" value="procession2 description" />
-		<property name="moment" value="2019/06/15" />
+		<property name="moment" value="2019/10/15" />
 		<property name="brotherhood" ref="brotherhood2" />
 		<property name="draftMode" value="true" />
 		<property name="requests">
